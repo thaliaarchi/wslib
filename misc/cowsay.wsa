@@ -1,0 +1,36 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# cowsay
+#
+# Solution for https://codegolf.stackexchange.com/questions/225330/implement-cowsay
+
+    push 1
+    dup
+read_line:
+    dup readc
+    dup retrieve
+    dup jz read_end
+    push '\n' sub jz read_next_line
+    add 1
+    jmp read_line
+read_next_line:
+    copy 1 copy 1 sub
+
+largest_line:
+
+read_end:
+    drop drop drop
+
+
+# stack args: char, n
+repeat:
+    dup jz repeat_end
+    copy 1 printc
+    jmp repeat
+repeat_end:
+    drop drop
+    ret
