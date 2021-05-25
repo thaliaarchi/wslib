@@ -10,27 +10,29 @@
 
     push 1
     dup
-read_line:
+.read_line:
     readc ^
     retrieve ^
-    jz ^ read_end
-    sub '\n' jz read_next_line
+    jz ^ .read_end
+    sub '\n' jz .read_next_line
     add 1
-    jmp read_line
-read_next_line:
+    jmp .read_line
+.read_next_line:
     sub ^1 ^1
 
-largest_line:
+.largest_line:
 
-read_end:
+.read_end:
     drop drop drop
 
 
-# stack args: char, n
-repeat:
-    jz ^ repeat_end
+# char n --
+# requires n>=0
+.repeat:
+    jz ^ .repeat_end
     printc ^1
-    jmp repeat
-repeat_end:
+    sub 1
+    jmp .repeat
+.repeat_end:
     drop drop
     ret

@@ -5,8 +5,8 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 s/#.*//g
-s/^\s+|\s+$//g
 s/\s+/ /g
+s/^ | $//g
 
 s/'\\t'/9/g; s/'\\n'/10/g; s/'\\v'/11/g; s/'\\f'/12/g; s/'\\r'/13/g; s/'\\e'/27/g
 s/' '/32/g;   s/'0'/48/g;  s/'@'/64/g; s/'P'/80/g;  s/'`'/96/g;  s/'p'/112/g
@@ -58,21 +58,21 @@ s/\b0x0D\b/13/g; s/\b0x1D\b/29/g; s/\b0x2D\b/45/g; s/\b0x3D\b/61/g; s/\b0x4D\b/7
 s/\b0x0E\b/14/g; s/\b0x1E\b/30/g; s/\b0x2E\b/46/g; s/\b0x3E\b/62/g; s/\b0x4E\b/78/g; s/\b0x5E\b/94/g; s/\b0x6E\b/110/g; s/\b0x7E\b/126/g
 s/\b0x0F\b/15/g; s/\b0x1F\b/31/g; s/\b0x2F\b/47/g; s/\b0x3F\b/63/g; s/\b0x4F\b/79/g; s/\b0x5F\b/95/g; s/\b0x6F\b/111/g; s/\b0x7F\b/127/g
 
-s/\b\^\b/^0/g
-s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \*\^([0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \*([0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \^([0-9]+)\b/copy \2 \1/g
-s/\b(add|sub|mul|div|mod|printc|printi) ([0-9]+)\b/push \2 \1/g
-s/\b(add|sub|mul|div|mod) \*\^([0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod) \*([0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod) \^([0-9]+)\b/copy \2 \1/g
-s/\b(add|sub|mul|div|mod) ([0-9]+)\b/push \2 \1/g
+s/\^( |$)/^0\1/g
+s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|printc|printi) (-?[0-9]+)\b/push \2 \1/g
+s/\b(add|sub|mul|div|mod) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod) \^-?([0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod) (-?[0-9]+)\b/push \2 \1/g
 s/\bcopy 0\b/dup/g
 
-s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 \2/g
-s/\.([A-Za-z0-9_-]+:)/\1/g
+s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 _\2/g
+s/\.([A-Za-z0-9_-]+:)/_\1/g
 
-s/(push|copy|slide) ([0-9]+) /\1 \2\n/g
+s/(push|copy|slide) (-?[0-9]+) /\1 \2\n/g
 s/(label|call|jmp|jz|jn) ([^ ]+) /\1 \2\n/g
 s/(dup|swap|drop|add|sub|mul|div|mod|store|retrieve|ret|end|printc|printi|readc|readi) /\1\n/g
 

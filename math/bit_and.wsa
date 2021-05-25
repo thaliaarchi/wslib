@@ -5,10 +5,22 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 # x y -- x&y
-# requires: x>=0 && y>=0
 bit_and:
-    push 1 # i
-    push 0 # z
+    jn ^1 .neg
+    jn ^ .neg
+    jmp bit_uand
+.neg:
+    # TODO
+    push -999
+    slide 2
+    ret
+
+# x y -- x&y
+# requires x>=0 && y>=0
+bit_uand:
+    # i, z
+    push 1
+    push 0
 .loop:
     add ^3 ^3 jz .ret
 
