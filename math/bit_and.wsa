@@ -9,21 +9,22 @@
 # requires: x>=0 && y>=0
 bit_and:
     push 0
-.head:
-    copy 2 copy 2 add jz .ret
+.loop:
+    add ^2 ^2 jz .ret
 
     # z = z*2 + (x%2 + y%2)/2
     mul 2
-    copy 2 mod 2
-    copy 2 mod 2
+    mod ^2 2
+    mod ^2 2
     add div 2
     add
 
-    copy 2 div 2
-    copy 2 div 2
+    # x /= 2; y /= 2
+    div ^2 2
+    div ^2 2
     copy 2
-.tail:
-    call .head
+
+    call .loop
     slide 1
 .ret:
     slide 2

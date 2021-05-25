@@ -26,7 +26,16 @@ s/'-'/45/g;   s/'='/61/g;  s/'M'/77/g; s/'\]'/93/g; s/'m'/109/g; s/'\}'/125/g
 s/'\.'/46/g;  s/'>'/62/g;  s/'N'/78/g; s/'\^'/94/g; s/'n'/110/g; s/'~'/126/g
 s/'\/'/47/g;  s/'\?'/63/g; s/'O'/79/g; s/'_'/95/g;  s/'o'/111/g
 
+s/\b\^\b/^0/g
+s/\b(add|sub|mul|div|mod|printc|printi) \*([0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|printc|printi) \^([0-9]+)\b/copy \2 \1/g
 s/\b(add|sub|mul|div|mod|printc|printi) ([0-9]+)\b/push \2 \1/g
+s/\b(add|sub|mul|div|mod) \*([0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod) \^([0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod) ([0-9]+)\b/push \2 \1/g
+
+s/\bcopy 0\b/dup/g
+
 s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 \2/g
 s/\.([A-Za-z0-9_-]+:)/\1/g
 
