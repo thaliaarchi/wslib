@@ -49,16 +49,16 @@ test_bitwise:
     printc 'y' printc ' ' printi ^ printc '\n'
 
     printc 'x' printc '&' printc 'y' printc ' '
-    copy 1 copy 1 call bit_and printi printc '\n'
+    copy 1 copy 1 call and printi printc '\n'
 
     printc 'x' printc '|' printc 'y' printc ' '
-    copy 1 copy 1 call bit_or printi printc '\n'
+    copy 1 copy 1 call or printi printc '\n'
 
     printc 'x' printc '^' printc 'y' printc ' '
-    copy 1 copy 1 call bit_xor printi printc '\n'
+    copy 1 copy 1 call xor printi printc '\n'
 
     printc 'x' printc '&' printc '^' printc 'y' printc ' '
-    copy 1 copy 1 call bit_andnot printi printc '\n'
+    copy 1 copy 1 call andnot printi printc '\n'
 
     printc '\n'
 
@@ -69,5 +69,5 @@ test_bitwise:
 test_not:
     printc 'x' printc ' ' printi ^ printc '\n'
     printc '-' printc 'x' printc ' '
-    call bit_not printi printc '\n' printc '\n'
+    call not printi printc '\n' printc '\n'
     ret

@@ -8,10 +8,10 @@
 # https://golang.org/src/math/big/int.go#L1072
 
 # x y -- x&y
-bit_and:
+and:
     jn ^1 .and_xneg
     jn ^ .and_yneg
-    jmp bit_uand
+    jmp uand
 .and_xneg:
     jn ^ .and_xyneg
     # & is symmetric
@@ -21,7 +21,7 @@ bit_and:
     # == x & ^(y-1)
     # == x &^ (y-1)
     mul -1 sub 1
-    jmp bit_uandnot
+    jmp uandnot
 .and_xyneg:
     # (-x) & (-y)
     # == ^(x-1) & ^(y-1)
@@ -30,15 +30,15 @@ bit_and:
     mul -1 sub 1
     swap
     mul -1 sub 1
-    call bit_uor
+    call uor
     add 1 mul -1
     ret
 
 # x y -- x|y
-bit_or:
+or:
     jn ^1 .or_xneg
     jn ^ .or_yneg
-    jmp bit_uor
+    jmp uor
 .or_xneg:
     jn ^ .or_xyneg
     # | is symmetric
@@ -49,7 +49,7 @@ bit_or:
     # == ^((y-1) &^ x)
     # == -(^((y-1) &^ x) + 1)
     mul -1 sub 1
-    swap call bit_uandnot
+    swap call uandnot
     add 1 mul -1
     ret
 .or_xyneg:
@@ -60,15 +60,15 @@ bit_or:
     mul -1 sub 1
     swap
     mul -1 sub 1
-    call bit_uand
+    call uand
     add 1 mul -1
     ret
 
 # x y -- x^y
-bit_xor:
+xor:
     jn ^1 .xor_xneg
     jn ^ .xor_yneg
-    jmp bit_uxor
+    jmp uxor
 .xor_xneg:
     jn ^ .xor_xyneg
     # ^ is symmetric
@@ -79,7 +79,7 @@ bit_xor:
     # == ^(x ^ (y-1))
     # == -((x ^ (y-1)) + 1)
     mul -1 sub 1
-    call bit_uxor
+    call uxor
     add 1 mul -1
     ret
 .xor_xyneg:
@@ -89,14 +89,14 @@ bit_xor:
     mul -1 sub 1
     swap
     mul -1 sub 1
-    call bit_uxor
+    call uxor
     ret
 
 # x y -- x&^y
-bit_andnot:
+andnot:
     jn ^1 .andnot_xneg
     jn ^ .andnot_yneg
-    jmp bit_uandnot
+    jmp uandnot
 .andnot_xneg:
     jn ^ .andnot_xyneg
     # (-x) &^ y
@@ -105,7 +105,7 @@ bit_andnot:
     # == ^((x-1) | y)
     # == -(((x-1) | y) + 1)
     swap mul -1 sub 1
-    call bit_uor
+    call uor
     add 1 mul -1
     ret
 .andnot_yneg:
@@ -113,7 +113,7 @@ bit_andnot:
     # == x &^ ^(y-1)
     # == x & (y-1)
     mul -1 sub 1
-    jmp bit_uand
+    jmp uand
 .andnot_xyneg:
     # (-x) &^ (-y)
     # == ^(x-1) &^ ^(y-1)
@@ -122,12 +122,12 @@ bit_andnot:
     mul -1 sub 1
     swap
     mul -1 sub 1
-    call bit_uandnot
+    call uandnot
     ret
 
 # x y -- x&y
 # requires x>=0 && y>=0
-bit_uand:
+uand:
     # i, z
     push 1
     push 0
@@ -155,7 +155,7 @@ bit_uand:
 
 # x y -- x|y
 # requires x>=0 && y>=0
-bit_uor:
+uor:
     # i, z
     push 1
     push 0
@@ -184,7 +184,7 @@ bit_uor:
 
 # x y -- x^y
 # requires x>=0 && y>=0
-bit_uxor:
+uxor:
     # i, z
     push 1
     push 0
@@ -212,7 +212,7 @@ bit_uxor:
 
 # x y -- x&^y
 # requires x>=0 && y>=0
-bit_uandnot:
+uandnot:
     # i, z
     push 1
     push 0
@@ -239,6 +239,6 @@ bit_uandnot:
     ret
 
 # x -- -x
-bit_not:
+not:
     add 1 mul -1
     ret
