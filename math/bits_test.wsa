@@ -7,67 +7,53 @@
 # Bitwise tests borrowed from Go
 # https://golang.org/src/math/big/int_test.go#L1193
 
-#    x         y       x&y       x|y      x^y       x&^y
-push 0    push 0   push 0    push 0   push 0    push 0  call .test_bitwise
-push 0    push 1   push 0    push 1   push 1    push 0  call .test_bitwise
-push 1    push 0   push 0    push 1   push 1    push 1  call .test_bitwise
-push -1   push 0   push 0    push -1  push -1   push -1 call .test_bitwise
-push -175 push -80 push -240 push -15 push 225  push 65 call .test_bitwise
-push 0    push -1  push 0    push -1  push -1   push 0  call .test_bitwise
-push 1    push 1   push 1    push 1   push 0    push 0  call .test_bitwise
-push -1   push -1  push -1   push -1  push 0    push 0  call .test_bitwise
-push 7    push 8   push 0    push 15  push 15   push 7  call .test_bitwise
-push 5    push 15  push 5    push 15  push 10   push 0  call .test_bitwise
-push 255  push -10 push 246  push -1  push -247 push 9  call .test_bitwise
-
-push 81910  push 39502  push 6726    push 114686 push 107960  push 75184   call .test_bitwise
-push -81910 push 39502  push 32778   push -75186 push -107964 push -114688 call .test_bitwise
-push -81910 push -39502 push -114686 push -6726  push 107960  push 32776   call .test_bitwise
+push 0      push 0      call test_bitwise
+push 0      push 1      call test_bitwise
+push 1      push 0      call test_bitwise
+push -1     push 0      call test_bitwise
+push -175   push -80    call test_bitwise
+push 0      push -1     call test_bitwise
+push 1      push 1      call test_bitwise
+push -1     push -1     call test_bitwise
+push 7      push 8      call test_bitwise
+push 5      push 15     call test_bitwise
+push 255    push -10    call test_bitwise
+push 81910  push 39502  call test_bitwise
+push -81910 push 39502  call test_bitwise
+push -81910 push -39502 call test_bitwise
 
 push 340282566926938463463474637401768211457
 push 298472983472983471903246121093472394872319615612417471234712061
-push 340282389135172916790930567972990492673
-push 298472983472983471903246121093650186637866288156486900012430845
-push 298472983472983471903245780811261051464949497225918927021938172
-push 177791765546672544069428777718784
-call .test_bitwise
+call test_bitwise
 
 push 340282566926938463463474637401768211457
 push -298472983472983471903246121093472394872319615612417471234712061
-push 177791765546672544069428777718785
-push -298472983472983471903245780811083259699402824681849498244219389
-push -298472983472983471903245780811261051464949497225918927021938174
-push 340282389135172916790930567972990492672
-call .test_bitwise
+call test_bitwise
 
 push -340282566926938463463474637401768211457
 push -298472983472983471903246121093472394872319615612417471234712061
-push -298472983472983471903246121093650186637866288156486900012430845
-push -340282389135172916790930567972990492673
-push 298472983472983471903245780811261051464949497225918927021938172
-push 298472983472983471903245780811083259699402824681849498244219388
-call .test_bitwise
+call test_bitwise
 
 end
 
-# x y x&y x|y x^y x&^y --
-.test_bitwise:
-    printc 'x' printc ' ' printi ^5 printc '\n'
-    printc 'y' printc ' ' printi ^4 printc '\n'
+# x y --
+test_bitwise:
+    printc 'x' printc ' ' printi ^1 printc '\n'
+    printc 'y' printc ' ' printi ^ printc '\n'
 
     printc 'x' printc '&' printc 'y' printc ' '
-    copy 5 copy 5 call bit_and printi printc '\n'
+    copy 1 copy 1 call bit_and printi printc '\n'
 
-    # printc 'x' printc '|' printc 'y' printc ' '
-    # copy 5 copy 5 call bit_or printi printc '\n'
+    printc 'x' printc '|' printc 'y' printc ' '
+    copy 1 copy 1 call bit_or printi printc '\n'
 
-    # printc 'x' printc '^' printc 'y' printc ' '
-    # copy 5 copy 5 call bit_xor printi printc '\n'
+    printc 'x' printc '^' printc 'y' printc ' '
+    copy 1 copy 1 call bit_xor printi printc '\n'
 
-    # printc 'x' printc '&' printc '^' printc 'y' printc ' '
-    # copy 5 copy 5 call bit_andnot printi printc '\n'
+    printc 'x' printc '&' printc '^' printc 'y' printc ' '
+    copy 1 copy 1 call bit_andnot printi printc '\n'
 
     printc '\n'
 
-    slide 5 drop
+    drop drop
     ret

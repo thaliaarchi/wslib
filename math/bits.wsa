@@ -29,8 +29,29 @@ bit_and:
     mul -1 sub 1
     call bit_uor
     mul -1 sub 1
-    slide 2
     ret
+
+# x y -- x|y
+bit_or:
+    jn ^1 .todo
+    jn ^ .todo
+    jmp bit_uor
+
+# x y -- x^y
+bit_xor:
+    jn ^1 .todo
+    jn ^ .todo
+    jmp bit_uxor
+
+# x y -- x&^y
+bit_andnot:
+    jn ^1 .todo
+    jn ^ .todo
+    jmp bit_uandnot
+
+.todo:
+    # TODO
+    push -999 slide 2 ret
 
 # x y -- x&y
 # requires x>=0 && y>=0
@@ -53,24 +74,94 @@ bit_uand:
     div ^3 2
     mul ^3 2
     copy 3
-
     call .uand_loop
+
     slide 1
 .uand_ret:
     slide 3
     ret
 
 # x y -- x|y
+# requires x>=0 && y>=0
 bit_uor:
-    # TODO
-    push -111 slide 2 ret
+    # i, z
+    push 1
+    push 0
+.uor_loop:
+    add ^3 ^3 jz .uor_ret
+
+    # z += (x%2 + y%2 - (x%2 * y%2)) * i
+    mod ^3 2
+    mod ^3 2
+    mul ^1 ^1
+    sub add
+    mul ^2
+    add
+
+    # x/2, y/2, i*2, z
+    div ^3 2
+    div ^3 2
+    mul ^3 2
+    copy 3
+    call .uor_loop
+
+    slide 1
+.uor_ret:
+    slide 3
+    ret
 
 # x y -- x^y
+# requires x>=0 && y>=0
 bit_uxor:
-    # TODO
-    push -222 slide 2 ret
+    # i, z
+    push 1
+    push 0
+.uxor_loop:
+    add ^3 ^3 jz .uxor_ret
+
+    # z += (x%2 + y%2)%2 * i
+    mod ^3 2
+    mod ^3 2
+    add mod 2
+    mul ^2
+    add
+
+    # x/2, y/2, i*2, z
+    div ^3 2
+    div ^3 2
+    mul ^3 2
+    copy 3
+    call .uxor_loop
+
+    slide 1
+.uxor_ret:
+    slide 3
+    ret
 
 # x y -- x&^y
+# requires x>=0 && y>=0
 bit_uandnot:
-    # TODO
-    push -333 slide 2 ret
+    # i, z
+    push 1
+    push 0
+.uandnot_loop:
+    add ^3 ^3 jz .uandnot_ret
+
+    # z += (x%2 * (1 - y%2)) * i
+    mod ^3 2
+    push 1 mod ^4 2 sub
+    mul
+    mul ^2
+    add
+
+    # x/2, y/2, i*2, z
+    div ^3 2
+    div ^3 2
+    mul ^3 2
+    copy 3
+    call .uandnot_loop
+
+    slide 1
+.uandnot_ret:
+    slide 3
+    ret
