@@ -1,0 +1,30 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# stack args: x y
+# returns: x&y
+# requires: x>=0 && y>=0
+bit_and:
+    push 0
+.head:
+    copy 2 copy 2 add jz .ret
+
+    # z = z*2 + (x%2 + y%2)/2
+    mul 2
+    copy 2 mod 2
+    copy 2 mod 2
+    add div 2
+    add
+
+    copy 2 div 2
+    copy 2 div 2
+    copy 2
+.tail:
+    call .head
+    slide 1
+.ret:
+    slide 2
+    ret

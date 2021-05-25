@@ -1,0 +1,31 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+push 0 push 0 call test_bit_and
+push 0 push 1 call test_bit_and
+push 1 push 0 call test_bit_and
+push 1 push 1 call test_bit_and
+push 0 push 2 call test_bit_and
+push 1 push 2 call test_bit_and
+push 2 push 0 call test_bit_and
+push 2 push 1 call test_bit_and
+push 2 push 2 call test_bit_and
+push 5 push 7 call test_bit_and
+end
+
+test_bit_and:
+    copy 1 printi
+    printc ' '
+    printc '&'
+    printc ' '
+    dup printi
+    printc ' '
+    printc '='
+    printc ' '
+    call bit_and
+    printi
+    printc '\n'
+    ret
