@@ -8,6 +8,10 @@
 #
 # Solution for https://codegolf.stackexchange.com/questions/225330/implement-cowsay
 
+    call .hello
+    call .cow
+    end
+
     push 1
     dup
 .read_line:
@@ -25,6 +29,42 @@
 .read_end:
     drop drop drop
 
+.hello:
+    printc ' '
+    push '_' push 8 call .repeat
+    printc '\n'
+    printc '<' printc ' '
+    printc 'H' printc 'e' printc 'l' printc 'l' printc 'o' printc '!'
+    printc ' ' printc '>' printc '\n'
+    printc ' '
+    push '-' push 8 call .repeat
+    printc '\n'
+    ret
+
+.cow:
+    push ' ' push 8 call .repeat
+    printc '\\'
+    push ' ' push 3 call .repeat
+    printc '^' printc '_' printc '_' printc '^' printc '\n'
+    push ' ' push 9 call .repeat
+    printc '\\'
+    push ' ' push 2 call .repeat
+    printc '(' printc 'o' printc 'o' printc ')' printc '\\'
+    push '_' push 7 call .repeat
+    printc '\n'
+    push ' ' push 12 call .repeat
+    printc '(' printc '_' printc '_' printc ')' printc '\\'
+    push ' ' push 7 call .repeat
+    printc ')' printc '\\' printc '/' printc '\\' printc '\n'
+    push ' ' push 16 call .repeat
+    printc '|' printc '|'
+    push '-' push 4 call .repeat
+    printc 'w' printc ' ' printc '|' printc '\n'
+    push ' ' push 16 call .repeat
+    printc '|' printc '|'
+    push ' ' push 5 call .repeat
+    printc '|' printc '|' printc '\n'
+    ret
 
 # char n --
 # requires n>=0

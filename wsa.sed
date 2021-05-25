@@ -9,22 +9,22 @@ s/\s+/ /g
 s/^ | $//g
 
 s/'\\t'/9/g; s/'\\n'/10/g; s/'\\v'/11/g; s/'\\f'/12/g; s/'\\r'/13/g; s/'\\e'/27/g
-s/' '/32/g;   s/'0'/48/g;  s/'@'/64/g; s/'P'/80/g;  s/'`'/96/g;  s/'p'/112/g
-s/'!'/33/g;   s/'1'/49/g;  s/'A'/65/g; s/'Q'/81/g;  s/'a'/97/g;  s/'q'/113/g
-s/'"'/34/g;   s/'2'/50/g;  s/'B'/66/g; s/'R'/82/g;  s/'b'/98/g;  s/'r'/114/g
-s/'#'/35/g;   s/'3'/51/g;  s/'C'/67/g; s/'S'/83/g;  s/'c'/99/g;  s/'s'/115/g
-s/'\$'/36/g;  s/'4'/52/g;  s/'D'/68/g; s/'T'/84/g;  s/'d'/100/g; s/'t'/116/g
-s/'%'/37/g;   s/'5'/53/g;  s/'E'/69/g; s/'U'/85/g;  s/'e'/101/g; s/'u'/117/g
-s/'&'/38/g;   s/'6'/54/g;  s/'F'/70/g; s/'V'/86/g;  s/'f'/102/g; s/'v'/118/g
-s/'\\''/39/g; s/'7'/55/g;  s/'G'/71/g; s/'W'/87/g;  s/'g'/103/g; s/'w'/119/g
-s/'\('/40/g;  s/'8'/56/g;  s/'H'/72/g; s/'X'/88/g;  s/'h'/104/g; s/'x'/120/g
-s/'\)'/41/g;  s/'9'/57/g;  s/'I'/73/g; s/'Y'/89/g;  s/'i'/105/g; s/'y'/121/g
-s/'\*'/42/g;  s/':'/58/g;  s/'J'/74/g; s/'Z'/90/g;  s/'j'/106/g; s/'z'/122/g
-s/'\+'/43/g;  s/';'/59/g;  s/'K'/75/g; s/'\['/91/g; s/'k'/107/g; s/'\{'/123/g
-s/','/44/g;   s/'<'/60/g;  s/'L'/76/g; s/'\\'/92/g; s/'l'/108/g; s/'\|'/124/g
-s/'-'/45/g;   s/'='/61/g;  s/'M'/77/g; s/'\]'/93/g; s/'m'/109/g; s/'\}'/125/g
-s/'\.'/46/g;  s/'>'/62/g;  s/'N'/78/g; s/'\^'/94/g; s/'n'/110/g; s/'~'/126/g
-s/'\/'/47/g;  s/'\?'/63/g; s/'O'/79/g; s/'_'/95/g;  s/'o'/111/g
+s/' '/32/g;   s/'0'/48/g;  s/'@'/64/g; s/'P'/80/g;    s/'`'/96/g;  s/'p'/112/g
+s/'!'/33/g;   s/'1'/49/g;  s/'A'/65/g; s/'Q'/81/g;    s/'a'/97/g;  s/'q'/113/g
+s/'"'/34/g;   s/'2'/50/g;  s/'B'/66/g; s/'R'/82/g;    s/'b'/98/g;  s/'r'/114/g
+s/'#'/35/g;   s/'3'/51/g;  s/'C'/67/g; s/'S'/83/g;    s/'c'/99/g;  s/'s'/115/g
+s/'\$'/36/g;  s/'4'/52/g;  s/'D'/68/g; s/'T'/84/g;    s/'d'/100/g; s/'t'/116/g
+s/'%'/37/g;   s/'5'/53/g;  s/'E'/69/g; s/'U'/85/g;    s/'e'/101/g; s/'u'/117/g
+s/'&'/38/g;   s/'6'/54/g;  s/'F'/70/g; s/'V'/86/g;    s/'f'/102/g; s/'v'/118/g
+s/'\\''/39/g; s/'7'/55/g;  s/'G'/71/g; s/'W'/87/g;    s/'g'/103/g; s/'w'/119/g
+s/'\('/40/g;  s/'8'/56/g;  s/'H'/72/g; s/'X'/88/g;    s/'h'/104/g; s/'x'/120/g
+s/'\)'/41/g;  s/'9'/57/g;  s/'I'/73/g; s/'Y'/89/g;    s/'i'/105/g; s/'y'/121/g
+s/'\*'/42/g;  s/':'/58/g;  s/'J'/74/g; s/'Z'/90/g;    s/'j'/106/g; s/'z'/122/g
+s/'\+'/43/g;  s/';'/59/g;  s/'K'/75/g; s/'\['/91/g;   s/'k'/107/g; s/'\{'/123/g
+s/','/44/g;   s/'<'/60/g;  s/'L'/76/g; s/'\\\\'/92/g; s/'l'/108/g; s/'\|'/124/g
+s/'-'/45/g;   s/'='/61/g;  s/'M'/77/g; s/'\]'/93/g;   s/'m'/109/g; s/'\}'/125/g
+s/'\.'/46/g;  s/'>'/62/g;  s/'N'/78/g; s/'\^'/94/g;   s/'n'/110/g; s/'~'/126/g
+s/'\/'/47/g;  s/'\?'/63/g; s/'O'/79/g; s/'_'/95/g;    s/'o'/111/g
 s/'\\x00'/0/g;  s/'\\x10'/16/g; s/'\\x20'/32/g; s/'\\x30'/48/g; s/'\\x40'/64/g; s/'\\x50'/80/g; s/'\\x60'/96/g;  s/'\\x70'/112/g
 s/'\\x01'/1/g;  s/'\\x11'/17/g; s/'\\x21'/33/g; s/'\\x31'/49/g; s/'\\x41'/65/g; s/'\\x51'/81/g; s/'\\x61'/97/g;  s/'\\x71'/113/g
 s/'\\x02'/2/g;  s/'\\x12'/18/g; s/'\\x22'/34/g; s/'\\x32'/50/g; s/'\\x42'/66/g; s/'\\x52'/82/g; s/'\\x62'/98/g;  s/'\\x72'/114/g
@@ -59,14 +59,14 @@ s/\b0x0E\b/14/g; s/\b0x1E\b/30/g; s/\b0x2E\b/46/g; s/\b0x3E\b/62/g; s/\b0x4E\b/7
 s/\b0x0F\b/15/g; s/\b0x1F\b/31/g; s/\b0x2F\b/47/g; s/\b0x3F\b/63/g; s/\b0x4F\b/79/g; s/\b0x5F\b/95/g; s/\b0x6F\b/111/g; s/\b0x7F\b/127/g
 
 s/\^( |$)/^0\1/g
-s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|jz|jn|printc|printi) \^(-?[0-9]+)\b/copy \2 \1/g
-s/\b(add|sub|mul|div|mod|printc|printi) (-?[0-9]+)\b/push \2 \1/g
-s/\b(add|sub|mul|div|mod) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod) \*(-?[0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod) \^-?([0-9]+)\b/copy \2 \1/g
-s/\b(add|sub|mul|div|mod) (-?[0-9]+)\b/push \2 \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|printc|printi|readc|readi) (-?[0-9]+)\b/push \2 \1/g
+s/\b(add|sub|mul|div|mod|store) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store) \^-?([0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|store) (-?[0-9]+)\b/push \2 \1/g
 s/\bcopy 0\b/dup/g
 
 s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 _\2/g
