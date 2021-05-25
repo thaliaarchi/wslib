@@ -4,28 +4,29 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# stack args: x y
-# returns: x&y
+# x y -- x&y
 # requires: x>=0 && y>=0
 bit_and:
-    push 0
+    push 1 # i
+    push 0 # z
 .loop:
-    add ^2 ^2 jz .ret
+    add ^3 ^3 jz .ret
 
-    # z = z*2 + (x%2 + y%2)/2
-    mul 2
-    mod ^2 2
-    mod ^2 2
+    # z += (x%2 + y%2)/2 * i
+    mod ^3 2
+    mod ^3 2
     add div 2
+    mul ^2
     add
 
-    # x /= 2; y /= 2
-    div ^2 2
-    div ^2 2
-    copy 2
+    # x/2, y/2, i*2, z
+    div ^3 2
+    div ^3 2
+    mul ^3 2
+    copy 3
 
     call .loop
     slide 1
 .ret:
-    slide 2
+    slide 3
     ret

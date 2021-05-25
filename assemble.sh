@@ -8,4 +8,3 @@
 gsed -Ef wsa.sed "$@" > prog.wsa
 wsc -f asm -t -o prog.ws prog.wsa
 nebula ir prog.ws > prog.ir 2>&1
-rm prog.wsa
