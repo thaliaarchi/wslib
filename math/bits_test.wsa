@@ -34,6 +34,13 @@ push -340282566926938463463474637401768211457
 push -298472983472983471903246121093472394872319615612417471234712061
 call test_bitwise
 
+push 0      call test_not
+push 1      call test_not
+push 7      call test_not
+push 0      call test_not
+push -81910 call test_not
+push 298472983472983471903246121093472394872319615612417471234712061 call test_not
+
 end
 
 # x y --
@@ -56,4 +63,11 @@ test_bitwise:
     printc '\n'
 
     drop drop
+    ret
+
+# x --
+test_not:
+    printc 'x' printc ' ' printi ^ printc '\n'
+    printc '-' printc 'x' printc ' '
+    call bit_not printi printc '\n' printc '\n'
     ret

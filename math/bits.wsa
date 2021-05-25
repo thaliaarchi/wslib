@@ -237,3 +237,8 @@ bit_uandnot:
 .uandnot_ret:
     slide 3
     ret
+
+# x -- -x
+bit_not:
+    add 1 mul -1
+    ret
