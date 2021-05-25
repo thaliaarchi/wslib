@@ -4,22 +4,25 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+# Negative operand handling borrowed from Go
+# https://golang.org/src/math/big/int.go#L1072
+
 # x y -- x&y
 bit_and:
-    jn ^1 .xneg
-    jn ^ .yneg
+    jn ^1 .and_xneg
+    jn ^ .and_yneg
     jmp bit_uand
-.xneg:
-    jn ^ .xyneg
+.and_xneg:
+    jn ^ .and_xyneg
     # & is symmetric
     swap
-.yneg:
+.and_yneg:
     # x & (-y)
     # == x & ^(y-1)
     # == x &^ (y-1)
     mul -1 sub 1
     jmp bit_uandnot
-.xyneg:
+.and_xyneg:
     # (-x) & (-y)
     # == ^(x-1) & ^(y-1)
     # == ^((x-1) | (y-1))
@@ -28,30 +31,99 @@ bit_and:
     swap
     mul -1 sub 1
     call bit_uor
-    mul -1 sub 1
+    add 1 mul -1
     ret
 
 # x y -- x|y
 bit_or:
-    jn ^1 .todo
-    jn ^ .todo
+    jn ^1 .or_xneg
+    jn ^ .or_yneg
     jmp bit_uor
+.or_xneg:
+    jn ^ .or_xyneg
+    # | is symmetric
+    swap
+.or_yneg:
+	# x | (-y)
+    # == x | ^(y-1)
+    # == ^((y-1) &^ x)
+    # == -(^((y-1) &^ x) + 1)
+    mul -1 sub 1
+    swap call bit_uandnot
+    add 1 mul -1
+    ret
+.or_xyneg:
+    # (-x) | (-y)
+    # == ^(x-1) | ^(y-1)
+    # == ^((x-1) & (y-1))
+    # == -(((x-1) & (y-1)) + 1)
+    mul -1 sub 1
+    swap
+    mul -1 sub 1
+    call bit_uand
+    add 1 mul -1
+    ret
 
 # x y -- x^y
 bit_xor:
-    jn ^1 .todo
-    jn ^ .todo
+    jn ^1 .xor_xneg
+    jn ^ .xor_yneg
     jmp bit_uxor
+.xor_xneg:
+    jn ^ .xor_xyneg
+    # ^ is symmetric
+    swap
+.xor_yneg:
+    # x ^ (-y)
+    # == x ^ ^(y-1)
+    # == ^(x ^ (y-1))
+    # == -((x ^ (y-1)) + 1)
+    mul -1 sub 1
+    call bit_uxor
+    add 1 mul -1
+    ret
+.xor_xyneg:
+    # (-x) ^ (-y)
+    # == ^(x-1) ^ ^(y-1)
+    # == (x-1) ^ (y-1)
+    mul -1 sub 1
+    swap
+    mul -1 sub 1
+    call bit_uxor
+    ret
 
 # x y -- x&^y
 bit_andnot:
-    jn ^1 .todo
-    jn ^ .todo
+    jn ^1 .andnot_xneg
+    jn ^ .andnot_yneg
     jmp bit_uandnot
-
-.todo:
-    # TODO
-    push -999 slide 2 ret
+.andnot_xneg:
+    jn ^ .andnot_xyneg
+    # (-x) &^ y
+    # == ^(x-1) &^ y
+    # == ^(x-1) & ^y
+    # == ^((x-1) | y)
+    # == -(((x-1) | y) + 1)
+    swap mul -1 sub 1
+    call bit_uor
+    add 1 mul -1
+    ret
+.andnot_yneg:
+	# x &^ (-y)
+    # == x &^ ^(y-1)
+    # == x & (y-1)
+    mul -1 sub 1
+    jmp bit_uand
+.andnot_xyneg:
+    # (-x) &^ (-y)
+    # == ^(x-1) &^ ^(y-1)
+    # == ^(x-1) & (y-1)
+    # == (y-1) &^ (x-1)
+    mul -1 sub 1
+    swap
+    mul -1 sub 1
+    call bit_uandnot
+    ret
 
 # x y -- x&y
 # requires x>=0 && y>=0
