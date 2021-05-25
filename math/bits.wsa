@@ -6,12 +6,29 @@
 
 # x y -- x&y
 bit_and:
-    jn ^1 .neg
-    jn ^ .neg
+    jn ^1 .xneg
+    jn ^ .yneg
     jmp bit_uand
-.neg:
-    # TODO
-    push -999
+.xneg:
+    jn ^ .xyneg
+    # & is symmetric
+    swap
+.yneg:
+    # x & (-y)
+    # == x & ^(y-1)
+    # == x &^ (y-1)
+    mul -1 sub 1
+    jmp bit_uandnot
+.xyneg:
+    # (-x) & (-y)
+    # == ^(x-1) & ^(y-1)
+    # == ^((x-1) | (y-1))
+    # == -(((x-1) | (y-1)) + 1)
+    mul -1 sub 1
+    swap
+    mul -1 sub 1
+    call bit_uor
+    mul -1 sub 1
     slide 2
     ret
 
@@ -21,8 +38,8 @@ bit_uand:
     # i, z
     push 1
     push 0
-.loop:
-    add ^3 ^3 jz .ret
+.uand_loop:
+    add ^3 ^3 jz .uand_ret
 
     # z += (x%2 + y%2)/2 * i
     mod ^3 2
@@ -37,8 +54,23 @@ bit_uand:
     mul ^3 2
     copy 3
 
-    call .loop
+    call .uand_loop
     slide 1
-.ret:
+.uand_ret:
     slide 3
     ret
+
+# x y -- x|y
+bit_uor:
+    # TODO
+    push -111 slide 2 ret
+
+# x y -- x^y
+bit_uxor:
+    # TODO
+    push -222 slide 2 ret
+
+# x y -- x&^y
+bit_uandnot:
+    # TODO
+    push -333 slide 2 ret
