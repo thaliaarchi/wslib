@@ -1,0 +1,34 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# collatz returns the number of steps for n to reach 1 in the Collatz
+# sequence. The sequence is defined as follows: if n is even, the next
+# term is n/2, otherwise 3*n+1.
+# (n -- steps)
+collatz:
+    sub ^ 1 jn .collatz_neg
+    push 0
+.collatz_loop:
+    swap
+    sub ^ 1 jz .collatz_1
+    mod ^ 2 jz .collatz_even
+# .collatz_odd:
+    mul 3
+    add 1
+    jmp .collatz_next
+.collatz_even:
+    div 2
+.collatz_next:
+    swap
+    add 1
+    jmp .collatz_loop
+.collatz_1:
+    drop
+    ret
+.collatz_neg:
+    drop
+    push -1
+    ret

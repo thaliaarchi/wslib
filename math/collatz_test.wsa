@@ -1,0 +1,11 @@
+collatz_test:
+    push 1
+.collatz_test_loop:
+    call ^ collatz
+    printi printc '\n'
+    add 1
+    sub ^ 73 jz .collatz_test_end
+    jmp .collatz_test_loop
+.collatz_test_end:
+    drop
+    end

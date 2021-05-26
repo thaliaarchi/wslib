@@ -10,6 +10,11 @@ echo 'Testing math/bits.wsa'
 wspace prog.ws > prog.out
 diff -q math/bits_test.out prog.out || :
 
+echo 'Testing math/collatz.wsa'
+./assemble.sh math/collatz_test.wsa math/collatz.wsa
+wspace prog.ws > prog.out
+diff -q math/collatz_test.out prog.out || :
+
 echo 'Testing math/exp.wsa'
 ./assemble.sh math/exp_test.wsa math/exp.wsa math/math.wsa
 wspace prog.ws > prog.out
