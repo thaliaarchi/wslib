@@ -4,44 +4,109 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# (x -- )
-print_bin:
-    call .print_sign
-    call ^ .next_pow2
-    jmp .print_ubin
+# (x pad -- )
+printi_pad0:
+    swap call .print_sign
+    call ^ .next_pow10
+    swap push 10 call exp
+    call max
+    jmp .printu10
 
 # (x -- )
-print_bin_prefixed:
+printi2:
+    call .print_sign
+    call ^ .next_pow2
+    jmp .printu2
+
+# (x -- )
+printi2_prefixed:
     call .print_sign
     printc '0' printc 'b'
     call ^ .next_pow2
-    jmp .print_ubin
+    jmp .printu2
 
 # (x pad -- )
-print_bin_pad0:
+printi2_pad0:
     swap call .print_sign
     call ^ .next_pow2
     swap push 2 call exp
     call max
-    jmp .print_ubin
+    jmp .printu2
 
 # (x pad -- )
-print_bin_prefixed_pad0:
+printi2_prefixed_pad0:
     swap call .print_sign
     printc '0' printc 'b'
     call ^ .next_pow2
     swap push 2 call exp
     call max
-    jmp .print_ubin
+    jmp .printu2
+
+# (x -- )
+printi16:
+    call .print_sign
+    call ^ .next_pow16
+    jmp .printu16
+
+# (x -- )
+printi16_prefixed:
+    call .print_sign
+    printc '0' printc 'x'
+    call ^ .next_pow16
+    jmp .printu16
+
+# (x pad -- )
+printi16_pad0:
+    swap call .print_sign
+    call ^ .next_pow16
+    swap push 16 call exp
+    call max
+    jmp .printu16
+
+# (x pad -- )
+printi16_prefixed_pad0:
+    swap call .print_sign
+    printc '0' printc 'x'
+    call ^ .next_pow16
+    swap push 16 call exp
+    call max
+    jmp .printu16
 
 # Requires x>=0 && pow2>=x
 # (x pow2 -- )
-.print_ubin:
+.printu2:
     div 2
-    jz ^ .print_ubin_ret
+    jz ^ .printu2_ret
     div ^1 ^1 mod 2 printi
-    jmp .print_ubin
-.print_ubin_ret:
+    jmp .printu2
+.printu2_ret:
+    drop drop
+    ret
+
+# Requires x>=0 && pow10>=x
+# (x pow10 -- )
+.printu10:
+    div 10
+    jz ^ .printu10_ret
+    div ^1 ^1 mod 10 printi
+    jmp .printu10
+.printu10_ret:
+    drop drop
+    ret
+
+# Requires x>=0 && pow16>=x
+# (x pow16 -- )
+.printu16:
+    div 16
+    jz ^ .printu16_ret
+    div ^1 ^1 mod 16
+    sub ^ 10 jn .printu16_10
+    add 87 printc  # 87=='a'-10
+    jmp .printu16
+.printu16_10:
+    printi
+    jmp .printu16
+.printu16_ret:
     drop drop
     ret
 
@@ -55,9 +120,9 @@ print_bin_prefixed_pad0:
     ret
 
 # .next_pow2 returns the next power of 2 greater than or equal to x.
+# Requires x>=0
 # (x -- pow2)
 .next_pow2:
-    call abs
     push 2
 .next_pow2_loop:
     swap
@@ -67,5 +132,37 @@ print_bin_prefixed_pad0:
     mul 2
     jmp .next_pow2_loop
 .next_pow2_ret:
+    drop
+    ret
+
+# .next_pow10 returns the next power of 10 greater than or equal to x.
+# Requires x>=0
+# (x -- pow10)
+.next_pow10:
+    push 10
+.next_pow10_loop:
+    swap
+    div 10
+    jz ^ .next_pow10_ret
+    swap
+    mul 10
+    jmp .next_pow10_loop
+.next_pow10_ret:
+    drop
+    ret
+
+# .next_pow16 returns the next power of 16 greater than or equal to x.
+# Requires x>=0
+# (x -- pow16)
+.next_pow16:
+    push 16
+.next_pow16_loop:
+    swap
+    div 16
+    jz ^ .next_pow16_ret
+    swap
+    mul 16
+    jmp .next_pow16_loop
+.next_pow16_ret:
     drop
     ret

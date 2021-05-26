@@ -4,15 +4,19 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-push 0  call test_print_bin
-push -0 call test_print_bin
-push -6 call test_print_bin
-push 7  call test_print_bin
+push 0          call test_print
+push -0         call test_print
+push -6         call test_print
+push 7          call test_print
+push 255        call test_print
+push 3735928559 call test_print
 
 end
 
 # (x -- )
-test_print_bin:
-    call ^ print_bin printc ' '
-    call print_bin_prefixed printc '\n'
+test_print:
+    call ^ printi2 printc ' '
+    call ^ printi2_prefixed printc ' '
+    call ^ printi16 printc ' '
+    call printi16_prefixed printc '\n'
     ret
