@@ -1,0 +1,34 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# x y -- x**y
+exp:
+    sub ^ 1 jn .exp_one   # y <= 0
+    sub ^1 1 jz .exp_one  # x == 1
+    # Exponentiation by squaring
+.exp:
+    sub ^ 1 jz .exp_x     # y == 1
+    mod ^ 2 jz .exp_even  # y%2 == 0
+# odd
+    mul ^1 ^
+    swap
+    sub 1
+    div 2
+    call .exp
+    mul
+    ret
+.exp_even:
+    # x **= 2, y /= 2
+    swap mul ^ swap
+    div 2
+    jmp .exp
+.exp_one:
+    drop drop
+    push 1
+    ret
+.exp_x:
+    drop
+    ret
