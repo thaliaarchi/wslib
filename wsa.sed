@@ -61,13 +61,13 @@ s/\b0x0F\b/15/g; s/\b0x1F\b/31/g; s/\b0x2F\b/47/g; s/\b0x3F\b/63/g; s/\b0x4F\b/7
 s/\bjeof\b/jz/g
 
 s/\^( |$)/^0\1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \^(-?[0-9]+)\b/copy \2 \1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|printc|printi|readc|readi) (-?[0-9]+)\b/push \2 \1/g
-s/\b(add|sub|mul|div|mod|store) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store) \*(-?[0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store) \^-?([0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|store|call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|call|jmp) \^-?([0-9]+)\b/copy \2 \1/g
 s/\b(add|sub|mul|div|mod|store) (-?[0-9]+)\b/push \2 \1/g
 s/\bcopy 0\b/dup/g
 

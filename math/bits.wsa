@@ -251,3 +251,20 @@ uandnot:
 not:
     add 1 mul -1
     ret
+
+# bit_len returns the length of the absolute value of x in bits.
+# The bit length of 0 is 0.
+# (x -- l)
+bit_len:
+    call abs
+    push 0
+.bit_len_loop:
+    swap
+    jz ^ .bit_len_ret
+    div 2
+    swap
+    add 1
+    jmp .bit_len_loop
+.bit_len_ret:
+    drop
+    ret

@@ -1,0 +1,71 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# (x -- )
+print_bin:
+    call .print_sign
+    call ^ .next_pow2
+    jmp .print_ubin
+
+# (x -- )
+print_bin_prefixed:
+    call .print_sign
+    printc '0' printc 'b'
+    call ^ .next_pow2
+    jmp .print_ubin
+
+# (x pad -- )
+print_bin_pad0:
+    swap call .print_sign
+    call ^ .next_pow2
+    swap push 2 call exp
+    call max
+    jmp .print_ubin
+
+# (x pad -- )
+print_bin_prefixed_pad0:
+    swap call .print_sign
+    printc '0' printc 'b'
+    call ^ .next_pow2
+    swap push 2 call exp
+    call max
+    jmp .print_ubin
+
+# Requires x>=0 && pow2>=x
+# (x pow2 -- )
+.print_ubin:
+    div 2
+    jz ^ .print_ubin_ret
+    div ^1 ^1 mod 2 printi
+    jmp .print_ubin
+.print_ubin_ret:
+    drop drop
+    ret
+
+# (x -- |x|)
+.print_sign:
+    jn ^ .print_sign_neg
+    ret
+.print_sign_neg:
+    mul -1
+    printc '-'
+    ret
+
+# .next_pow2 returns the next power of 2 greater than or equal to x.
+# (x -- pow2)
+.next_pow2:
+    call abs
+    push 2
+.next_pow2_loop:
+    swap
+    div 2
+    jz ^ .next_pow2_ret
+    swap
+    mul 2
+    jmp .next_pow2_loop
+.next_pow2_ret:
+    drop
+    ret

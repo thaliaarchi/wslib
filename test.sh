@@ -6,11 +6,16 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 echo 'Testing math/bits.wsa'
-./assemble.sh math/bits_test.wsa math/bits.wsa
+./assemble.sh math/bits_test.wsa math/bits.wsa math/math.wsa
 wspace prog.ws > prog.out
-diff math/bits_test.out prog.out
+diff -q math/bits_test.out prog.out || :
 
 echo 'Testing math/exp.wsa'
-./assemble.sh math/exp_test.wsa math/exp.wsa
+./assemble.sh math/exp_test.wsa math/exp.wsa math/math.wsa
 wspace prog.ws > prog.out
-diff math/exp_test.out prog.out
+diff -q math/exp_test.out prog.out || :
+
+echo 'Testing io/print.wsa'
+./assemble.sh io/print_test.wsa io/print.wsa math/exp.wsa math/math.wsa
+wspace prog.ws > prog.out
+diff -q io/print_test.out prog.out || :

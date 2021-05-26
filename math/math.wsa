@@ -1,0 +1,42 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# abs returns the absolute value of x.
+# (x -- |x|)
+abs:
+    jn ^ .abs_neg
+    ret
+.abs_neg:
+    mul -1
+    ret
+
+# sign returns 1 if x > 0, 0 if x == 0, or -1 if x < 0.
+# (x -- sign)
+sign:
+    jz ^ .sign_zero
+    jn .sign_neg
+    push 1
+    ret
+.sign_neg:
+    push -1
+.sign_zero:
+    ret
+
+# min returns the lesser value of x and y.
+# (x y -- min)
+min:
+    sub ^1 ^1 jn .min_x_lt_y
+    slide 1 ret
+.min_x_lt_y:
+    drop ret
+
+# max returns the greater value of x and y.
+# (x y -- max)
+max:
+    sub ^1 ^1 jn .max_x_lt_y
+    drop ret
+.max_x_lt_y:
+    slide 1 ret

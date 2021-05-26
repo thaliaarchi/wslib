@@ -1,0 +1,18 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+push 0  call test_print_bin
+push -0 call test_print_bin
+push -6 call test_print_bin
+push 7  call test_print_bin
+
+end
+
+# (x -- )
+test_print_bin:
+    call ^ print_bin printc ' '
+    call print_bin_prefixed printc '\n'
+    ret
