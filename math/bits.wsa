@@ -7,7 +7,8 @@
 # Negative operand handling borrowed from Go
 # https://golang.org/src/math/big/int.go#L1072
 
-# x y -- x&y
+# and returns the bitwise AND of x and y.
+# (x y -- x&y)
 and:
     jn ^1 .and_xneg
     jn ^ .and_yneg
@@ -34,7 +35,8 @@ and:
     add 1 mul -1
     ret
 
-# x y -- x|y
+# or returns the bitwise OR of x and y.
+# (x y -- x|y)
 or:
     jn ^1 .or_xneg
     jn ^ .or_yneg
@@ -64,7 +66,8 @@ or:
     add 1 mul -1
     ret
 
-# x y -- x^y
+# xor returns the bitwise XOR of x and y.
+# (x y -- x^y)
 xor:
     jn ^1 .xor_xneg
     jn ^ .xor_yneg
@@ -92,7 +95,8 @@ xor:
     call uxor
     ret
 
-# x y -- x&^y
+# andnot returns the bitwise AND NOT of x and y.
+# (x y -- x&^y)
 andnot:
     jn ^1 .andnot_xneg
     jn ^ .andnot_yneg
@@ -125,8 +129,9 @@ andnot:
     call uandnot
     ret
 
-# x y -- x&y
-# requires x>=0 && y>=0
+# uand returns the bitwise AND of unsigned x and y.
+# Requires x>=0 && y>=0
+# (x y -- x&y)
 uand:
     # i, z
     push 1
@@ -153,8 +158,9 @@ uand:
     slide 3
     ret
 
-# x y -- x|y
-# requires x>=0 && y>=0
+# uor returns the bitwise OR of unsigned x and y.
+# Requires x>=0 && y>=0
+# (x y -- x|y)
 uor:
     # i, z
     push 1
@@ -182,8 +188,9 @@ uor:
     slide 3
     ret
 
-# x y -- x^y
-# requires x>=0 && y>=0
+# uxor returns the bitwise XOR of unsigned x and y.
+# Requires x>=0 && y>=0
+# (x y -- x^y)
 uxor:
     # i, z
     push 1
@@ -210,8 +217,9 @@ uxor:
     slide 3
     ret
 
-# x y -- x&^y
-# requires x>=0 && y>=0
+# uandnot returns the bitwise AND NOT of unsigned x and y.
+# Requires x>=0 && y>=0
+# (x y -- x&^y)
 uandnot:
     # i, z
     push 1
@@ -238,7 +246,8 @@ uandnot:
     slide 3
     ret
 
-# x -- -x
+# not returns the bitwise complement of x.
+# (x -- ^x)
 not:
     add 1 mul -1
     ret

@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# x y -- x**y
+# (x y -- x**y)
 exp:
     sub ^ 1 jn .exp_one   # y <= 0
     sub ^1 1 jz .exp_one  # x == 1

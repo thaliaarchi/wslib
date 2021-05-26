@@ -66,8 +66,8 @@
     printc '|' printc '|' printc '\n'
     ret
 
-# char n --
-# requires n>=0
+# Requires n>=0
+# (char n --)
 .repeat:
     jz ^ .repeat_end
     printc ^1

@@ -43,7 +43,7 @@ push 298472983472983471903246121093472394872319615612417471234712061 call test_n
 
 end
 
-# x y --
+# (x y -- )
 test_bitwise:
     printc 'x' printc ' ' printi ^1 printc '\n'
     printc 'y' printc ' ' printi ^ printc '\n'
@@ -65,7 +65,7 @@ test_bitwise:
     drop drop
     ret
 
-# x --
+# (x -- )
 test_not:
     printc 'x' printc ' ' printi ^ printc '\n'
     printc '-' printc 'x' printc ' '
