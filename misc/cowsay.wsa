@@ -17,7 +17,7 @@
 .read_line:
     readc ^
     retrieve ^
-    jz ^ .read_end
+    jeof ^ .read_end
     sub '\n' jz .read_next_line
     add 1
     jmp .read_line

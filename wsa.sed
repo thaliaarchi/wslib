@@ -58,6 +58,8 @@ s/\b0x0D\b/13/g; s/\b0x1D\b/29/g; s/\b0x2D\b/45/g; s/\b0x3D\b/61/g; s/\b0x4D\b/7
 s/\b0x0E\b/14/g; s/\b0x1E\b/30/g; s/\b0x2E\b/46/g; s/\b0x3E\b/62/g; s/\b0x4E\b/78/g; s/\b0x5E\b/94/g; s/\b0x6E\b/110/g; s/\b0x7E\b/126/g
 s/\b0x0F\b/15/g; s/\b0x1F\b/31/g; s/\b0x2F\b/47/g; s/\b0x3F\b/63/g; s/\b0x4F\b/79/g; s/\b0x5F\b/95/g; s/\b0x6F\b/111/g; s/\b0x7F\b/127/g
 
+s/\bjeof\b/jz/g
+
 s/\^( |$)/^0\1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|jz|jn|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
