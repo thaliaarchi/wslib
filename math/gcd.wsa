@@ -1,0 +1,22 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# gcd returns the greatest common divisor z of z and b such that
+# z = a*x + b*y.
+# If a == 0 && b == 0, gcd returns 0.
+# If a == 0 && b != 0, gcd returns |b|.
+# If a != 0 && b == 0, gcd returns |a|.
+# (a b -- z)
+gcd:
+    jz ^1 .gcd_a_zero
+    jz ^ .gcd_b_zero
+    # ...
+.gcd_b_zero:
+    swap
+.gcd_a_zero:
+    drop
+    call abs
+    ret

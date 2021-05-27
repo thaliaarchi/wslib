@@ -7,13 +7,13 @@
 # exp returns x raised to the power of y. If y <= 0, 1 is returned.
 # (x y -- x**y)
 exp:
-    sub ^ 1 jn .exp_one   # y <= 0
-    sub ^1 1 jz .exp_one  # x == 1
     # Exponentiation by squaring
+    sub ^ 1 jn .exp_one   # y <= 0
 .exp:
     sub ^ 1 jz .exp_x     # y == 1
     mod ^ 2 jz .exp_even  # y%2 == 0
-# odd
+# .exp_odd:
+    # exp(x**2, (y-1)/2) * x
     mul ^1 ^
     swap
     sub 1
@@ -22,7 +22,7 @@ exp:
     mul
     ret
 .exp_even:
-    # x **= 2, y /= 2
+    # exp(x**2, y/2)
     swap mul ^ swap
     div 2
     jmp .exp

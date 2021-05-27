@@ -9,7 +9,7 @@
 # term is n/2, otherwise 3*n+1.
 # (n -- steps)
 collatz:
-    sub ^ 1 jn .collatz_neg
+    sub ^ 1 jn .collatz_le0
     push 0
 .collatz_loop:
     swap
@@ -28,7 +28,7 @@ collatz:
 .collatz_1:
     drop
     ret
-.collatz_neg:
+.collatz_le0:
     drop
     push -1
     ret
