@@ -1,0 +1,161 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# tediv, temod, tfdiv, and tfmod translated from C versions defined in
+# Daan Leijen "Division and Modulus for Computer Scientists" (2001)
+# http://research.microsoft.com/pubs/151917/divmodnote.pdf
+
+# Truncated division
+#   q = trunc(x / y)
+# Floored division
+#   q = floor(x / y)
+# Euclidean division
+#   y > 0 => q = floor(x/y)
+#   y < 0 => q = ceil(x/y)
+# Rounding division
+#   q = round(x/y)
+# Ceiling division
+#   q = ceil(x/y)
+
+# tdiv returns the truncated division of x and y.
+# (x y -- quo)
+# tdiv:
+
+# tmod returns the truncated modulo of x and y.
+# (x y -- rem)
+# tmod:
+
+# fdiv returns the floored division of x and y.
+# (x y -- quo)
+# fdiv:
+
+# fmod returns the floored modulo of x and y.
+# (x y -- rem)
+# fmod:
+
+# ediv returns the Euclidean division of x and y.
+# (x y -- quo)
+# ediv:
+
+# emod returns the Euclidean modulo of x and y.
+# (x y -- rem)
+# emod:
+
+# rdiv returns the rounding division of x and y.
+# (x y -- quo)
+# rdiv:
+
+# rmod returns the rounding modulo of x and y.
+# (x y -- rem)
+# rmod:
+
+# cdiv returns the ceiling division of x and y.
+# (x y -- quo)
+# cdiv:
+
+# cmod returns the ceiling modulo of x and y.
+# (x y -- rem)
+# cmod:
+
+# tediv returns the Euclidean division of x and y, in terms of truncated
+# division.
+# (x y -- quo)
+tediv:
+    # q := x / y
+    # r := x % y
+    # if r < 0
+    #   if y > 0 return q - 1
+    #   else     return q + 1
+    # return q
+
+    mod ^1 ^1 jn .tediv_r_lt0
+    # r >= 0 => q
+    div ret
+.tediv_r_lt0:
+    sub ^ 1 jn .tediv_y_le0
+    # y > 0 => q - 1
+    div sub 1 ret
+.tediv_y_le0:
+    # y <= 0 => q + 1
+    div add 1 ret
+
+# temod returns the Euclidean modulo of x and y, in terms of truncated
+# division.
+# (x y -- rem)
+temod:
+    # r := x % y
+    # if r < 0
+    #   if y > 0 return r + y
+    #   else     return r - y
+    # return r
+
+    mod ^1 ^1 jn ^ .temod_r_lt0
+    # r >= 0 => q
+    slide 2 ret
+.temod_r_lt0:
+    sub ^1 1 jn .temod_y_le0
+    # y > 0 => q + y
+    add slide 1 ret
+.temod_y_le0:
+    # y <= 0 => q - y
+    swap sub slide 1 ret
+
+# tediv returns the floored division of x and y, in terms of truncated
+# division.
+# (x y -- quo)
+tfdiv:
+    # q := x / y
+    # r := x % y
+    # if (r > 0 && y < 0) || (r < 0 && y > 0)
+    #   return q - 1
+    # else
+    #   return q
+
+    mod ^1 ^1
+    jn ^ .tfdiv_r_lt0
+    mul ^ -1 jn .tfdiv_r_gt0
+.tfdiv_q:
+    # return q
+    drop div ret
+.tfdiv_r_lt0:
+    # r < 0 && y > 0
+    mul ^1 -1 jn .tfdiv_q1
+    jmp .tfdiv_q
+.tfdiv_r_gt0:
+    # r > 0 && y < 0
+    jn ^1 .tfdiv_q1
+    jmp .tfdiv_q
+.tfdiv_q1:
+    # return q - 1
+    drop div sub 1 ret
+
+# temod returns the floored modulo of x and y, in terms of truncated
+# division.
+# (x y -- rem)
+tfmod:
+    # r := x % y
+    # if (r > 0 && y < 0) || (r < 0 && y > 0)
+    #   return r + y
+    # else
+    #   return r
+
+    mod ^1 ^1
+    jn ^ .tfmod_r_lt0
+    mul ^ -1 jn .tfmod_r_gt0
+.tfmod_q:
+    # return r
+    slide 2 ret
+.tfmod_r_lt0:
+    # r < 0 && y > 0
+    mul ^1 -1 jn .tfmod_q1
+    jmp .tfmod_q
+.tfmod_r_gt0:
+    # r > 0 && y < 0
+    jn ^1 .tfmod_q1
+    jmp .tfmod_q
+.tfmod_q1:
+    # return r + y
+    add slide 1 ret
