@@ -8,7 +8,7 @@ s/(^|[^\\'])#.*//g
 s/\s+/ /g
 s/^ | $//g
 
-s/'\\t'/9/g; s/'\\n'/10/g; s/'\\v'/11/g; s/'\\f'/12/g; s/'\\r'/13/g; s/'\\e'/27/g
+s/'\\a'/7/g; s/'\\b'/8/g; s/'\\t'/9/g; s/'\\n'/10/g; s/'\\v'/11/g; s/'\\f'/12/g; s/'\\r'/13/g; s/'\\e'/27/g
 s/' '/32/g;   s/'0'/48/g;  s/'@'/64/g; s/'P'/80/g;    s/'`'/96/g;  s/'p'/112/g
 s/'!'/33/g;   s/'1'/49/g;  s/'A'/65/g; s/'Q'/81/g;    s/'a'/97/g;  s/'q'/113/g
 s/'"'/34/g;   s/'2'/50/g;  s/'B'/66/g; s/'R'/82/g;    s/'b'/98/g;  s/'r'/114/g
@@ -61,13 +61,21 @@ s/\b0x0F\b/15/g; s/\b0x1F\b/31/g; s/\b0x2F\b/47/g; s/\b0x3F\b/63/g; s/\b0x4F\b/7
 s/\bjeof\b/jz/g
 
 s/\^( |$)/^0\1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \^(-?[0-9]+)\b/copy \2 \1/g
 s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|printc|printi|readc|readi) (-?[0-9]+)\b/push \2 \1/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store|call|jmp) \^-?([0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|store|call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
 s/\b(add|sub|mul|div|mod|store) (-?[0-9]+)\b/push \2 \1/g
 s/\bcopy 0\b/dup/g
 

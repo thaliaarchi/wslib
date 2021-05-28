@@ -7,35 +7,35 @@
 # Exp tests borrowed from Go
 # https://golang.org/src/math/big/int_test.go#L527
 
-push 0    push 0               call test_exp
-push 1    push 0               call test_exp
-push -10  push 0               call test_exp
-push 1234 push -1              call test_exp
-push 1234 push -1    push 0    call test_modexp
-push 17   push -100  push 1234 call test_modexp
-push 2    push -100  push 1234 call test_modexp
-push 0    push 0     push 1    call test_modexp
-push 1    push 0     push 1    call test_modexp
-push -10  push 0     push 1    call test_modexp
-push 1234 push -1    push 1    call test_modexp
-push 5    push 1     push 3    call test_modexp
-push 5    push -7              call test_exp
-push -5   push -7              call test_exp
-push 5    push 0               call test_exp
-push -5   push 0               call test_exp
-push 5    push 1               call test_exp
-push -5   push 1               call test_exp
-push -5   push 1     push 7    call test_modexp
-push -2   push 3     push 2    call test_modexp
-push 5    push 2               call test_exp
-push 1    push 65537 push 2    call test_modexp
+call 0    0          test_exp
+call 1    0          test_exp
+call -10  0          test_exp
+call 1234 -1         test_exp
+call 1234 -1    0    test_modexp
+call 17   -100  1234 test_modexp
+call 2    -100  1234 test_modexp
+call 0    0     1    test_modexp
+call 1    0     1    test_modexp
+call -10  0     1    test_modexp
+call 1234 -1    1    test_modexp
+call 5    1     3    test_modexp
+call 5    -7         test_exp
+call -5   -7         test_exp
+call 5    0          test_exp
+call -5   0          test_exp
+call 5    1          test_exp
+call -5   1          test_exp
+call -5   1     7    test_modexp
+call -2   3     2    test_modexp
+call 5    2          test_exp
+call 1    65537 2    test_modexp
 
-push 9223372036854775808 push 2                  call test_exp
-push 9223372036854775808 push 2        push 6719 call test_modexp
-push 9223372036854775808 push 3        push 6719 call test_modexp
-push 9223372036854775808 push 1000     push 6719 call test_modexp
-push 9223372036854775808 push 1000000  push 6719 call test_modexp
-push 9223372036854775808 push -1000000 push 6719 call test_modexp
+call 9223372036854775808 2             test_exp
+call 9223372036854775808 2        6719 test_modexp
+call 9223372036854775808 3        6719 test_modexp
+call 9223372036854775808 1000     6719 test_modexp
+call 9223372036854775808 1000000  6719 test_modexp
+call 9223372036854775808 -1000000 6719 test_modexp
 
 push 340282366920938463463374607431768211455
 push 1662864082237195566310326201168373022015780906889

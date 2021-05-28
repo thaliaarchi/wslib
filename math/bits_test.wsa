@@ -7,20 +7,20 @@
 # Bitwise tests borrowed from Go
 # https://golang.org/src/math/big/int_test.go#L1193
 
-push 0      push 0      call test_bitwise
-push 0      push 1      call test_bitwise
-push 1      push 0      call test_bitwise
-push -1     push 0      call test_bitwise
-push -175   push -80    call test_bitwise
-push 0      push -1     call test_bitwise
-push 1      push 1      call test_bitwise
-push -1     push -1     call test_bitwise
-push 7      push 8      call test_bitwise
-push 5      push 15     call test_bitwise
-push 255    push -10    call test_bitwise
-push 81910  push 39502  call test_bitwise
-push -81910 push 39502  call test_bitwise
-push -81910 push -39502 call test_bitwise
+call 0      0      test_bitwise
+call 0      1      test_bitwise
+call 1      0      test_bitwise
+call -1     0      test_bitwise
+call -175   -80    test_bitwise
+call 0      -1     test_bitwise
+call 1      1      test_bitwise
+call -1     -1     test_bitwise
+call 7      8      test_bitwise
+call 5      15     test_bitwise
+call 255    -10    test_bitwise
+call 81910  39502  test_bitwise
+call -81910 39502  test_bitwise
+call -81910 -39502 test_bitwise
 
 push 340282566926938463463474637401768211457
 push 298472983472983471903246121093472394872319615612417471234712061
@@ -34,12 +34,12 @@ push -340282566926938463463474637401768211457
 push -298472983472983471903246121093472394872319615612417471234712061
 call test_bitwise
 
-push 0      call test_not
-push 1      call test_not
-push 7      call test_not
-push 0      call test_not
-push -81910 call test_not
-push 298472983472983471903246121093472394872319615612417471234712061 call test_not
+call 0      test_not
+call 1      test_not
+call 7      test_not
+call 0      test_not
+call -81910 test_not
+call 298472983472983471903246121093472394872319615612417471234712061 test_not
 
 end
 

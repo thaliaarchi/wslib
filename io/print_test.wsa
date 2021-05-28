@@ -4,12 +4,28 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-push 0          call test_print
-push -0         call test_print
-push -6         call test_print
-push 7          call test_print
-push 255        call test_print
-push 3735928559 call test_print
+call 0          test_print
+call -0         test_print
+call -6         test_print
+call 7          test_print
+call 255        test_print
+call 3735928559 test_print
+
+call '\a' printc_quote printc '\n'
+call '\b' printc_quote printc '\n'
+call '\t' printc_quote printc '\n'
+call '\n' printc_quote printc '\n'
+call '\v' printc_quote printc '\n'
+call '\f' printc_quote printc '\n'
+call '\r' printc_quote printc '\n'
+call '\e' printc_quote printc '\n'
+call '\'' printc_quote printc '\n'
+call '\\' printc_quote printc '\n'
+call 0 printc_quote printc '\n'
+call 15 printc_quote printc '\n'
+call 26 printc_quote printc '\n'
+call 31 printc_quote printc '\n'
+call 'A' printc_quote printc '\n'
 
 end
 
