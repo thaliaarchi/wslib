@@ -15,6 +15,7 @@
 #   -6 => %#b binary with leading 0b
 #   -7 => %#o octal with leading 0o
 #   -8 => %#x hexadecimal with leading 0x
+#   -9 => %s  string
 #
 # (-1 str... -- )
 printf:
@@ -30,6 +31,7 @@ printf:
     add 1 jz ^ .printf_b_prefixed  # -6
     add 1 jz ^ .printf_o_prefixed  # -7
     add 1 jz ^ .printf_x_prefixed  # -8
+    add 1 jz ^ .printf_s           # -9
     # fallthrough
 .printf_ret:
     drop ret
@@ -47,6 +49,8 @@ printf:
     drop call printi8_prefixed jmp printf
 .printf_x_prefixed:
     drop call printi16_prefixed jmp printf
+.printf_s:
+    drop call printf jmp printf
 
 # prints prints a string on the stack, stopping at -1.
 # (-1 str... -- )
@@ -60,7 +64,7 @@ prints:
 # (x pad -- )
 printi_pad0:
     swap call .print_sign
-    call ^ .next_pow10
+    call ^ 10 .next_pow
     swap push 10 call exp
     call max
     jmp .printu10
@@ -68,20 +72,20 @@ printi_pad0:
 # (x -- )
 printi2:
     call .print_sign
-    call ^ .next_pow2
+    call ^ 2 .next_pow
     jmp .printu2
 
 # (x -- )
 printi2_prefixed:
     call .print_sign
     printc '0' printc 'b'
-    call ^ .next_pow2
+    call ^ 2 .next_pow
     jmp .printu2
 
 # (x pad -- )
 printi2_pad0:
     swap call .print_sign
-    call ^ .next_pow2
+    call ^ 2 .next_pow
     swap push 2 call exp
     call max
     jmp .printu2
@@ -90,7 +94,7 @@ printi2_pad0:
 printi2_prefixed_pad0:
     swap call .print_sign
     printc '0' printc 'b'
-    call ^ .next_pow2
+    call ^ 2 .next_pow
     swap push 2 call exp
     call max
     jmp .printu2
@@ -98,20 +102,20 @@ printi2_prefixed_pad0:
 # (x -- )
 printi8:
     call .print_sign
-    call ^ .next_pow8
+    call ^ 8 .next_pow
     jmp .printu8
 
 # (x -- )
 printi8_prefixed:
     call .print_sign
     printc '0' printc 'o'
-    call ^ .next_pow8
+    call ^ 8 .next_pow
     jmp .printu8
 
 # (x pad -- )
 printi8_pad0:
     swap call .print_sign
-    call ^ .next_pow8
+    call ^ 8 .next_pow
     swap push 8 call exp
     call max
     jmp .printu8
@@ -120,7 +124,7 @@ printi8_pad0:
 printi8_prefixed_pad0:
     swap call .print_sign
     printc '0' printc 'o'
-    call ^ .next_pow8
+    call ^ 8 .next_pow
     swap push 8 call exp
     call max
     jmp .printu8
@@ -128,20 +132,20 @@ printi8_prefixed_pad0:
 # (x -- )
 printi16:
     call .print_sign
-    call ^ .next_pow16
+    call ^ 16 .next_pow
     jmp .printu16
 
 # (x -- )
 printi16_prefixed:
     call .print_sign
     printc '0' printc 'x'
-    call ^ .next_pow16
+    call ^ 16 .next_pow
     jmp .printu16
 
 # (x pad -- )
 printi16_pad0:
     swap call .print_sign
-    call ^ .next_pow16
+    call ^ 16 .next_pow
     swap push 16 call exp
     call max
     jmp .printu16
@@ -150,7 +154,7 @@ printi16_pad0:
 printi16_prefixed_pad0:
     swap call .print_sign
     printc '0' printc 'x'
-    call ^ .next_pow16
+    call ^ 16 .next_pow
     swap push 16 call exp
     call max
     jmp .printu16
@@ -213,66 +217,19 @@ printi16_prefixed_pad0:
     printc '-'
     ret
 
-# .next_pow2 returns the next power of 2 greater than or equal to x.
-# Requires x>=0
-# (x -- pow2)
-.next_pow2:
-    push 2
-.next_pow2_loop:
+# .next_pow returns the next power of b greater than or equal to x.
+# Requires x>=0 && b>1
+# (x b -- powb)
+.next_pow:
     swap
-    div 2
-    jz ^ .next_pow2_ret
+    copy 1
+.next_pow_loop:
     swap
-    mul 2
-    jmp .next_pow2_loop
-.next_pow2_ret:
-    drop
-    ret
-
-# .next_pow8 returns the next power of 8 greater than or equal to x.
-# Requires x>=0
-# (x -- pow8)
-.next_pow8:
-    push 8
-.next_pow8_loop:
+    div ^2
+    jz ^ .next_pow_ret
     swap
-    div 8
-    jz ^ .next_pow8_ret
-    swap
-    mul 8
-    jmp .next_pow8_loop
-.next_pow8_ret:
-    drop
-    ret
-
-# .next_pow10 returns the next power of 10 greater than or equal to x.
-# Requires x>=0
-# (x -- pow10)
-.next_pow10:
-    push 10
-.next_pow10_loop:
-    swap
-    div 10
-    jz ^ .next_pow10_ret
-    swap
-    mul 10
-    jmp .next_pow10_loop
-.next_pow10_ret:
-    drop
-    ret
-
-# .next_pow16 returns the next power of 16 greater than or equal to x.
-# Requires x>=0
-# (x -- pow16)
-.next_pow16:
-    push 16
-.next_pow16_loop:
-    swap
-    div 16
-    jz ^ .next_pow16_ret
-    swap
-    mul 16
-    jmp .next_pow16_loop
-.next_pow16_ret:
-    drop
+    mul ^2
+    jmp .next_pow_loop
+.next_pow_ret:
+    drop swap drop
     ret

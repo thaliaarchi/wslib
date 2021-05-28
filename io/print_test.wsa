@@ -17,6 +17,9 @@ end
 test_print:
     call ^ printi2 printc ' '
     call ^ printi2_prefixed printc ' '
+    call ^ printi8 printc ' '
+    call ^ printi8_prefixed printc ' '
     call ^ printi16 printc ' '
-    call printi16_prefixed printc '\n'
+    call ^ printi16_prefixed printc '\n'
+    drop
     ret
