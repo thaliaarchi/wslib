@@ -38,175 +38,46 @@ printf:
 .printf_d:
     drop printi jmp printf
 .printf_b:
-    drop call printi2 jmp printf
+    drop call 2 printi_base jmp printf
 .printf_o:
-    drop call printi8 jmp printf
+    drop call 8 printi_base jmp printf
 .printf_x:
-    drop call printi16 jmp printf
+    drop call 16 printi_base jmp printf
 .printf_b_prefixed:
-    drop call printi2_prefixed jmp printf
+    drop call 2 printi_base_prefixed jmp printf
 .printf_o_prefixed:
-    drop call printi8_prefixed jmp printf
+    drop call 8 printi_base_prefixed jmp printf
 .printf_x_prefixed:
-    drop call printi16_prefixed jmp printf
+    drop call 16 printi_base_prefixed jmp printf
 .printf_s:
     drop call printf jmp printf
 
-# prints prints a string on the stack, stopping at -1.
-# (-1 str... -- )
-prints:
-    jn ^ .prints_eof
+# prints0 prints a string on the stack, stopping at 0.
+# (0 str... -- )
+prints0:
+    jz ^ .prints0_eof
     printc
-    jmp prints
-.prints_eof:
+    jmp prints0
+.prints0_eof:
     drop ret
 
-# (x pad -- )
-printi_pad0:
-    swap call .print_sign
-    call ^ 10 .next_pow
-    swap push 10 call exp
-    call max
-    jmp .printu10
-
-# (x -- )
-printi2:
+# Requires 2<=base<=36
+# (x base -- )
+printi_base:
+    swap
     call .print_sign
-    call ^ 2 .next_pow
-    jmp .printu2
+.printu_base:
+    call ^ ^2 .next_pow
+    sub ^1 11 jn .printu_base10
+    jmp .printu_base36
 
-# (x -- )
-printi2_prefixed:
+# Requires 2<=base<=36
+# (x base -- )
+printi_base_prefixed:
+    swap
     call .print_sign
-    printc '0' printc 'b'
-    call ^ 2 .next_pow
-    jmp .printu2
-
-# (x pad -- )
-printi2_pad0:
-    swap call .print_sign
-    call ^ 2 .next_pow
-    swap push 2 call exp
-    call max
-    jmp .printu2
-
-# (x pad -- )
-printi2_prefixed_pad0:
-    swap call .print_sign
-    printc '0' printc 'b'
-    call ^ 2 .next_pow
-    swap push 2 call exp
-    call max
-    jmp .printu2
-
-# (x -- )
-printi8:
-    call .print_sign
-    call ^ 8 .next_pow
-    jmp .printu8
-
-# (x -- )
-printi8_prefixed:
-    call .print_sign
-    printc '0' printc 'o'
-    call ^ 8 .next_pow
-    jmp .printu8
-
-# (x pad -- )
-printi8_pad0:
-    swap call .print_sign
-    call ^ 8 .next_pow
-    swap push 8 call exp
-    call max
-    jmp .printu8
-
-# (x pad -- )
-printi8_prefixed_pad0:
-    swap call .print_sign
-    printc '0' printc 'o'
-    call ^ 8 .next_pow
-    swap push 8 call exp
-    call max
-    jmp .printu8
-
-# (x -- )
-printi16:
-    call .print_sign
-    call ^ 16 .next_pow
-    jmp .printu16
-
-# (x -- )
-printi16_prefixed:
-    call .print_sign
-    printc '0' printc 'x'
-    call ^ 16 .next_pow
-    jmp .printu16
-
-# (x pad -- )
-printi16_pad0:
-    swap call .print_sign
-    call ^ 16 .next_pow
-    swap push 16 call exp
-    call max
-    jmp .printu16
-
-# (x pad -- )
-printi16_prefixed_pad0:
-    swap call .print_sign
-    printc '0' printc 'x'
-    call ^ 16 .next_pow
-    swap push 16 call exp
-    call max
-    jmp .printu16
-
-# Requires x>=0 && pow2>=x
-# (x pow2 -- )
-.printu2:
-    div 2
-    jz ^ .printu2_ret
-    div ^1 ^1 mod 2 printi
-    jmp .printu2
-.printu2_ret:
-    drop drop
-    ret
-
-# Requires x>=0 && pow8>=x
-# (x pow8 -- )
-.printu8:
-    div 8
-    jz ^ .printu8_ret
-    div ^1 ^1 mod 8 printi
-    jmp .printu8
-.printu8_ret:
-    drop drop
-    ret
-
-# Requires x>=0 && pow10>=x
-# (x pow10 -- )
-.printu10:
-    div 10
-    jz ^ .printu10_ret
-    div ^1 ^1 mod 10 printi
-    jmp .printu10
-.printu10_ret:
-    drop drop
-    ret
-
-# Requires x>=0 && pow16>=x
-# (x pow16 -- )
-.printu16:
-    div 16
-    jz ^ .printu16_ret
-    div ^1 ^1 mod 16
-    sub ^ 10 jn .printu16_10
-    add 87 printc  # 87=='a'-10
-    jmp .printu16
-.printu16_10:
-    printi
-    jmp .printu16
-.printu16_ret:
-    drop drop
-    ret
+    call ^1 .print_base_prefix
+    jmp .printu_base
 
 # (x -- |x|)
 .print_sign:
@@ -217,9 +88,29 @@ printi16_prefixed_pad0:
     printc '-'
     ret
 
-# .next_pow returns the next power of b greater than or equal to x.
-# Requires x>=0 && b>1
-# (x b -- powb)
+# (base -- )
+.print_base_prefix:
+    sub ^ 2 jz .print_base_2_prefix
+    sub ^ 8 jz .print_base_8_prefix
+    sub ^ 16 jz .print_base_16_prefix
+    drop
+    ret
+.print_base_2_prefix:
+    push 'b'
+    jmp .print_base_prefix_ret
+.print_base_8_prefix:
+    push 'o'
+    jmp .print_base_prefix_ret
+.print_base_16_prefix:
+    push 'x'
+.print_base_prefix_ret:
+    printc '0' printc
+    drop
+    ret
+
+# .next_pow returns the next power of base greater than or equal to x.
+# Requires x>=0 && base>=2
+# (x base -- pow)
 .next_pow:
     swap
     copy 1
@@ -232,4 +123,36 @@ printi16_prefixed_pad0:
     jmp .next_pow_loop
 .next_pow_ret:
     drop swap drop
+    ret
+
+# Requires 2<=base<=10 && 0<=x<=pow
+# (base x pow -- )
+.printu_base10:
+    # pow /= base
+    div ^2
+    jz ^ .printu_base10_ret
+    # print x/pow % base
+    div ^1 ^1 mod ^3 printi
+    jmp .printu_base10
+.printu_base10_ret:
+    drop drop drop
+    ret
+
+# Requires 2<=base<=36 && 0<=x<=pow
+# (base x pow -- )
+.printu_base36:
+    # pow /= base
+    div ^2
+    jz ^ .printu_base36_ret
+    div ^1 ^1 mod ^3
+    sub ^ 10 jn .printu_base36_10
+    # print (x/pow % base) - 10 + 'a'
+    add 87 printc
+    jmp .printu_base36
+.printu_base36_10:
+    # print x/pow % base
+    printi
+    jmp .printu_base36
+.printu_base36_ret:
+    drop drop drop
     ret

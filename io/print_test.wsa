@@ -15,11 +15,11 @@ end
 
 # (x -- )
 test_print:
-    call ^ printi2 printc ' '
-    call ^ printi2_prefixed printc ' '
-    call ^ printi8 printc ' '
-    call ^ printi8_prefixed printc ' '
-    call ^ printi16 printc ' '
-    call ^ printi16_prefixed printc '\n'
+    call ^ 2 printi_base printc ' '
+    call ^ 2 printi_base_prefixed printc ' '
+    call ^ 8 printi_base printc ' '
+    call ^ 8 printi_base_prefixed printc ' '
+    call ^ 16 printi_base printc ' '
+    call ^ 16 printi_base_prefixed printc '\n'
     drop
     ret
