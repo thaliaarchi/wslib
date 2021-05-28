@@ -4,6 +4,59 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+# printf prints a string on the stack with format verbs, stopping at -1.
+#
+# The format verbs are defined as follows:
+#   -1 =>     end of string
+#   -2 => %d  decimal
+#   -3 => %b  binary
+#   -4 => %o  octal
+#   -5 => %x  hexadecimal
+#   -6 => %#b binary with leading 0b
+#   -7 => %#o octal with leading 0o
+#   -8 => %#x hexadecimal with leading 0x
+#
+# (-1 str... -- )
+printf:
+    jn ^ .printf_verb
+    printc
+    jmp printf
+.printf_verb:
+    add 1 jz ^ .printf_ret         # -1
+    add 1 jz ^ .printf_d           # -2
+    add 1 jz ^ .printf_b           # -3
+    add 1 jz ^ .printf_o           # -4
+    add 1 jz ^ .printf_x           # -5
+    add 1 jz ^ .printf_b_prefixed  # -6
+    add 1 jz ^ .printf_o_prefixed  # -7
+    add 1 jz ^ .printf_x_prefixed  # -8
+    # fallthrough
+.printf_ret:
+    drop ret
+.printf_d:
+    drop printi jmp printf
+.printf_b:
+    drop call printi2 jmp printf
+.printf_o:
+    drop call printi8 jmp printf
+.printf_x:
+    drop call printi16 jmp printf
+.printf_b_prefixed:
+    drop call printi2_prefixed jmp printf
+.printf_o_prefixed:
+    drop call printi8_prefixed jmp printf
+.printf_x_prefixed:
+    drop call printi16_prefixed jmp printf
+
+# prints prints a string on the stack, stopping at -1.
+# (-1 str... -- )
+prints:
+    jn ^ .prints_eof
+    printc
+    jmp prints
+.prints_eof:
+    drop ret
+
 # (x pad -- )
 printi_pad0:
     swap call .print_sign
@@ -43,6 +96,36 @@ printi2_prefixed_pad0:
     jmp .printu2
 
 # (x -- )
+printi8:
+    call .print_sign
+    call ^ .next_pow8
+    jmp .printu8
+
+# (x -- )
+printi8_prefixed:
+    call .print_sign
+    printc '0' printc 'o'
+    call ^ .next_pow8
+    jmp .printu8
+
+# (x pad -- )
+printi8_pad0:
+    swap call .print_sign
+    call ^ .next_pow8
+    swap push 8 call exp
+    call max
+    jmp .printu8
+
+# (x pad -- )
+printi8_prefixed_pad0:
+    swap call .print_sign
+    printc '0' printc 'o'
+    call ^ .next_pow8
+    swap push 8 call exp
+    call max
+    jmp .printu8
+
+# (x -- )
 printi16:
     call .print_sign
     call ^ .next_pow16
@@ -80,6 +163,17 @@ printi16_prefixed_pad0:
     div ^1 ^1 mod 2 printi
     jmp .printu2
 .printu2_ret:
+    drop drop
+    ret
+
+# Requires x>=0 && pow8>=x
+# (x pow8 -- )
+.printu8:
+    div 8
+    jz ^ .printu8_ret
+    div ^1 ^1 mod 8 printi
+    jmp .printu8
+.printu8_ret:
     drop drop
     ret
 
@@ -132,6 +226,22 @@ printi16_prefixed_pad0:
     mul 2
     jmp .next_pow2_loop
 .next_pow2_ret:
+    drop
+    ret
+
+# .next_pow8 returns the next power of 8 greater than or equal to x.
+# Requires x>=0
+# (x -- pow8)
+.next_pow8:
+    push 8
+.next_pow8_loop:
+    swap
+    div 8
+    jz ^ .next_pow8_ret
+    swap
+    mul 8
+    jmp .next_pow8_loop
+.next_pow8_ret:
     drop
     ret
 

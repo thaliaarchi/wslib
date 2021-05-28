@@ -16,7 +16,7 @@ wspace prog.ws > prog.out
 diff -q math/collatz_test.out prog.out || :
 
 echo 'Testing math/exp.wsa'
-./assemble.sh math/exp_test.wsa math/exp.wsa math/math.wsa
+./assemble.sh math/exp_test.wsa math/exp.wsa math/math.wsa io/print.wsa
 wspace prog.ws > prog.out
 diff -q math/exp_test.out prog.out || :
 

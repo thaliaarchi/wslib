@@ -33,3 +33,8 @@ exp:
 .exp_x:
     drop
     ret
+
+# TODO
+# (x y m -- (x**y)%m)
+modexp:
+    push -999 slide 3 ret

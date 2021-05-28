@@ -90,26 +90,27 @@ call test_modexp
 end
 
 test_exp:
-    copy 1 copy 1 call .print_xy
-    call .print_xexpy
-    call exp printi printc '\n' printc '\n'
+    push -1
+    push '\n'
+    copy 3 copy 3 call exp push -2
+    push ' ' push '=' push ' '
+    copy 7 push -2
+    push ' ' push '*' push '*' push ' '
+    copy 14 push -2
+    call printf
+    drop drop
     ret
 
 test_modexp:
-    copy 2 copy 2 call .print_xy
-    printc 'm' printc ' ' printi ^ printc '\n'
-    call .print_xexpy
-    printc 'm' printc 'o' printc 'd'
-    printc ' ' printc 'm' printc ' '
-    # TODO
-    printi -999 printc '\n' printc '\n'
+    push -1
+    push '\n' push ')'
+    copy 3 push -2
+    push ' ' push 'd' push 'o' push 'm' push '(' push ' '
+    copy 13 copy 13 copy 13 call modexp push -2
+    push ' ' push '=' push ' '
+    copy 17 push -2
+    push ' ' push '*' push '*' push ' '
+    copy 24 push -2
+    call printf
     drop drop drop
-    ret
-
-.print_xy:
-    printc 'x' printc ' ' swap printi printc '\n'
-    printc 'y' printc ' ' printi printc '\n'
-    ret
-.print_xexpy:
-    printc 'x' printc '*' printc '*' printc 'y' printc ' '
     ret
