@@ -17,4 +17,5 @@ test() {
 test math/bits_test.wsa math/bits.wsa math/math.wsa
 test math/collatz_test.wsa math/collatz.wsa
 test math/exp_test.wsa math/exp.wsa math/math.wsa io/print.wsa
+test math/matrix_test.wsa math/matrix.wsa
 test io/print_test.wsa io/print.wsa math/exp.wsa math/math.wsa
