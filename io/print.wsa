@@ -8,16 +8,19 @@
 #
 # The format verbs are defined as follows:
 #
-#   -1  =>     end of string
-#   -2  => %d  decimal
-#   -3  => %b  binary
-#   -4  => %o  octal
-#   -5  => %x  hexadecimal
-#   -6  => %#b binary with 0b prefix
-#   -7  => %#o octal with 0o prefix
-#   -8  => %#x hexadecimal with 0x prefix
-#   -9  => %q  quoted char
-#   -10 => %s  string
+#       -1  =>      end of string
+#     x -2  => %d   decimal
+#     x -3  => %b   binary
+#     x -4  => %o   octal
+#     x -5  => %x   hexadecimal
+#     x -6  => %#b  binary with 0b prefix
+#     x -7  => %#o  octal with 0o prefix
+#     x -8  => %#x  hexadecimal with 0x prefix
+# x pad -9  => %0nb binary with 0 padding
+# x pad -10 => %0no octal with 0 padding
+# x pad -11 => %0nx hexadecimal with 0 padding
+#     c -12 => %q   quoted char
+#  s... -13 => %s   string
 #
 # (-1 str... -- )
 printf:
@@ -33,8 +36,11 @@ printf:
     add 1 jz ^ .printf_b_prefixed  # -6
     add 1 jz ^ .printf_o_prefixed  # -7
     add 1 jz ^ .printf_x_prefixed  # -8
-    add 1 jz ^ .printf_q           # -9
-    add 1 jz ^ .printf_s           # -10
+    add 1 jz ^ .printf_b_pad0      # -9
+    add 1 jz ^ .printf_o_pad0      # -10
+    add 1 jz ^ .printf_x_pad0      # -11
+    add 1 jz ^ .printf_q           # -12
+    add 1 jz ^ .printf_s           # -13
     printc '!'
     # fallthrough
 .printf_ret:
@@ -53,12 +59,23 @@ printf:
     drop call 8 printi_base_prefixed jmp printf
 .printf_x_prefixed:
     drop call 16 printi_base_prefixed jmp printf
+.printf_b_pad0:
+    jmp 2 .printf_pad0
+.printf_o_pad0:
+    jmp 8 .printf_pad0
+.printf_x_pad0:
+    jmp 16 .printf_pad0
 .printf_q:
     drop call printc_quote jmp printf
 .printf_s:
     drop call printf jmp printf
+.printf_pad0:
+    slide 1 swap copy 2 swap  # (x pad verb base -- x base x pad)
+    call printi_base_pad0
+    drop
+    jmp printf
 
-# prints0 prints a string on the stack, stopping at 0.
+# prints0 prints a string on the stack, terminated with 0.
 # (0 str... -- )
 prints0:
     jz ^ .prints0_eof
@@ -67,7 +84,9 @@ prints0:
 .prints0_eof:
     drop ret
 
-# Requires 2<=base<=36
+# printi_base prints x in the given base. The alphabet is [0-9a-z] for
+# bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
+# Requires 2<=base<=62
 # (x base -- )
 printi_base:
     swap
@@ -76,9 +95,13 @@ printi_base:
     call ^ ^2 .next_pow
 .printu_base_pad0:
     sub ^1 11 jn .printu_base10
-    jmp .printu_base36
+    sub ^1 37 jn .printu_base36
+    jmp .printu_base62
 
-# Requires 2<=base<=36
+# printi_base_prefixed prints x in the given base with a 0b prefix for
+# base 2, 0o for base 8, or 0x for base 16. The alphabet is [0-9a-z] for
+# bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
+# Requires 2<=base<=62
 # (x base -- )
 printi_base_prefixed:
     swap
@@ -86,7 +109,9 @@ printi_base_prefixed:
     call ^1 .print_base_prefix
     jmp .printu_base
 
-# Requires 2<=base<=36 && base**n==pad
+# printi_base_pad0 prints x in the given base, padded to at least pad
+# digits.
+# Requires 2<=base<=62 && base**n==pad
 # (base x pad -- )
 printi_base_pad0:
     swap
@@ -97,6 +122,8 @@ printi_base_pad0:
     call max
     jmp .printu_base_pad0
 
+# .print_sign prints '-' for negative numbers and returns the absolute
+# value.
 # (x -- |x|)
 .print_sign:
     jn ^ .print_sign_neg
@@ -106,6 +133,8 @@ printi_base_pad0:
     printc '-'
     ret
 
+# .print_base_prefix prints the prefix for a number: 0b for base 2, 0o
+# for base 8, and 0x for base 16.
 # (base -- )
 .print_base_prefix:
     sub ^ 2 jz .print_base_2_prefix
@@ -141,6 +170,7 @@ printi_base_pad0:
     drop swap drop
     ret
 
+# .printu_base10 prints x in the given base with the alphabet [0-9].
 # Requires 2<=base<=10 && 0<=x<=pow
 # (base x pow -- )
 .printu_base10:
@@ -154,6 +184,7 @@ printi_base_pad0:
     drop 3
     ret
 
+# .printu_base36 prints x in the given base with the alphabet [0-9a-z].
 # Requires 2<=base<=36 && 0<=x<=pow
 # (base x pow -- )
 .printu_base36:
@@ -170,6 +201,32 @@ printi_base_pad0:
     printi
     jmp .printu_base36
 .printu_base36_ret:
+    drop 3
+    ret
+
+# .printu_base62 prints x in the given base with the alphabet
+# [0-9A-Za-z].
+# Requires 2<=base<=62 && 0<=x<=pow
+# (base x pow -- )
+.printu_base62:
+    # pow /= base
+    div ^2
+    jz ^ .printu_base62_ret
+    div ^1 ^1 mod ^3
+    sub ^ 10 jn .printu_base62_10
+    sub ^ 36 jn .printu_base62_36
+    # print (x/pow % base) - 36 + 'a'
+    add 61 printc
+    jmp .printu_base62
+.printu_base62_10:
+    # print x/pow % base
+    printi
+    jmp .printu_base62
+.printu_base62_36:
+    # print (x/pow % base) - 10 + 'A'
+    add 55 printc
+    jmp .printu_base62
+.printu_base62_ret:
     drop 3
     ret
 
