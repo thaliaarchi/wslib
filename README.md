@@ -91,13 +91,17 @@ converts the wslib dialect to a format recognizable by
 - `*^` is `dup retrieve`
 - `*^n` is `copy n retrieve`
 
+### Instruction aliases
+
+- `jeof` resolves to `jn` or `jz`, depending on desired EOF behavior
+
 ### Tokens
 
 - `#` line comments
 - `'X'` ASCII characters
 - `'\a'` `'\b'` `'\t'` `'\n'` `'\v'` `'\f'` `'\r'` `'\e'` escapes
 - `'\xXX'` hex escapes
-- `0xXX` hex numbers
+- `0xXX` and `-0xXX` hex numbers
 
 ## Contributing
 
