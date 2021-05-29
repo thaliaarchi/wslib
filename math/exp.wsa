@@ -4,10 +4,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# exp returns x raised to the power of y. If y <= 0, 1 is returned.
+# exp returns x raised to the power of y, using exponentiation by
+# squaring. If y <= 0, 1 is returned.
 # (x y -- x**y)
 exp:
-    # Exponentiation by squaring
     sub ^ 1 jn .exp_one   # y <= 0
 .exp:
     sub ^ 1 jz .exp_x     # y == 1
