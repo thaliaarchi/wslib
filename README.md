@@ -50,12 +50,12 @@ become the standard library for an upcoming compiler.
 ## Style
 
 Functions are documented with a prose description similarly to godoc, as
-opposed to Javadoc.
+opposed to Javadoc. Labels prefixed with `.` are not exported.
 
 Parameters and return values are specified with Forth-style
 `# (x y -- z)` comments and preconditions are specified with
 `# Requires` comments. These will hopefully become checked by the
-compiler at every callsite.
+compiler at every call site.
 
 Using the heap for local variables is avoided when possible until
 the compiler has sufficient dataflow analysis that can allocate
@@ -76,6 +76,8 @@ converts the wslib dialect to a format recognizable by
   arguments
 - `retrieve`, `printc`, `printi`, `readc`, and `readi` may take one
   argument
+- `drop` with one argument expands to a combination of `slide` and
+  `drop`
 - `jz` and `jn` may take one argument as the condition
 - `call` and `jmp` may take any number of arguments
 

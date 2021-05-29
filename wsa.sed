@@ -82,6 +82,16 @@ s/\b(add|sub|mul|div|mod|store|call|jmp) \*( |$)/retrieve \1\2/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
 s/\b(add|sub|mul|div|mod|store) (-?[0-9]+)\b/push \2 \1/g
 s/\bcopy 0\b/dup/g
+s/\bdrop 1\b/drop/g
+s/\bdrop 2\b/drop drop/g
+s/\bdrop 3\b/drop drop drop/g
+s/\bdrop 4\b/slide 3 drop/g
+s/\bdrop 5\b/slide 4 drop/g
+s/\bdrop 6\b/slide 5 drop/g
+s/\bdrop 7\b/slide 6 drop/g
+s/\bdrop 8\b/slide 7 drop/g
+s/\bdrop 9\b/slide 8 drop/g
+s/\bdrop 10\b/slide 9 drop/g
 
 s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 _\2/g
 s/\.([A-Za-z0-9_-]+:)/_\1/g

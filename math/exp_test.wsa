@@ -98,7 +98,7 @@ test_exp:
     push ' ' push '*' push '*' push ' '
     copy 14 push -2
     call printf
-    drop drop
+    drop 2
     ret
 
 test_modexp:
@@ -112,5 +112,5 @@ test_modexp:
     push ' ' push '*' push '*' push ' '
     copy 24 push -2
     call printf
-    drop drop drop
+    drop 3
     ret

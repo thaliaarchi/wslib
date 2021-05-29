@@ -27,7 +27,7 @@
 .largest_line:
 
 .read_end:
-    drop drop drop
+    drop 3
 
 .hello:
     printc ' '
@@ -74,5 +74,5 @@
     sub 1
     jmp .repeat
 .repeat_end:
-    drop drop
+    drop 2
     ret

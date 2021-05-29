@@ -62,7 +62,7 @@ test_bitwise:
 
     printc '\n'
 
-    drop drop
+    drop 2
     ret
 
 # (x -- )

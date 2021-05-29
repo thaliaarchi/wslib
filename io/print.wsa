@@ -151,7 +151,7 @@ printi_base_pad0:
     div ^1 ^1 mod ^3 printi
     jmp .printu_base10
 .printu_base10_ret:
-    drop drop drop
+    drop 3
     ret
 
 # Requires 2<=base<=36 && 0<=x<=pow
@@ -170,7 +170,7 @@ printi_base_pad0:
     printi
     jmp .printu_base36
 .printu_base36_ret:
-    drop drop drop
+    drop 3
     ret
 
 # printc_quote prints a quoted character with escape sequences for

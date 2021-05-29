@@ -10,7 +10,7 @@
 transpose:
     sub ^1 ^1 jz .transpose_m_eq_n
     # TODO
-    drop drop drop
+    drop 3
     ret
 .transpose_m_eq_n:
     drop jmp transpose_square
@@ -39,7 +39,7 @@ transpose_square:
     slide 1 store
     jmp .transpose_square_col
 .transpose_square_ret:
-    slide 3 drop
+    drop 4
     ret
 
 # (addr m n -- )
@@ -53,7 +53,7 @@ print_matrix:
     add ^2 swap
     jmp .print_matrix_row
 .print_matrix_ret:
-    slide 4 drop
+    drop 5
     ret
 
 # (addr n -- )
@@ -65,5 +65,5 @@ print_vector:
     printc ' '
     jmp print_vector
 .print_vector_ret:
-    drop drop
+    drop 2
     ret

@@ -27,7 +27,7 @@ exp:
     div 2
     jmp .exp
 .exp_one:
-    drop drop
+    drop 2
     push 1
     ret
 .exp_x:
