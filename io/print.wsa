@@ -94,8 +94,8 @@ printi_base:
 .printu_base:
     call ^ ^2 .next_pow
 .printu_base_pad0:
-    sub ^1 11 jn .printu_base10
-    sub ^1 37 jn .printu_base36
+    sub ^2 11 jn .printu_base10
+    sub ^2 37 jn .printu_base36
     jmp .printu_base62
 
 # printi_base_prefixed prints x in the given base with a 0b prefix for
@@ -117,7 +117,7 @@ printi_base_pad0:
     swap
     call .print_sign
     swap
-    call ^2 exp
+    copy 2 swap call exp
     call ^1 ^3 .next_pow
     call max
     jmp .printu_base_pad0
