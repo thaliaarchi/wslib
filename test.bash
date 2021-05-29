@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Copyright (c) 2021 Andrew Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -9,7 +9,7 @@ test() {
   echo "Testing $1"
   prog="build/$(basename "${1%.wsa}")"
   want="${1%.wsa}.out"
-  ./assemble.sh "$@" &&
+  ./assemble.sh "$1" <(echo end) "${@:2}" &&
     wspace "$prog.ws" > "$prog.out" &&
     diff -q "$want" "$prog.out"
 }
