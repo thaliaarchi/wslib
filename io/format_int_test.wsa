@@ -1,0 +1,24 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+call 0          test_printi
+call -0         test_printi
+call -6         test_printi
+call 7          test_printi
+call 255        test_printi
+call 3735928559 test_printi
+end
+
+# (x -- )
+test_printi:
+    call ^ 2 printi_base printc ' '
+    call ^ 2 printi_base_prefixed printc ' '
+    call ^ 8 printi_base printc ' '
+    call ^ 8 printi_base_prefixed printc ' '
+    call ^ 16 printi_base printc ' '
+    call ^ 16 printi_base_prefixed printc '\n'
+    drop
+    ret

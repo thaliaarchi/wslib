@@ -1,0 +1,185 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# printi_base prints x in the given base. The alphabet is [0-9a-z] for
+# bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
+# Requires 2<=base<=62
+# (x base -- )
+printi_base:
+    swap
+    call .print_sign
+.printu_base:
+    call ^1 ^1 .next_pow
+.printu_base_pad_0:
+    sub ^2 11 jn .printu_base10
+    sub ^2 37 jn .printu_base36
+    jmp .printu_base62
+
+# printi_base_prefixed prints x in the given base with a 0b prefix for
+# base 2, 0o for base 8, or 0x for base 16. The alphabet is [0-9a-z] for
+# bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
+# Requires 2<=base<=62
+# (x base -- )
+printi_base_prefixed:
+    swap
+    call .print_sign
+    call ^1 .print_base_prefix
+    jmp .printu_base
+
+# printi_base_pad_0 prints x in the given base, padded with zeros to at
+# least a width of w.
+# Requires 2<=base<=62 && base**n==w
+# (base x w -- )
+printi_base_pad_0:
+    swap
+    call .print_sign
+    swap
+    copy 2 swap call exp
+    call ^2 ^2 .next_pow
+    call max
+    jmp .printu_base_pad_0
+
+# printi_base_pad_s prints x in the given base, padded with spaces to at
+# least a width of w.
+# Requires 2<=base<=62 && base**n==w
+# (base x w -- )
+printi_base_pad_s:
+    call ^2 ^2 .width
+    sub
+.printi_base_pad_s_loop:
+    sub 1
+    jn ^ .printi_base_pad_s_done
+    printc ' '
+    jmp .printi_base_pad_s_loop
+.printi_base_pad_s_done:
+    drop swap
+    jmp printi_base
+
+# .print_sign prints '-' for negative numbers and returns the absolute
+# value.
+# (x -- |x|)
+.print_sign:
+    jn ^ .print_sign_neg
+    ret
+.print_sign_neg:
+    mul -1
+    printc '-'
+    ret
+
+# .print_base_prefix prints the prefix for a number: 0b for base 2, 0o
+# for base 8, and 0x for base 16.
+# (base -- )
+.print_base_prefix:
+    sub ^ 2 jz .print_base_2_prefix
+    sub ^ 8 jz .print_base_8_prefix
+    sub ^ 16 jz .print_base_16_prefix
+    drop
+    ret
+.print_base_2_prefix:
+    jmp 'b' .print_base_prefix_ret
+.print_base_8_prefix:
+    jmp 'o' .print_base_prefix_ret
+.print_base_16_prefix:
+    push 'x' # fallthrough
+.print_base_prefix_ret:
+    printc '0' printc
+    drop
+    ret
+
+# .next_pow returns the next power of base greater than or equal to x.
+# Requires x>=0 && base>=2
+# (base x -- pow)
+.next_pow:
+    copy 1
+.next_pow_loop:
+    swap
+    div ^2
+    jz ^ .next_pow_ret
+    swap
+    mul ^2
+    jmp .next_pow_loop
+.next_pow_ret:
+    drop slide 1
+    ret
+
+# bit_len returns the byte width of x in the given base.
+# (base x -- w)
+.width:
+    jn ^ .width_neg
+    push 0
+.width_loop:
+    add 1
+    swap
+    div ^2
+    jz ^ .width_ret
+    swap
+    jmp .width_loop
+.width_ret:
+    drop slide 1
+    ret
+.width_neg:
+    mul -1
+    jmp 1 .width_loop
+
+# .printu_base10 prints x in the given base with the alphabet [0-9].
+# Requires 2<=base<=10 && 0<=x<=pow
+# (base x pow -- )
+.printu_base10:
+    # pow /= base
+    div ^2
+    jz ^ .printu_base10_ret
+    # print x/pow % base
+    div ^1 ^1 mod ^3 printi
+    jmp .printu_base10
+.printu_base10_ret:
+    drop 3
+    ret
+
+# .printu_base36 prints x in the given base with the alphabet [0-9a-z].
+# Requires 2<=base<=36 && 0<=x<=pow
+# (base x pow -- )
+.printu_base36:
+    # pow /= base
+    div ^2
+    jz ^ .printu_base36_ret
+    div ^1 ^1 mod ^3
+    sub ^ 10 jn .printu_base36_10
+    # print (x/pow % base) - 10 + 'a'
+    add 87 printc
+    jmp .printu_base36
+.printu_base36_10:
+    # print x/pow % base
+    printi
+    jmp .printu_base36
+.printu_base36_ret:
+    drop 3
+    ret
+
+# .printu_base62 prints x in the given base with the alphabet
+# [0-9A-Za-z].
+# Requires 2<=base<=62 && 0<=x<=pow
+# (base x pow -- )
+.printu_base62:
+    # pow /= base
+    div ^2
+    jz ^ .printu_base62_ret
+    div ^1 ^1 mod ^3
+    sub ^ 10 jn .printu_base62_10
+    sub ^ 36 jn .printu_base62_36
+    # print (x/pow % base) - 36 + 'a'
+    add 61 printc
+    jmp .printu_base62
+.printu_base62_10:
+    # print x/pow % base
+    printi
+    jmp .printu_base62
+.printu_base62_36:
+    # print (x/pow % base) - 10 + 'A'
+    add 55 printc
+    jmp .printu_base62
+.printu_base62_ret:
+    drop 3
+    ret
