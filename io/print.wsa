@@ -8,19 +8,22 @@
 #
 # The format verbs are defined as follows:
 #
-#       -1  =>      end of string
-#     x -2  => %d   decimal
-#     x -3  => %b   binary
-#     x -4  => %o   octal
-#     x -5  => %x   hexadecimal
-#     x -6  => %#b  binary with 0b prefix
-#     x -7  => %#o  octal with 0o prefix
-#     x -8  => %#x  hexadecimal with 0x prefix
-# x pad -9  => %0nb binary with 0 padding
-# x pad -10 => %0no octal with 0 padding
-# x pad -11 => %0nx hexadecimal with 0 padding
-#     c -12 => %q   quoted char
-#  s... -13 => %s   string
+#      -1  =>      end of string
+#    x -2  => %d   decimal
+#    x -3  => %b   binary
+#    x -4  => %o   octal
+#    x -5  => %x   hexadecimal
+#    x -6  => %#b  binary with 0b prefix
+#    x -7  => %#o  octal with 0o prefix
+#    x -8  => %#x  hexadecimal with 0x prefix
+#  x w -9  => %0wb binary with 0 padding
+#  x w -10 => %0wo octal with 0 padding
+#  x w -11 => %0wx hexadecimal with 0 padding
+#  x w -12 => %wb  binary with space padding
+#  x w -13 => %wo  octal with space padding
+#  x w -14 => %wx  hexadecimal with space padding
+#    c -15 => %q   quoted char
+# s... -16 => %s   string
 #
 # (-1 str... -- )
 printf:
@@ -36,11 +39,14 @@ printf:
     add 1 jz ^ .printf_b_prefixed  # -6
     add 1 jz ^ .printf_o_prefixed  # -7
     add 1 jz ^ .printf_x_prefixed  # -8
-    add 1 jz ^ .printf_b_pad0      # -9
-    add 1 jz ^ .printf_o_pad0      # -10
-    add 1 jz ^ .printf_x_pad0      # -11
-    add 1 jz ^ .printf_q           # -12
-    add 1 jz ^ .printf_s           # -13
+    add 1 jz ^ .printf_b_pad_0     # -9
+    add 1 jz ^ .printf_o_pad_0     # -10
+    add 1 jz ^ .printf_x_pad_0     # -11
+    add 1 jz ^ .printf_b_pad_s     # -12
+    add 1 jz ^ .printf_o_pad_s     # -13
+    add 1 jz ^ .printf_x_pad_s     # -14
+    add 1 jz ^ .printf_q           # -15
+    add 1 jz ^ .printf_s           # -16
     printc '!'
     # fallthrough
 .printf_ret:
@@ -59,19 +65,30 @@ printf:
     drop call 8 printi_base_prefixed jmp printf
 .printf_x_prefixed:
     drop call 16 printi_base_prefixed jmp printf
-.printf_b_pad0:
-    jmp 2 .printf_pad0
-.printf_o_pad0:
-    jmp 8 .printf_pad0
-.printf_x_pad0:
-    jmp 16 .printf_pad0
+.printf_b_pad_0:
+    jmp 2 .printf_pad_0
+.printf_o_pad_0:
+    jmp 8 .printf_pad_0
+.printf_x_pad_0:
+    jmp 16 .printf_pad_0
+.printf_b_pad_s:
+    jmp 2 .printf_pad_s
+.printf_o_pad_s:
+    jmp 8 .printf_pad_s
+.printf_x_pad_s:
+    jmp 16 .printf_pad_s
 .printf_q:
     drop call printc_quote jmp printf
 .printf_s:
     drop call printf jmp printf
-.printf_pad0:
-    slide 1 swap copy 2 swap  # (x pad verb base -- x base x pad)
-    call printi_base_pad0
+.printf_pad_0:
+    slide 1 swap copy 2 swap  # (x w verb base -- x base x w)
+    call printi_base_pad_0
+    drop
+    jmp printf
+.printf_pad_s:
+    slide 1 swap copy 2 swap  # (x w verb base -- x base x w)
+    call printi_base_pad_s
     drop
     jmp printf
 
@@ -92,8 +109,8 @@ printi_base:
     swap
     call .print_sign
 .printu_base:
-    call ^ ^2 .next_pow
-.printu_base_pad0:
+    call ^1 ^1 .next_pow
+.printu_base_pad_0:
     sub ^2 11 jn .printu_base10
     sub ^2 37 jn .printu_base36
     jmp .printu_base62
@@ -109,18 +126,34 @@ printi_base_prefixed:
     call ^1 .print_base_prefix
     jmp .printu_base
 
-# printi_base_pad0 prints x in the given base, padded to at least pad
-# digits.
-# Requires 2<=base<=62 && base**n==pad
-# (base x pad -- )
-printi_base_pad0:
+# printi_base_pad_0 prints x in the given base, padded with zeros to at
+# least a width of w.
+# Requires 2<=base<=62 && base**n==w
+# (base x w -- )
+printi_base_pad_0:
     swap
     call .print_sign
     swap
     copy 2 swap call exp
-    call ^1 ^3 .next_pow
+    call ^2 ^2 .next_pow
     call max
-    jmp .printu_base_pad0
+    jmp .printu_base_pad_0
+
+# printi_base_pad_s prints x in the given base, padded with spaces to at
+# least a width of w.
+# Requires 2<=base<=62 && base**n==w
+# (base x w -- )
+printi_base_pad_s:
+    call ^2 ^2 .width
+    sub
+.printi_base_pad_s_loop:
+    sub 1
+    jn ^ .printi_base_pad_s_done
+    printc ' '
+    jmp .printi_base_pad_s_loop
+.printi_base_pad_s_done:
+    drop swap
+    jmp printi_base
 
 # .print_sign prints '-' for negative numbers and returns the absolute
 # value.
@@ -155,9 +188,8 @@ printi_base_pad0:
 
 # .next_pow returns the next power of base greater than or equal to x.
 # Requires x>=0 && base>=2
-# (x base -- pow)
+# (base x -- pow)
 .next_pow:
-    swap
     copy 1
 .next_pow_loop:
     swap
@@ -167,8 +199,27 @@ printi_base_pad0:
     mul ^2
     jmp .next_pow_loop
 .next_pow_ret:
-    drop swap drop
+    drop slide 1
     ret
+
+# bit_len returns the byte width of x in the given base.
+# (base x -- w)
+.width:
+    jn ^ .width_neg
+    push 0
+.width_loop:
+    add 1
+    swap
+    div ^2
+    jz ^ .width_ret
+    swap
+    jmp .width_loop
+.width_ret:
+    drop slide 1
+    ret
+.width_neg:
+    mul -1
+    jmp 1 .width_loop
 
 # .printu_base10 prints x in the given base with the alphabet [0-9].
 # Requires 2<=base<=10 && 0<=x<=pow
@@ -263,7 +314,7 @@ printc_escape:
     sub ^ '\e' jz .printc_escape_e
     printc 'x'
     push 16 swap push 2
-    call printi_base_pad0
+    call printi_base_pad_0
     ret
 .printc_escape_a:
     jmp 'a' .printc_escape_ret
