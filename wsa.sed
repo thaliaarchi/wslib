@@ -10,7 +10,7 @@ s/^ | $//g
 
 s/'\\a'/7/g; s/'\\b'/8/g; s/'\\t'/9/g; s/'\\n'/10/g; s/'\\v'/11/g; s/'\\f'/12/g; s/'\\r'/13/g; s/'\\e'/27/g
 
-s/' '/32/g;   s/'0'/48/g;  s/'@'/64/g; s/'P'/80/g;    s/'`'/96/g;  s/'p'/112/g
+              s/'0'/48/g;  s/'@'/64/g; s/'P'/80/g;    s/'`'/96/g;  s/'p'/112/g
 s/'!'/33/g;   s/'1'/49/g;  s/'A'/65/g; s/'Q'/81/g;    s/'a'/97/g;  s/'q'/113/g
 s/'"'/34/g;   s/'2'/50/g;  s/'B'/66/g; s/'R'/82/g;    s/'b'/98/g;  s/'r'/114/g
 s/'#'/35/g;   s/'3'/51/g;  s/'C'/67/g; s/'S'/83/g;    s/'c'/99/g;  s/'s'/115/g
@@ -93,9 +93,41 @@ s/\b(-?)0x1d\b/\129/gi; s/\b(-?)0x3d\b/\161/gi; s/\b(-?)0x5d\b/\193/gi; s/\b(-?)
 s/\b(-?)0x1e\b/\130/gi; s/\b(-?)0x3e\b/\162/gi; s/\b(-?)0x5e\b/\194/gi; s/\b(-?)0x7e\b/\1126/gi; s/\b(-?)0x9e\b/\1158/gi; s/\b(-?)0xbe\b/\1190/gi; s/\b(-?)0xde\b/\1222/gi; s/\b(-?)0xfe\b/\1254/gi
 s/\b(-?)0x1f\b/\131/gi; s/\b(-?)0x3f\b/\163/gi; s/\b(-?)0x5f\b/\195/gi; s/\b(-?)0x7f\b/\1127/gi; s/\b(-?)0x9f\b/\1159/gi; s/\b(-?)0xbf\b/\1191/gi; s/\b(-?)0xdf\b/\1223/gi; s/\b(-?)0xff\b/\1255/gi
 
+s/' '/32/g;
+
 s/\bjeof\b/jz/g
 
 s/\^( |$)/^0\1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \*( |$)/retrieve \1\2/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \*( |$)/retrieve \1\2/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \*( |$)/retrieve \1\2/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \*( |$)/retrieve \1\2/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \*( |$)/retrieve \1\2/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
+s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(call|jmp) \*( |$)/retrieve \1\2/g
+s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
 s/\b(call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
 s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
 s/\b(call|jmp) \*( |$)/retrieve \1\2/g

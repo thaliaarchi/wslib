@@ -101,6 +101,16 @@ prints0:
 .prints0_eof:
     drop ret
 
+# prints_len prints a string on the stack, prefixed with the length.
+# (str... len -- )
+prints_len:
+    sub 1
+    jn ^ .prints_len_done
+    swap printc
+    jmp prints_len
+.prints_len_done:
+    drop ret
+
 # printi_base prints x in the given base. The alphabet is [0-9a-z] for
 # bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
 # Requires 2<=base<=62

@@ -12,9 +12,11 @@ become the standard library for an upcoming compiler.
   - `printc_quote`
   - `printf`
   - `printi_base`
-  - `printi_base_pad0`
+  - `printi_base_pad_0`
+  - `printi_base_pad_s`
   - `printi_base_prefixed`
   - `prints0`
+  - `prints_len`
 
 - Package `math` manipulates arbitrary-precision integers
 
@@ -113,7 +115,6 @@ to implement!
 
 - `io`:
 
-  - Fix `printi_base_pad0`
   - `prints_quote`
   - `prints_escape`
   - `readi_base`
