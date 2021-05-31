@@ -183,3 +183,21 @@ printi_base_pad_s:
 .printu_base62_ret:
     drop 3
     ret
+
+# formati formats x in base 10.
+# (x -- -1 str...)
+formati:
+    push -1 swap
+    jn ^ .formati_neg
+.formatu:
+    mod ^ 10 add '0'
+    swap div 10
+    jz ^ .formatu_done
+    jmp .formatu
+.formatu_done:
+    drop
+    ret
+.formati_neg:
+    mul -1 call .formatu
+    push '-'
+    ret
