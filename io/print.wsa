@@ -111,6 +111,17 @@ prints_len:
 .prints_len_done:
     drop ret
 
+# prints_len_heap prints a string on the heap at addr, with the given
+# length.
+# (addr len -- )
+prints_len_heap:
+    sub 1
+    jn ^ .prints_len_heap_done
+    swap printc *^ add 1 swap
+    jmp prints_len_heap
+.prints_len_heap_done:
+    drop 2 ret
+
 # printc_quote prints a quoted character with escape sequences for
 # ASCII control characters.
 printc_quote:

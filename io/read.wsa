@@ -1,0 +1,21 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# read_line_heap reads a line of text, stores it on the heap starting at
+# addr, and returns the length.
+# (addr -- len)
+read_line_heap:
+    push 0
+.read_line_heap_loop:
+    add ^1 ^1
+    readc ^
+    retrieve
+    sub ^ '\n' jz .read_line_heap_done
+    jn ^ .read_line_heap_done
+    add 1
+    jmp .read_line_heap_loop
+.read_line_heap_done:
+    drop 2 ret
