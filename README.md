@@ -92,6 +92,7 @@ converts the wslib dialect to a format recognizable by
 - `*n` is `push n retrieve`
 - `*^` is `dup retrieve`
 - `*^n` is `copy n retrieve`
+- `_` moves the top with `swap`
 
 ### Instruction aliases
 

@@ -37,7 +37,7 @@ printi_base_pad_0:
     swap
     call .print_sign
     swap
-    copy 2 swap call exp
+    call ^2 _ exp
     call ^2 ^2 .next_pow
     call max
     jmp .printu_base_pad_0
