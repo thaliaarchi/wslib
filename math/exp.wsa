@@ -27,8 +27,7 @@ exp:
     div 2
     jmp .exp
 .exp_one:
-    drop 2
-    push 1
+    drop 2 push 1
     ret
 .exp_x:
     drop
@@ -38,3 +37,17 @@ exp:
 # (x y m -- (x**y)%m)
 modexp:
     push -999 slide 3 ret
+
+# tetration returns the tetration of x and y, that is, y copies of x
+# combined by exponentiation, right-to-left. If y < 0, 0 is returned.
+# (x y -- x^^y)
+tetration:
+    push 0
+.tetration_loop:
+    jn ^1 .tetration_done
+    copy 2 swap call exp
+    swap sub 1 swap
+    jmp .tetration_loop
+.tetration_done:
+    slide 2
+    ret

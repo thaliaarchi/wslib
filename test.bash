@@ -16,7 +16,7 @@ run_test() {
 
 run_test math/bits_test.wsa math/bits.wsa math/math.wsa
 run_test math/collatz_test.wsa math/collatz.wsa
-run_test math/exp_test.wsa math/exp.wsa math/math.wsa io/print.wsa
+run_test math/exp_test.wsa math/exp.wsa math/math.wsa io/print.wsa io/format_int.wsa
 run_test math/matrix_test.wsa math/matrix.wsa
 run_test io/print_test.wsa io/print.wsa io/format_int.wsa math/exp.wsa math/math.wsa
 run_test io/format_int_test.wsa io/format_int.wsa math/exp.wsa math/math.wsa

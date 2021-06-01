@@ -87,12 +87,29 @@ push 924732457280410288956555577731191405795468748267343119286968215139565100360
 push 21766174458617435773191008891802753781907668374255538511144643224689886235383840957210909013086056401571399717235807266581649606472148410291413364152197364477180887395655483738115072677402235101762521901569820740293149529620419333266262073471054548368736039519702486226506248861060256971802984953561121442680157668000761429988222457090413873973970171927093992114751765168063614761119615476233422096442783117971236371647333871414335895773474667308967050807005509320424799678417036867928316761272274230314067548291133582479583061439577559347101961771406173684378522703483495337037655006751328447510550299250924469288818
 call test_modexp
 
+call 2 -1 test_tetration
+call 2  0 test_tetration
+call 2  1 test_tetration
+call 2  2 test_tetration
+call 2  3 test_tetration
+call 2  4 test_tetration
+call 3  2 test_tetration
+call 3  3 test_tetration
+call 4  2 test_tetration
+call 5  2 test_tetration
+call 6  2 test_tetration
+call 7  2 test_tetration
+call 8  2 test_tetration
+call 9  2 test_tetration
+call 10 2 test_tetration
+
 end
 
+# (x y -- )
 test_exp:
     push -1
     push '\n'
-    copy 3 copy 3 call exp push -2
+    call ^3 ^3 exp push -2
     push ' ' push '=' push ' '
     copy 7 push -2
     push ' ' push '*' push '*' push ' '
@@ -101,16 +118,30 @@ test_exp:
     drop 2
     ret
 
+# (x y m -- )
 test_modexp:
     push -1
     push '\n' push ')'
     copy 3 push -2
     push ' ' push 'd' push 'o' push 'm' push '(' push ' '
-    copy 13 copy 13 copy 13 call modexp push -2
+    call ^13 ^13 ^13 modexp push -2
     push ' ' push '=' push ' '
     copy 17 push -2
     push ' ' push '*' push '*' push ' '
     copy 24 push -2
     call printf
     drop 3
+    ret
+
+# (x y -- )
+test_tetration:
+    push -1
+    push '\n'
+    call ^3 ^3 tetration push -2
+    push ' ' push '=' push ' '
+    copy 7 push -2
+    push ' ' push '^' push '^' push ' '
+    copy 14 push -2
+    call printf
+    drop 2
     ret
