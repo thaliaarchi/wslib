@@ -18,8 +18,7 @@ abs:
 sign:
     jz ^ .sign_zero
     jn .sign_neg
-    push 1
-    ret
+    ret 1
 .sign_neg:
     push -1
 .sign_zero:

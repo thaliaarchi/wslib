@@ -61,9 +61,7 @@ test_bitwise:
     call ^1 ^1 andnot printi printc '\n'
 
     printc '\n'
-
-    drop 2
-    ret
+    drop 2 ret
 
 # (x -- )
 test_not:

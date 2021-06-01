@@ -134,8 +134,7 @@ test_exp:
     push ' ' push '*' push '*' push ' '
     copy 14 push -2
     call printf
-    drop 2
-    ret
+    drop 2 ret
 
 # (x y m -- )
 test_modexp:
@@ -149,8 +148,7 @@ test_modexp:
     push ' ' push '*' push '*' push ' '
     copy 24 push -2
     call printf
-    drop 3
-    ret
+    drop 3 ret
 
 # (x y -- )
 test_tetrate:
@@ -162,8 +160,7 @@ test_tetrate:
     push ' ' push '^' push '^' push ' '
     copy 14 push -2
     call printf
-    drop 2
-    ret
+    drop 2 ret
 
 # (x y -- )
 test_pentate:
@@ -175,5 +172,4 @@ test_pentate:
     push ' ' push '^' push '^' push '^' push ' '
     copy 15 push -2
     call printf
-    drop 2
-    ret
+    drop 2 ret

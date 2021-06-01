@@ -155,8 +155,7 @@ uand:
 
     slide 1
 .uand_ret:
-    slide 3
-    ret
+    slide 3 ret
 
 # uor returns the bitwise OR of unsigned x and y.
 # Requires x>=0 && y>=0
@@ -185,8 +184,7 @@ uor:
 
     slide 1
 .uor_ret:
-    slide 3
-    ret
+    slide 3 ret
 
 # uxor returns the bitwise XOR of unsigned x and y.
 # Requires x>=0 && y>=0
@@ -214,8 +212,7 @@ uxor:
 
     slide 1
 .uxor_ret:
-    slide 3
-    ret
+    slide 3 ret
 
 # uandnot returns the bitwise AND NOT of unsigned x and y.
 # Requires x>=0 && y>=0
@@ -243,8 +240,7 @@ uandnot:
 
     slide 1
 .uandnot_ret:
-    slide 3
-    ret
+    slide 3 ret
 
 # not returns the bitwise complement of x.
 # (x -- ^x)
@@ -266,5 +262,4 @@ bit_len:
     add 1
     jmp .bit_len_loop
 .bit_len_ret:
-    drop
-    ret
+    drop ret

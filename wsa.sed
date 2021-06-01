@@ -138,16 +138,16 @@ s/\b(call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
 s/\b(call|jmp) \*( |$)/retrieve \1\2/g
 s/\b(call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
 s/\b(call|jmp) (-?[0-9]+)\b/push \2 \1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \*( |$)/retrieve \1\2/g
-s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|printc|printi|readc|readi) \^(-?[0-9]+)\b/copy \2 \1/g
-s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|printc|printi|readc|readi) (-?[0-9]+)\b/push \2 \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|ret|printc|printi|readc|readi) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|ret|printc|printi|readc|readi) \*(-?[0-9]+)\b/push \2 retrieve \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|ret|printc|printi|readc|readi) \*( |$)/retrieve \1\2/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|jz|jn|ret|printc|printi|readc|readi) \^(-?[0-9]+)\b/copy \2 \1/g
+s/\b(add|sub|mul|div|mod|store|retrieve|call|jmp|ret|printc|printi|readc|readi) (-?[0-9]+)\b/push \2 \1/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \*\^(-?[0-9]+)\b/copy \2 retrieve \1/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \*(-?[0-9]+)\b/push \2 retrieve \1/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \*( |$)/retrieve \1\2/g
 s/\b(add|sub|mul|div|mod|store|call|jmp) \^(-?[0-9]+)\b/copy \2 \1/g
-s/\b(add|sub|mul|div|mod|store) (-?[0-9]+)\b/push \2 \1/g
+s/\b(add|sub|mul|div|mod|store|call|jmp) (-?[0-9]+)\b/push \2 \1/g
 s/\bcopy 0\b/dup/g
 s/\bdrop 1\b/drop/g
 s/\bdrop 2\b/drop drop/g

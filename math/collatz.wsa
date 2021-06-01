@@ -26,9 +26,6 @@ collatz:
     add 1
     jmp .collatz_loop
 .collatz_1:
-    drop
-    ret
+    drop ret
 .collatz_le0:
-    drop
-    push -1
-    ret
+    drop ret -1

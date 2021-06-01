@@ -76,8 +76,7 @@ printi_base_pad_s:
     sub ^ 2 jz .print_base_2_prefix
     sub ^ 8 jz .print_base_8_prefix
     sub ^ 16 jz .print_base_16_prefix
-    drop
-    ret
+    drop ret
 .print_base_2_prefix:
     jmp 'b' .print_base_prefix_ret
 .print_base_8_prefix:
@@ -86,8 +85,7 @@ printi_base_pad_s:
     push 'x' # fallthrough
 .print_base_prefix_ret:
     printc '0' printc
-    drop
-    ret
+    drop ret
 
 # .next_pow returns the next power of base greater than or equal to x.
 # Requires x>=0 && base>=2
@@ -102,8 +100,7 @@ printi_base_pad_s:
     mul ^2
     jmp .next_pow_loop
 .next_pow_ret:
-    drop slide 1
-    ret
+    drop slide 1 ret
 
 # bit_len returns the byte width of x in the given base.
 # (base x -- w)
@@ -118,8 +115,7 @@ printi_base_pad_s:
     swap
     jmp .width_loop
 .width_ret:
-    drop slide 1
-    ret
+    drop slide 1 ret
 .width_neg:
     mul -1
     jmp 1 .width_loop
@@ -135,8 +131,7 @@ printi_base_pad_s:
     div ^1 ^1 mod ^3 printi
     jmp .printu_base10
 .printu_base10_ret:
-    drop 3
-    ret
+    drop 3 ret
 
 # .printu_base36 prints x in the given base with the alphabet [0-9a-z].
 # Requires 2<=base<=36 && 0<=x<=pow
@@ -155,8 +150,7 @@ printi_base_pad_s:
     printi
     jmp .printu_base36
 .printu_base36_ret:
-    drop 3
-    ret
+    drop 3 ret
 
 # .printu_base62 prints x in the given base with the alphabet
 # [0-9A-Za-z].
@@ -181,8 +175,7 @@ printi_base_pad_s:
     add 55 printc
     jmp .printu_base62
 .printu_base62_ret:
-    drop 3
-    ret
+    drop 3 ret
 
 # formati formats x in base 10.
 # (x -- -1 str...)
@@ -195,8 +188,7 @@ formati:
     jz ^ .formatu_done
     jmp .formatu
 .formatu_done:
-    drop
-    ret
+    drop ret
 .formati_neg:
     mul -1 call .formatu
     push '-'

@@ -27,11 +27,9 @@ exp:
     div 2
     jmp .exp
 .exp_one:
-    drop 2 push 1
-    ret
+    drop 2 ret 1
 .exp_x:
-    drop
-    ret
+    drop ret
 
 # TODO
 # (x y m -- (x**y)%m)
@@ -49,8 +47,7 @@ tetrate:
     copy 2 swap call exp
     jmp .tetrate_loop
 .tetrate_done:
-    slide 2
-    ret
+    slide 2 ret
 
 # pentate returns the pentation of x and y, that is, y copies of x
 # combined by tetration, right-to-left. If y <= 0, 1 is returned.
@@ -63,5 +60,4 @@ pentate:
     copy 2 swap call tetrate
     jmp .pentate_loop
 .pentate_done:
-    slide 2
-    ret
+    slide 2 ret

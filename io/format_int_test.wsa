@@ -20,5 +20,4 @@ test_printi:
     call ^ 8 printi_base_prefixed printc ' '
     call ^ 16 printi_base printc ' '
     call ^ 16 printi_base_prefixed printc '\n'
-    drop
-    ret
+    drop ret

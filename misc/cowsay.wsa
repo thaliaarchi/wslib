@@ -74,5 +74,4 @@
     sub 1
     jmp .repeat
 .repeat_end:
-    drop 2
-    ret
+    drop 2 ret

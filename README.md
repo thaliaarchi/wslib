@@ -76,8 +76,8 @@ converts the wslib dialect to a format recognizable by
 
 - `add`, `sub`, `mul`, `div`, `mod`, and `store` may take up to two
   arguments
-- `retrieve`, `printc`, `printi`, `readc`, and `readi` may take one
-  argument
+- `retrieve`, `ret`, `printc`, `printi`, `readc`, and `readi` may take
+  one argument
 - `drop` with one argument expands to a combination of `slide` and
   `drop`
 - `jz` and `jn` may take one argument as the condition
