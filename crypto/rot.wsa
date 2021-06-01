@@ -1,0 +1,74 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    printc 'K'
+    printc 'e'
+    printc 'y'
+    printc ':'
+    printc ' '
+
+    readi 0
+
+    printc 'P'
+    printc 'l'
+    printc 'a'
+    printc 'i'
+    printc 'n'
+    printc ':'
+    printc ' '
+
+    push 1
+.rot_init_loop:
+    readc ^
+    retrieve ^
+
+    sub ^ 1 jn .rot_init_done
+    sub '\n' jz .rot_init_done
+
+    add 1
+    jmp .rot_init_loop
+.rot_init_done:
+    store 0
+    retrieve 0
+    push 0
+    # fallthrough
+
+# (shift addr -- )
+rot:
+    add 1
+
+    retrieve ^
+    jz ^ .rot_done
+
+    sub ^ 'A' jn .rot_skip
+    sub ^ '[' jn .rot_upper
+    sub ^ 'a' jn .rot_skip
+    sub ^ '{' jn .rot_lower
+
+.rot_skip:
+    printc
+    jmp rot
+
+.rot_upper:
+    sub 'A'
+    add ^2
+    mod 26
+    add 'A'
+    printc
+    jmp rot
+
+.rot_lower:
+    sub 'a'
+    add ^2
+    mod 26
+    add 'a'
+    printc
+    jmp rot
+
+.rot_done:
+    printc '\n'
+    drop
+    end
