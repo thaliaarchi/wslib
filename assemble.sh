@@ -6,7 +6,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 mkdir -p build
-prog="build/$(basename "${1%.wsa}")"
+prog="build/$(basename "${1%.wsf}")"
 gsed -Ef wsf.sed "$@" > "$prog.wsa"
 wsc -f asm -t -o "$prog.ws" "$prog.wsa"
 nebula ir "$prog.ws" > "$prog.ir" 2>&1

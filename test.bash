@@ -7,17 +7,17 @@
 
 run_test() {
   echo "Testing $1"
-  prog="build/$(basename "${1%.wsa}")"
-  want="${1%.wsa}.out"
+  prog="build/$(basename "${1%.wsf}")"
+  want="${1%.wsf}.out"
   ./assemble.sh "$1" <(echo end) "${@:2}" &&
     wspace "$prog.ws" > "$prog.out" &&
     diff -q "$want" "$prog.out"
 }
 
-# run_test crypto/rot.wsa io/print.wsa io/format_int.wsa io/read.wsa math/exp.wsa math/math.wsa
-run_test io/format_int_test.wsa io/format_int.wsa math/exp.wsa math/math.wsa
-run_test io/print_test.wsa io/print.wsa io/format_int.wsa math/exp.wsa math/math.wsa
-run_test math/bits_test.wsa math/bits.wsa math/math.wsa
-run_test math/collatz_test.wsa math/collatz.wsa
-run_test math/exp_test.wsa math/exp.wsa math/math.wsa io/print.wsa io/format_int.wsa
-run_test math/matrix_test.wsa math/matrix.wsa
+# run_test crypto/rot.wsf io/print.wsf io/format_int.wsf io/read.wsf math/exp.wsf math/math.wsf
+run_test io/format_int_test.wsf io/format_int.wsf math/exp.wsf math/math.wsf
+run_test io/print_test.wsf io/print.wsf io/format_int.wsf math/exp.wsf math/math.wsf
+run_test math/bits_test.wsf math/bits.wsf math/math.wsf
+run_test math/collatz_test.wsf math/collatz.wsf
+run_test math/exp_test.wsf math/exp.wsf math/math.wsf io/print.wsf io/format_int.wsf
+run_test math/matrix_test.wsf math/matrix.wsf
