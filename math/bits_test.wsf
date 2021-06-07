@@ -45,19 +45,19 @@ end
 
 # (x y -- )
 test_bitwise:
-    "x " printc printc ^1 printi '\n' printc
-    "y " printc printc ^ printi '\n' printc
+    "x " prints ^1 printi '\n' printc
+    "y " prints ^ printi '\n' printc
 
-    "x&y " printc printc printc printc
+    "x&y " prints
     ^1 ^1 call and printi '\n' printc
 
-    "x|y " printc printc printc printc
+    "x|y " prints
     ^1 ^1 call or printi '\n' printc
 
-    "x^y " printc printc printc printc
+    "x^y " prints
     ^1 ^1 call xor printi '\n' printc
 
-    "x&^y " printc printc printc printc printc
+    "x&^y " prints
     ^1 ^1 call andnot printi '\n' printc
 
     '\n' printc
@@ -65,7 +65,7 @@ test_bitwise:
 
 # (x -- )
 test_not:
-    "x " printc printc ^ printi '\n' printc
-    "-x " printc printc printc
-    call not printi "\n\n" printc printc
+    "x " prints ^ printi '\n' printc
+    "-x " prints
+    call not printi "\n\n" prints
     ret

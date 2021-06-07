@@ -32,9 +32,9 @@
     ' ' printc
     '_' 8 call .repeat
     '\n' printc
-    "< " printc printc
-    "Hello!" printc printc printc printc printc printc
-    " >\n" printc printc printc
+    "< " prints
+    "Hello!" prints
+    " >\n" prints
     ' ' printc
     '-' 8 call .repeat
     '\n' printc
@@ -44,25 +44,25 @@
     ' ' 8 call .repeat
     '\\' printc
     ' ' 3 call .repeat
-    '^__^\n' printc printc printc printc printc
+    "^__^\n" prints
     ' ' 9 call .repeat
     '\\' printc
     ' ' 2 call .repeat
-    '(oo)\\' printc printc printc printc printc
+    "(oo)\\" prints
     '_' 7 call .repeat
     '\n' printc
     ' ' 12 call .repeat
-    '(__)\\' printc printc printc printc printc
+    "(__)\\" prints
     ' ' 7 call .repeat
-    ')\\/\\\n' printc printc printc printc printc
+    ")\\/\\\n" prints
     ' ' 16 call .repeat
-    "||" printc printc
+    "||" prints
     '-' 4 call .repeat
-    "w |\n" printc printc printc printc
+    "w |\n" prints
     ' ' 16 call .repeat
-    "||" printc printc
+    "||" prints
     ' ' 5 call .repeat
-    "||\n" printc printc printc
+    "||\n" prints
     ret
 
 # Requires n>=0

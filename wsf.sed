@@ -9,6 +9,54 @@ s/(^|[^\\'])#.*//g
 s/\s+/ /g
 s/^ | $//g
 
+# String printing up to 15 chars long
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])" prints/\1'\2' printc/g
+s/(^| )"'" prints/\1'\\'' printc/g
+s/(^| )"(\\[abtnvfre"\\])" prints/\1'\2' printc/g
+s/(^| )"" prints/\1/g
+
 # Strings up to 15 chars long
 s/(^| )"([^\\"'])(([^\\"]|\\.)+)"( |$)/\1"\3" '\2'\5/g
 s/(^| )"'(([^\\"]|\\.)+)"( |$)/\1"\2" '\\''\4/g
