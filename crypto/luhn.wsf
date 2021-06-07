@@ -1,0 +1,30 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# https://en.wikipedia.org/wiki/Luhn_algorithm
+# https://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers
+# https://codegolf.stackexchange.com/questions/22/the-luhn-algorithm-for-verifying-credit-card-numbers-etc
+
+    0 ^ readi retrieve
+    call luhn_valid printi
+    end
+
+# (n -- valid)
+luhn_valid:
+    0 # checksum
+.luhn_valid_loop:
+    ^1 jz .luhn_ret
+    # Add odd-positioned digits as-is
+    ^1 10 %
+    +
+    # Add even-positioned digits
+    ^1 10 / 10 %
+    2 * ^ 10 / swap 10 % + # double, then sum the digits
+    +
+    swap 100 / swap
+    jmp .luhn_valid_loop
+.luhn_ret:
+    1slide 10 % ret

@@ -20,6 +20,7 @@ run_test() {
 }
 
 run_test crypto/caesar.wsf io/print.wsf io/format_int.wsf io/read.wsf math/exp.wsf math/math.wsf
+run_test crypto/luhn_test.wsf crypto/luhn.wsf
 run_test io/format_int_test.wsf io/format_int.wsf math/exp.wsf math/math.wsf
 run_test io/print_test.wsf io/print.wsf io/format_int.wsf math/exp.wsf math/math.wsf
 run_test math/bits_test.wsf math/bits.wsf math/math.wsf
