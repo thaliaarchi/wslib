@@ -13,8 +13,8 @@
 #
 # (a b -- z)
 gcd:
-    jz ^1 .gcd_a_zero
-    jz ^ .gcd_b_zero
+    ^1 jz .gcd_a_zero
+    ^ jz .gcd_b_zero
     # TODO ...
 .gcd_b_zero:
     swap

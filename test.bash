@@ -14,7 +14,7 @@ run_test() {
     diff -q "$want" "$prog.out"
 }
 
-run_test crypto/rot.wsa io/print.wsa io/format_int.wsa io/read.wsa math/exp.wsa math/math.wsa
+# run_test crypto/rot.wsa io/print.wsa io/format_int.wsa io/read.wsa math/exp.wsa math/math.wsa
 run_test io/format_int_test.wsa io/format_int.wsa math/exp.wsa math/math.wsa
 run_test io/print_test.wsa io/print.wsa io/format_int.wsa math/exp.wsa math/math.wsa
 run_test math/bits_test.wsa math/bits.wsa math/math.wsa

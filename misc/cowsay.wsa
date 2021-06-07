@@ -12,66 +12,65 @@
     call .cow
     end
 
-    push 1
-    dup
+    1 dup
 .read_line:
-    readc ^
-    retrieve ^
-    jeof ^ .read_end
-    sub '\n' jz .read_next_line
-    add 1
+    ^ readc
+    ^ retrieve
+    ^ jeof .read_end
+    '\n' - jz .read_next_line
+    1 +
     jmp .read_line
 .read_next_line:
-    sub ^1 ^1
+    ^1 ^1 -
 
 .largest_line:
 
 .read_end:
-    drop 3
+    3drop
 
 .hello:
-    printc ' '
-    push '_' push 8 call .repeat
-    printc '\n'
-    printc '<' printc ' '
-    printc 'H' printc 'e' printc 'l' printc 'l' printc 'o' printc '!'
-    printc ' ' printc '>' printc '\n'
-    printc ' '
-    push '-' push 8 call .repeat
-    printc '\n'
+    ' ' printc
+    '_' 8 call .repeat
+    '\n' printc
+    '<' printc ' ' printc
+    'H' printc 'e' printc 'l' printc 'l' printc 'o' printc '!' printc
+    ' ' printc '>' printc '\n' printc
+    ' ' printc
+    '-' 8 call .repeat
+    '\n' printc
     ret
 
 .cow:
-    push ' ' push 8 call .repeat
-    printc '\\'
-    push ' ' push 3 call .repeat
-    printc '^' printc '_' printc '_' printc '^' printc '\n'
-    push ' ' push 9 call .repeat
-    printc '\\'
-    push ' ' push 2 call .repeat
-    printc '(' printc 'o' printc 'o' printc ')' printc '\\'
-    push '_' push 7 call .repeat
-    printc '\n'
-    push ' ' push 12 call .repeat
-    printc '(' printc '_' printc '_' printc ')' printc '\\'
-    push ' ' push 7 call .repeat
-    printc ')' printc '\\' printc '/' printc '\\' printc '\n'
-    push ' ' push 16 call .repeat
-    printc '|' printc '|'
-    push '-' push 4 call .repeat
-    printc 'w' printc ' ' printc '|' printc '\n'
-    push ' ' push 16 call .repeat
-    printc '|' printc '|'
-    push ' ' push 5 call .repeat
-    printc '|' printc '|' printc '\n'
+    ' ' 8 call .repeat
+    '\\' printc
+    ' ' 3 call .repeat
+    '^' printc '_' printc '_' printc '^' printc '\n' printc
+    ' ' 9 call .repeat
+    '\\' printc
+    ' ' 2 call .repeat
+    '(' printc 'o' printc 'o' printc ')' printc '\\' printc
+    '_' 7 call .repeat
+    '\n' printc
+    ' ' 12 call .repeat
+    '(' printc '_' printc '_' printc ')' printc '\\' printc
+    ' ' 7 call .repeat
+    ')' printc '\\' printc '/' printc '\\' printc '\n' printc
+    ' ' 16 call .repeat
+    '|' printc '|' printc
+    '-' 4 call .repeat
+    'w' printc ' ' printc '|' printc '\n' printc
+    ' ' 16 call .repeat
+    '|' printc '|' printc
+    ' ' 5 call .repeat
+    '|' printc '|' printc '\n' printc
     ret
 
 # Requires n>=0
 # (char n --)
 .repeat:
-    jz ^ .repeat_end
-    printc ^1
-    sub 1
+    ^ jz .repeat_end
+    ^1 printc
+    1 -
     jmp .repeat
 .repeat_end:
-    drop 2 ret
+    2drop ret

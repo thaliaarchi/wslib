@@ -5,13 +5,12 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 collatz_test:
-    push 1
+    1
 .collatz_test_loop:
-    call ^ collatz
-    printi printc '\n'
-    add 1
-    sub ^ 73 jz .collatz_test_end
+    ^ call collatz
+    printi '\n' printc
+    1 +
+    ^ 73 - jz .collatz_test_end
     jmp .collatz_test_loop
 .collatz_test_end:
-    drop
-    end
+    drop end

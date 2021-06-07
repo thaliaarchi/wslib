@@ -8,9 +8,9 @@
 # stored at addr on the heap in row-major order.
 # (addr m n -- )
 transpose:
-    sub ^1 ^1 jz .transpose_m_eq_n
+    ^1 ^1 - jz .transpose_m_eq_n
     # TODO
-    drop 3 ret
+    3drop ret
 .transpose_m_eq_n:
     drop jmp transpose_square
 
@@ -25,41 +25,41 @@ transpose_square:
     dup dup
 .transpose_square_row:
     drop
-    sub 1
-    jn ^ .transpose_square_ret
+    1 -
+    ^ jn .transpose_square_ret
     dup
 .transpose_square_col:
-    sub 1
-    jn ^ .transpose_square_row
-    add ^3 ^2 mul ^3 ^2 add  # addr + j + n*i
-    add ^3 ^1 mul ^3 ^3 add  # addr + i + n*j
-    retrieve ^
-    store ^1 *^3
-    slide 1 store
+    1 -
+    ^ jn .transpose_square_row
+    ^3 ^2 + ^3 ^2 * +  # addr + j + n*i
+    ^3 ^1 + ^3 ^3 * +  # addr + i + n*j
+    ^ retrieve
+    ^1 ^3 retrieve store
+    1slide store
     jmp .transpose_square_col
 .transpose_square_ret:
-    drop 4 ret
+    4drop ret
 
 # (addr m n -- )
 print_matrix:
-    copy 2 copy 2
+    ^2 ^2
 .print_matrix_row:
-    jz ^ .print_matrix_ret
+    ^ jz .print_matrix_ret
     swap
-    call ^ print_vector
-    printc '\n'
-    add ^2 swap
+    ^ call print_vector
+    '\n' printc
+    ^2 + swap
     jmp .print_matrix_row
 .print_matrix_ret:
-    drop 5 ret
+    5drop ret
 
 # (addr n -- )
 print_vector:
-    sub 1
-    jn ^ .print_vector_ret
-    swap add 1 printi *^ swap
-    jz ^ .print_vector_ret
-    printc ' '
+    1 -
+    ^ jn .print_vector_ret
+    swap 1 + ^ retrieve printi swap
+    ^ jz .print_vector_ret
+    ' ' printc
     jmp print_vector
 .print_vector_ret:
-    drop 2 ret
+    2drop ret

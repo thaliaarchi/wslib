@@ -10,122 +10,122 @@
 # and returns the bitwise AND of x and y.
 # (x y -- x&y)
 and:
-    jn ^1 .and_xneg
-    jn ^ .and_yneg
+    ^1 jn .and_xneg
+    ^ jn .and_yneg
     jmp uand
 .and_xneg:
-    jn ^ .and_xyneg
-    # & is symmetric
+    ^ jn .and_xyneg
+    # AND is symmetric
     swap
 .and_yneg:
     # x & (-y)
     # == x & ^(y-1)
     # == x &^ (y-1)
-    mul -1 sub 1
+    -1 * 1 -
     jmp uandnot
 .and_xyneg:
     # (-x) & (-y)
     # == ^(x-1) & ^(y-1)
     # == ^((x-1) | (y-1))
     # == -(((x-1) | (y-1)) + 1)
-    mul -1 sub 1
+    -1 * 1 -
     swap
-    mul -1 sub 1
+    -1 * 1 -
     call uor
-    add 1 mul -1
+    1 + -1 *
     ret
 
 # or returns the bitwise OR of x and y.
 # (x y -- x|y)
 or:
-    jn ^1 .or_xneg
-    jn ^ .or_yneg
+    ^1 jn .or_xneg
+    ^ jn .or_yneg
     jmp uor
 .or_xneg:
-    jn ^ .or_xyneg
-    # | is symmetric
+    ^ jn .or_xyneg
+    # OR is symmetric
     swap
 .or_yneg:
 	# x | (-y)
     # == x | ^(y-1)
     # == ^((y-1) &^ x)
     # == -(^((y-1) &^ x) + 1)
-    mul -1 sub 1
+    -1 * 1 -
     swap call uandnot
-    add 1 mul -1
+    1 + -1 *
     ret
 .or_xyneg:
     # (-x) | (-y)
     # == ^(x-1) | ^(y-1)
     # == ^((x-1) & (y-1))
     # == -(((x-1) & (y-1)) + 1)
-    mul -1 sub 1
+    -1 * 1 -
     swap
-    mul -1 sub 1
+    -1 * 1 -
     call uand
-    add 1 mul -1
+    1 + -1 *
     ret
 
 # xor returns the bitwise XOR of x and y.
 # (x y -- x^y)
 xor:
-    jn ^1 .xor_xneg
-    jn ^ .xor_yneg
+    ^1 jn .xor_xneg
+    ^ jn .xor_yneg
     jmp uxor
 .xor_xneg:
-    jn ^ .xor_xyneg
-    # ^ is symmetric
+    ^ jn .xor_xyneg
+    # XOR is symmetric
     swap
 .xor_yneg:
     # x ^ (-y)
     # == x ^ ^(y-1)
     # == ^(x ^ (y-1))
     # == -((x ^ (y-1)) + 1)
-    mul -1 sub 1
+    -1 * 1 -
     call uxor
-    add 1 mul -1
+    1 + -1 *
     ret
 .xor_xyneg:
     # (-x) ^ (-y)
     # == ^(x-1) ^ ^(y-1)
     # == (x-1) ^ (y-1)
-    mul -1 sub 1
+    -1 * 1 -
     swap
-    mul -1 sub 1
+    -1 * 1 -
     call uxor
     ret
 
 # andnot returns the bitwise AND NOT of x and y.
 # (x y -- x&^y)
 andnot:
-    jn ^1 .andnot_xneg
-    jn ^ .andnot_yneg
+    ^1 jn .andnot_xneg
+    ^ jn .andnot_yneg
     jmp uandnot
 .andnot_xneg:
-    jn ^ .andnot_xyneg
+    ^ jn .andnot_xyneg
     # (-x) &^ y
     # == ^(x-1) &^ y
     # == ^(x-1) & ^y
     # == ^((x-1) | y)
     # == -(((x-1) | y) + 1)
-    swap mul -1 sub 1
+    swap -1 * 1 -
     call uor
-    add 1 mul -1
+    1 + -1 *
     ret
 .andnot_yneg:
 	# x &^ (-y)
     # == x &^ ^(y-1)
     # == x & (y-1)
-    mul -1 sub 1
+    -1 * 1 -
     jmp uand
 .andnot_xyneg:
     # (-x) &^ (-y)
     # == ^(x-1) &^ ^(y-1)
     # == ^(x-1) & (y-1)
     # == (y-1) &^ (x-1)
-    mul -1 sub 1
+    -1 * 1 -
     swap
-    mul -1 sub 1
+    -1 * 1 -
     call uandnot
     ret
 
@@ -134,118 +134,110 @@ andnot:
 # (x y -- x&y)
 uand:
     # i, z
-    push 1
-    push 0
+    1 0
 .uand_loop:
-    add ^3 ^3 jz .uand_ret
+    ^3 ^3 + jz .uand_ret
 
     # z += (x%2 + y%2)/2 * i
-    mod ^3 2
-    mod ^3 2
-    add div 2
-    mul ^2
-    add
+    ^3 2 %
+    ^3 2 %
+    + 2 /
+    ^2 *
+    +
 
-    # x/2, y/2, i*2, z
-    div ^3 2
-    div ^3 2
-    mul ^3 2
-    copy 3
+    ^3 2 /  # x/2
+    ^3 2 /  # y/2
+    ^3 2 *  # i*2
+    ^3      # z
     call .uand_loop
 
-    slide 1
+    1slide
 .uand_ret:
-    slide 3 ret
+    3slide ret
 
 # uor returns the bitwise OR of unsigned x and y.
 # Requires x>=0 && y>=0
 # (x y -- x|y)
 uor:
     # i, z
-    push 1
-    push 0
+    1 0
 .uor_loop:
-    add ^3 ^3 jz .uor_ret
+    ^3 ^3 + jz .uor_ret
 
     # z += (x%2 + y%2 - (x%2 * y%2)) * i
-    mod ^3 2
-    mod ^3 2
-    mul ^1 ^1
-    sub add
-    mul ^2
-    add
+    ^3 2 %
+    ^3 2 %
+    ^1 ^1 *
+    - +
+    ^2 *
+    +
 
-    # x/2, y/2, i*2, z
-    div ^3 2
-    div ^3 2
-    mul ^3 2
-    copy 3
+    ^3 2 /  # x/2
+    ^3 2 /  # y/2
+    ^3 2 *  # i*2
+    ^3      # z
     call .uor_loop
 
-    slide 1
+    1slide
 .uor_ret:
-    slide 3 ret
+    3slide ret
 
 # uxor returns the bitwise XOR of unsigned x and y.
 # Requires x>=0 && y>=0
 # (x y -- x^y)
 uxor:
     # i, z
-    push 1
-    push 0
+    1 0
 .uxor_loop:
-    add ^3 ^3 jz .uxor_ret
+    ^3 ^3 + jz .uxor_ret
 
     # z += (x%2 + y%2)%2 * i
-    mod ^3 2
-    mod ^3 2
-    add mod 2
-    mul ^2
-    add
+    ^3 2 %
+    ^3 2 %
+    + 2 %
+    ^2 *
+    +
 
-    # x/2, y/2, i*2, z
-    div ^3 2
-    div ^3 2
-    mul ^3 2
-    copy 3
+    ^3 2 /  # x/2
+    ^3 2 /  # y/2
+    ^3 2 *  # i*2
+    ^3      # z
     call .uxor_loop
 
-    slide 1
+    1slide
 .uxor_ret:
-    slide 3 ret
+    3slide ret
 
 # uandnot returns the bitwise AND NOT of unsigned x and y.
 # Requires x>=0 && y>=0
 # (x y -- x&^y)
 uandnot:
     # i, z
-    push 1
-    push 0
+    1 0
 .uandnot_loop:
-    add ^3 ^3 jz .uandnot_ret
+    ^3 ^3 + jz .uandnot_ret
 
     # z += (x%2 * (1 - y%2)) * i
-    mod ^3 2
-    push 1 mod ^4 2 sub
-    mul
-    mul ^2
-    add
+    ^3 2 %
+    1 ^4 2 % -
+    *
+    ^2 *
+    +
 
-    # x/2, y/2, i*2, z
-    div ^3 2
-    div ^3 2
-    mul ^3 2
-    copy 3
+    ^3 2 /  # x/2
+    ^3 2 /  # y/2
+    ^3 2 *  # i*2
+    ^3      # z
     call .uandnot_loop
 
-    slide 1
+    1slide
 .uandnot_ret:
-    slide 3 ret
+    3slide ret
 
 # not returns the bitwise complement of x.
 # (x -- ^x)
 not:
-    add 1 mul -1
+    1 + -1 *
     ret
 
 # bit_len returns the length of the absolute value of x in bits.
@@ -253,13 +245,13 @@ not:
 # (x -- l)
 bit_len:
     call abs
-    push 0
+    0
 .bit_len_loop:
     swap
-    jz ^ .bit_len_ret
-    div 2
+    ^ jz .bit_len_ret
+    2 /
     swap
-    add 1
+    1 +
     jmp .bit_len_loop
 .bit_len_ret:
     drop ret

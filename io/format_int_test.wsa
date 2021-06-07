@@ -4,20 +4,20 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-call 0          test_printi
-call -0         test_printi
-call -6         test_printi
-call 7          test_printi
-call 255        test_printi
-call 3735928559 test_printi
+0          call test_printi
+-0         call test_printi
+-6         call test_printi
+7          call test_printi
+255        call test_printi
+3735928559 call test_printi
 end
 
 # (x -- )
 test_printi:
-    call ^ 2 printi_base printc ' '
-    call ^ 2 printi_base_prefixed printc ' '
-    call ^ 8 printi_base printc ' '
-    call ^ 8 printi_base_prefixed printc ' '
-    call ^ 16 printi_base printc ' '
-    call ^ 16 printi_base_prefixed printc '\n'
+    ^ 2  call printi_base ' ' printc
+    ^ 2  call printi_base_prefixed ' ' printc
+    ^ 8  call printi_base ' ' printc
+    ^ 8  call printi_base_prefixed ' ' printc
+    ^ 16 call printi_base ' ' printc
+    ^ 16 call printi_base_prefixed '\n' printc
     drop ret

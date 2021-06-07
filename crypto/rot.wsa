@@ -4,71 +4,70 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    printc 'K'
-    printc 'e'
-    printc 'y'
-    printc ':'
-    printc ' '
+    'K' printc
+    'e' printc
+    'y' printc
+    ':' printc
+    ' ' printc
 
-    readi 0
+    0 readi
 
-    printc 'P'
-    printc 'l'
-    printc 'a'
-    printc 'i'
-    printc 'n'
-    printc ':'
-    printc ' '
+    'P' printc
+    'l' printc
+    'a' printc
+    'i' printc
+    'n' printc
+    ':' printc
+    ' ' printc
 
-    push 1
+    1
 .rot_init_loop:
-    readc ^
-    retrieve ^
+    ^ readc
+    ^ retrieve
 
-    sub ^ 1 jn .rot_init_done
-    sub '\n' jz .rot_init_done
+    ^ 1    - jn .rot_init_done
+    ^ '\n' - jz .rot_init_done
 
-    add 1
+    1 +
     jmp .rot_init_loop
 .rot_init_done:
-    store 0
-    retrieve 0
-    push 0
+    0 store
+    0 retrieve
+    0
     # fallthrough
 
 # (shift addr -- )
 rot:
-    add 1
+    1 +
 
-    retrieve ^
-    jz ^ .rot_done
+    ^ retrieve
+    ^ jz .rot_done
 
-    sub ^ 'A' jn .rot_skip
-    sub ^ '[' jn .rot_upper
-    sub ^ 'a' jn .rot_skip
-    sub ^ '{' jn .rot_lower
+    ^ 'A' - jn .rot_skip
+    ^ '[' - jn .rot_upper
+    ^ 'a' - jn .rot_skip
+    ^ '{' - jn .rot_lower
 
 .rot_skip:
     printc
     jmp rot
 
 .rot_upper:
-    sub 'A'
-    add ^2
-    mod 26
-    add 'A'
+    'A' -
+    ^2 +
+    26 %
+    'A' +
     printc
     jmp rot
 
 .rot_lower:
-    sub 'a'
-    add ^2
-    mod 26
-    add 'a'
+    'a' -
+    ^2 +
+    26 %
+    'a' +
     printc
     jmp rot
 
 .rot_done:
-    printc '\n'
-    drop
-    end
+    '\n' printc
+    drop end

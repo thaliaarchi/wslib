@@ -7,65 +7,65 @@
 # Bitwise tests borrowed from Go
 # https://golang.org/src/math/big/int_test.go#L1193
 
-call 0      0      test_bitwise
-call 0      1      test_bitwise
-call 1      0      test_bitwise
-call -1     0      test_bitwise
-call -175   -80    test_bitwise
-call 0      -1     test_bitwise
-call 1      1      test_bitwise
-call -1     -1     test_bitwise
-call 7      8      test_bitwise
-call 5      15     test_bitwise
-call 255    -10    test_bitwise
-call 81910  39502  test_bitwise
-call -81910 39502  test_bitwise
-call -81910 -39502 test_bitwise
+0      0      call test_bitwise
+0      1      call test_bitwise
+1      0      call test_bitwise
+-1     0      call test_bitwise
+-175   -80    call test_bitwise
+0      -1     call test_bitwise
+1      1      call test_bitwise
+-1     -1     call test_bitwise
+7      8      call test_bitwise
+5      15     call test_bitwise
+255    -10    call test_bitwise
+81910  39502  call test_bitwise
+-81910 39502  call test_bitwise
+-81910 -39502 call test_bitwise
 
-push 340282566926938463463474637401768211457
-push 298472983472983471903246121093472394872319615612417471234712061
+340282566926938463463474637401768211457
+298472983472983471903246121093472394872319615612417471234712061
 call test_bitwise
 
-push 340282566926938463463474637401768211457
-push -298472983472983471903246121093472394872319615612417471234712061
+340282566926938463463474637401768211457
+-298472983472983471903246121093472394872319615612417471234712061
 call test_bitwise
 
-push -340282566926938463463474637401768211457
-push -298472983472983471903246121093472394872319615612417471234712061
+-340282566926938463463474637401768211457
+-298472983472983471903246121093472394872319615612417471234712061
 call test_bitwise
 
-call 0      test_not
-call 1      test_not
-call 7      test_not
-call 0      test_not
-call -81910 test_not
-call 298472983472983471903246121093472394872319615612417471234712061 test_not
+0      call test_not
+1      call test_not
+7      call test_not
+0      call test_not
+-81910 call test_not
+298472983472983471903246121093472394872319615612417471234712061 call test_not
 
 end
 
 # (x y -- )
 test_bitwise:
-    printc 'x' printc ' ' printi ^1 printc '\n'
-    printc 'y' printc ' ' printi ^ printc '\n'
+    'x' printc ' ' printc ^1 printi '\n' printc
+    'y' printc ' ' printc ^ printi '\n' printc
 
-    printc 'x' printc '&' printc 'y' printc ' '
-    call ^1 ^1 and printi printc '\n'
+    'x' printc '&' printc 'y' printc ' ' printc
+    ^1 ^1 call and printi '\n' printc
 
-    printc 'x' printc '|' printc 'y' printc ' '
-    call ^1 ^1 or printi printc '\n'
+    'x' printc '|' printc 'y' printc ' ' printc
+    ^1 ^1 call or printi '\n' printc
 
-    printc 'x' printc '^' printc 'y' printc ' '
-    call ^1 ^1 xor printi printc '\n'
+    'x' printc '^' printc 'y' printc ' ' printc
+    ^1 ^1 call xor printi '\n' printc
 
-    printc 'x' printc '&' printc '^' printc 'y' printc ' '
-    call ^1 ^1 andnot printi printc '\n'
+    'x' printc '&' printc '^' printc 'y' printc ' ' printc
+    ^1 ^1 call andnot printi '\n' printc
 
-    printc '\n'
-    drop 2 ret
+    '\n' printc
+    2drop ret
 
 # (x -- )
 test_not:
-    printc 'x' printc ' ' printi ^ printc '\n'
-    printc '-' printc 'x' printc ' '
-    call not printi printc '\n' printc '\n'
+    'x' printc ' ' printc ^ printi '\n' printc
+    '-' printc 'x' printc ' ' printc
+    call not printi '\n' printc '\n' printc
     ret

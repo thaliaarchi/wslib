@@ -7,6 +7,6 @@
 
 mkdir -p build
 prog="build/$(basename "${1%.wsa}")"
-gsed -Ef wsa.sed "$@" > "$prog.wsa"
+gsed -Ef wsf.sed "$@" > "$prog.wsa"
 wsc -f asm -t -o "$prog.ws" "$prog.wsa"
 nebula ir "$prog.ws" > "$prog.ir" 2>&1

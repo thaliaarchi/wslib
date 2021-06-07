@@ -8,56 +8,54 @@
 # squaring. If y <= 0, 1 is returned.
 # (x y -- x**y)
 exp:
-    sub ^ 1 jn .exp_one   # y <= 0
+    ^ 1 - jn .exp_one   # y <= 0
 .exp:
-    sub ^ 1 jz .exp_x     # y == 1
-    mod ^ 2 jz .exp_even  # y%2 == 0
+    ^ 1 - jz .exp_x     # y == 1
+    ^ 2 % jz .exp_even  # y%2 == 0
 # .exp_odd:
     # exp(x**2, (y-1)/2) * x
-    mul ^1 ^
-    swap
-    sub 1
-    div 2
+    ^1 ^ * swap
+    1 - 2 /
     call .exp
-    mul
+    *
     ret
 .exp_even:
     # exp(x**2, y/2)
-    swap mul ^ swap
-    div 2
+    swap ^ * swap
+    2 /
     jmp .exp
 .exp_one:
-    drop 2 ret 1
+    2drop 1 ret
 .exp_x:
     drop ret
 
 # TODO
 # (x y m -- (x**y)%m)
 modexp:
-    push -999 slide 3 ret
+    -999 3slide ret
 
 # tetrate returns the tetration of x and y, that is, y copies of x
 # combined by exponentiation, right-to-left. If y <= 0, 1 is returned.
 # (x y -- x^^y)
 tetrate:
-    push 1
+    1
 .tetrate_loop:
-    swap sub 1 swap
-    jn ^1 .tetrate_done
-    call ^2 _ exp
+    swap 1 - swap
+    ^1 jn .tetrate_done
+    ^2 swap call exp
     jmp .tetrate_loop
 .tetrate_done:
-    slide 2 ret
+    2slide ret
 
 # pentate returns the pentation of x and y, that is, y copies of x
 # combined by tetration, right-to-left. If y <= 0, 1 is returned.
 # (x y -- x^^^y)
 pentate:
-    push 1
+    1
 .pentate_loop:
-    swap sub 1 swap
-    jn ^1 .pentate_done
-    call ^2 _ tetrate
+    swap 1 - swap
+    ^1 jn .pentate_done
+    ^2 swap call tetrate
     jmp .pentate_loop
 .pentate_done:
-    slide 2 ret
+    2slide ret

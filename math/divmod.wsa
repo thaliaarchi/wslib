@@ -71,16 +71,16 @@ tediv:
     #   else     return q + 1
     # return q
 
-    mod ^1 ^1 jn .tediv_r_lt0
+    ^1 ^1 % jn .tediv_r_lt0
     # r >= 0 => q
-    div ret
+    / ret
 .tediv_r_lt0:
-    sub ^ 1 jn .tediv_y_le0
+    ^ 1 - jn .tediv_y_le0
     # y > 0 => q - 1
-    div sub 1 ret
+    / 1 - ret
 .tediv_y_le0:
     # y <= 0 => q + 1
-    div add 1 ret
+    / 1 + ret
 
 # temod returns the Euclidean modulo of x and y, in terms of truncated
 # division.
@@ -92,16 +92,16 @@ temod:
     #   else     return r - y
     # return r
 
-    mod ^1 ^1 jn ^ .temod_r_lt0
+    ^1 ^1 % ^ jn .temod_r_lt0
     # r >= 0 => q
-    slide 2 ret
+    2slide ret
 .temod_r_lt0:
-    sub ^1 1 jn .temod_y_le0
+    ^1 1 - jn .temod_y_le0
     # y > 0 => q + y
-    add slide 1 ret
+    + 1slide ret
 .temod_y_le0:
     # y <= 0 => q - y
-    swap sub slide 1 ret
+    swap - 1slide ret
 
 # tediv returns the floored division of x and y, in terms of truncated
 # division.
@@ -114,23 +114,23 @@ tfdiv:
     # else
     #   return q
 
-    mod ^1 ^1
-    jn ^ .tfdiv_r_lt0
-    mul ^ -1 jn .tfdiv_r_gt0
+    ^1 ^1 %
+    ^ jn .tfdiv_r_lt0
+    ^ -1 * jn .tfdiv_r_gt0
 .tfdiv_q:
     # return q
-    drop div ret
+    drop / ret
 .tfdiv_r_lt0:
     # r < 0 && y > 0
-    mul ^1 -1 jn .tfdiv_q1
+    ^1 -1 * jn .tfdiv_q1
     jmp .tfdiv_q
 .tfdiv_r_gt0:
     # r > 0 && y < 0
-    jn ^1 .tfdiv_q1
+    ^1 jn .tfdiv_q1
     jmp .tfdiv_q
 .tfdiv_q1:
     # return q - 1
-    drop div sub 1 ret
+    drop / 1 - ret
 
 # temod returns the floored modulo of x and y, in terms of truncated
 # division.
@@ -142,20 +142,20 @@ tfmod:
     # else
     #   return r
 
-    mod ^1 ^1
-    jn ^ .tfmod_r_lt0
-    mul ^ -1 jn .tfmod_r_gt0
+    ^1 ^1 %
+    ^ jn .tfmod_r_lt0
+    ^ -1 * jn .tfmod_r_gt0
 .tfmod_q:
     # return r
-    slide 2 ret
+    2slide ret
 .tfmod_r_lt0:
     # r < 0 && y > 0
-    mul ^1 -1 jn .tfmod_q1
+    ^1 -1 * jn .tfmod_q1
     jmp .tfmod_q
 .tfmod_r_gt0:
     # r > 0 && y < 0
-    jn ^1 .tfmod_q1
+    ^1 jn .tfmod_q1
     jmp .tfmod_q
 .tfmod_q1:
     # return r + y
-    add slide 1 ret
+    + 1slide ret

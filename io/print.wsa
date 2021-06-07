@@ -27,67 +27,67 @@
 #
 # (-1 str... -- )
 printf:
-    jn ^ .printf_verb
+    ^ jn .printf_verb
     printc
     jmp printf
 .printf_verb:
-    add 1 jz ^ .printf_ret         # -1
-    add 1 jz ^ .printf_d           # -2
-    add 1 jz ^ .printf_b           # -3
-    add 1 jz ^ .printf_o           # -4
-    add 1 jz ^ .printf_x           # -5
-    add 1 jz ^ .printf_b_prefixed  # -6
-    add 1 jz ^ .printf_o_prefixed  # -7
-    add 1 jz ^ .printf_x_prefixed  # -8
-    add 1 jz ^ .printf_b_pad_0     # -9
-    add 1 jz ^ .printf_o_pad_0     # -10
-    add 1 jz ^ .printf_x_pad_0     # -11
-    add 1 jz ^ .printf_b_pad_s     # -12
-    add 1 jz ^ .printf_o_pad_s     # -13
-    add 1 jz ^ .printf_x_pad_s     # -14
-    add 1 jz ^ .printf_q           # -15
-    add 1 jz ^ .printf_s           # -16
-    printc '!'
+    1 + ^ jz .printf_ret         # -1
+    1 + ^ jz .printf_d           # -2
+    1 + ^ jz .printf_b           # -3
+    1 + ^ jz .printf_o           # -4
+    1 + ^ jz .printf_x           # -5
+    1 + ^ jz .printf_b_prefixed  # -6
+    1 + ^ jz .printf_o_prefixed  # -7
+    1 + ^ jz .printf_x_prefixed  # -8
+    1 + ^ jz .printf_b_pad_0     # -9
+    1 + ^ jz .printf_o_pad_0     # -10
+    1 + ^ jz .printf_x_pad_0     # -11
+    1 + ^ jz .printf_b_pad_s     # -12
+    1 + ^ jz .printf_o_pad_s     # -13
+    1 + ^ jz .printf_x_pad_s     # -14
+    1 + ^ jz .printf_q           # -15
+    1 + ^ jz .printf_s           # -16
+    '!' printc
     # fallthrough
 .printf_ret:
     drop ret
 .printf_d:
     drop printi jmp printf
 .printf_b:
-    drop call 2 printi_base jmp printf
+    drop 2 call printi_base jmp printf
 .printf_o:
-    drop call 8 printi_base jmp printf
+    drop 8 call printi_base jmp printf
 .printf_x:
-    drop call 16 printi_base jmp printf
+    drop 16 call printi_base jmp printf
 .printf_b_prefixed:
-    drop call 2 printi_base_prefixed jmp printf
+    drop 2 call printi_base_prefixed jmp printf
 .printf_o_prefixed:
-    drop call 8 printi_base_prefixed jmp printf
+    drop 8 call printi_base_prefixed jmp printf
 .printf_x_prefixed:
-    drop call 16 printi_base_prefixed jmp printf
+    drop 16 call printi_base_prefixed jmp printf
 .printf_b_pad_0:
-    jmp 2 .printf_pad_0
+    2 jmp .printf_pad_0
 .printf_o_pad_0:
-    jmp 8 .printf_pad_0
+    8 jmp .printf_pad_0
 .printf_x_pad_0:
-    jmp 16 .printf_pad_0
+    16 jmp .printf_pad_0
 .printf_b_pad_s:
-    jmp 2 .printf_pad_s
+    2 jmp .printf_pad_s
 .printf_o_pad_s:
-    jmp 8 .printf_pad_s
+    8 jmp .printf_pad_s
 .printf_x_pad_s:
-    jmp 16 .printf_pad_s
+    16 jmp .printf_pad_s
 .printf_q:
     drop call printc_quote jmp printf
 .printf_s:
     drop call printf jmp printf
 .printf_pad_0:
-    slide 1 swap copy 2 swap  # (x w verb base -- x base x w)
+    1slide swap ^2 swap  # (x w verb base -- x base x w)
     call printi_base_pad_0
     drop
     jmp printf
 .printf_pad_s:
-    slide 1 swap copy 2 swap  # (x w verb base -- x base x w)
+    1slide swap ^2 swap  # (x w verb base -- x base x w)
     call printi_base_pad_s
     drop
     jmp printf
@@ -95,7 +95,7 @@ printf:
 # prints0 prints a string on the stack, terminated with 0.
 # (0 str... -- )
 prints0:
-    jz ^ .prints0_eof
+    ^ jz .prints0_eof
     printc
     jmp prints0
 .prints0_eof:
@@ -104,8 +104,8 @@ prints0:
 # prints_len prints a string on the stack, prefixed with the length.
 # (str... len -- )
 prints_len:
-    sub 1
-    jn ^ .prints_len_done
+    1 -
+    ^ jn .prints_len_done
     swap printc
     jmp prints_len
 .prints_len_done:
@@ -115,61 +115,61 @@ prints_len:
 # length.
 # (addr len -- )
 prints_len_heap:
-    sub 1
-    jn ^ .prints_len_heap_done
-    swap printc *^ add 1 swap
+    1 -
+    ^ jn .prints_len_heap_done
+    swap ^ retrieve printc 1 + swap
     jmp prints_len_heap
 .prints_len_heap_done:
-    drop 2 ret
+    2drop ret
 
 # printc_quote prints a quoted character with escape sequences for
 # ASCII control characters.
 printc_quote:
-    printc '\''
+    '\'' printc
     call printc_escape
-    printc '\''
+    '\'' printc
     ret
 
 # printc_escape prints a character with escape sequences for ASCII
 # control characters.
 # (c -- )
 printc_escape:
-    sub ^ ' ' jn .printc_escape_control
-    sub ^ '\'' jz .printc_escape_slash
-    sub ^ '\\' jz .printc_escape_slash
+    ^ ' '  - jn .printc_escape_control
+    ^ '\'' - jz .printc_escape_slash
+    ^ '\\' - jz .printc_escape_slash
 .printc_escape_ret:
     printc
     ret
 .printc_escape_slash:
-    printc '\\'
+    '\\' printc
     jmp .printc_escape_ret
 .printc_escape_control:
-    printc '\\'
-    sub ^ '\a' jz .printc_escape_a
-    sub ^ '\b' jz .printc_escape_b
-    sub ^ '\t' jz .printc_escape_t
-    sub ^ '\n' jz .printc_escape_n
-    sub ^ '\v' jz .printc_escape_v
-    sub ^ '\f' jz .printc_escape_f
-    sub ^ '\r' jz .printc_escape_r
-    sub ^ '\e' jz .printc_escape_e
-    printc 'x'
-    push 16 swap push 2
+    '\\' printc
+    ^ '\a' - jz .printc_escape_a
+    ^ '\b' - jz .printc_escape_b
+    ^ '\t' - jz .printc_escape_t
+    ^ '\n' - jz .printc_escape_n
+    ^ '\v' - jz .printc_escape_v
+    ^ '\f' - jz .printc_escape_f
+    ^ '\r' - jz .printc_escape_r
+    ^ '\e' - jz .printc_escape_e
+    'x' printc
+    16 swap 2
     call printi_base_pad_0
     ret
 .printc_escape_a:
-    jmp 'a' .printc_escape_ret
+    'a' jmp .printc_escape_ret
 .printc_escape_b:
-    jmp 'b' .printc_escape_ret
+    'b' jmp .printc_escape_ret
 .printc_escape_t:
-    jmp 't' .printc_escape_ret
+    't' jmp .printc_escape_ret
 .printc_escape_n:
-    jmp 'n' .printc_escape_ret
+    'n' jmp .printc_escape_ret
 .printc_escape_v:
-    jmp 'v' .printc_escape_ret
+    'v' jmp .printc_escape_ret
 .printc_escape_f:
-    jmp 'f' .printc_escape_ret
+    'f' jmp .printc_escape_ret
 .printc_escape_r:
-    jmp 'r' .printc_escape_ret
+    'r' jmp .printc_escape_ret
 .printc_escape_e:
-    jmp 'e' .printc_escape_ret
+    'e' jmp .printc_escape_ret

@@ -9,23 +9,23 @@
 # term is n/2, otherwise 3*n+1.
 # (n -- steps)
 collatz:
-    sub ^ 1 jn .collatz_le0
-    push 0
+    ^ 1 - jn .collatz_le0
+    0
 .collatz_loop:
     swap
-    sub ^ 1 jz .collatz_1
-    mod ^ 2 jz .collatz_even
+    ^ 1 - jz .collatz_1
+    ^ 2 % jz .collatz_even
 # .collatz_odd:
-    mul 3
-    add 1
+    3 *
+    1 +
     jmp .collatz_next
 .collatz_even:
-    div 2
+    2 /
 .collatz_next:
     swap
-    add 1
+    1 +
     jmp .collatz_loop
 .collatz_1:
     drop ret
 .collatz_le0:
-    drop ret -1
+    drop -1 ret
