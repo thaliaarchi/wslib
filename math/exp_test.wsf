@@ -128,9 +128,9 @@ end
 test_exp:
     -1 '\n'
     ^3 ^3 call exp -2
-    ' ' '=' ' '
+    " = "
     ^7 -2
-    ' ' '*' '*' ' '
+    " ** "
     ^14 -2
     call printf
     2drop ret
@@ -138,13 +138,13 @@ test_exp:
 # (x y m -- )
 test_modexp:
     -1
-    '\n' ')'
+    ")\n"
     ^3 -2
-    ' ' 'd' 'o' 'm' '(' ' '
+    " (mod "
     ^13 ^13 ^13 call modexp -2
-    ' ' '=' ' '
+    " = "
     ^17 -2
-    ' ' '*' '*' ' '
+    " ** "
     ^24 -2
     call printf
     3drop ret
@@ -154,9 +154,9 @@ test_tetrate:
     -1
     '\n'
     ^3 ^3 call tetrate -2
-    ' ' '=' ' '
+    " = "
     ^7 -2
-    ' ' '^' '^' ' '
+    " ^^ "
     ^14 -2
     call printf
     2drop ret
@@ -166,9 +166,9 @@ test_pentate:
     -1
     '\n'
     ^3 ^3 call pentate -2
-    ' ' '=' ' '
+    " = "
     ^7 -2
-    ' ' '^' '^' '^' ' '
+    " ^^^ "
     ^15 -2
     call printf
     2drop ret

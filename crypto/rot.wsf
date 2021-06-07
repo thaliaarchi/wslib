@@ -4,21 +4,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    'K' printc
-    'e' printc
-    'y' printc
-    ':' printc
-    ' ' printc
-
+    'Key: ' printc printc printc printc printc
     0 readi
-
-    'P' printc
-    'l' printc
-    'a' printc
-    'i' printc
-    'n' printc
-    ':' printc
-    ' ' printc
+    'Plain: ' printc printc printc printc printc printc printc
 
     1
 .rot_init_loop:
