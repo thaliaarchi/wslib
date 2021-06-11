@@ -46,7 +46,7 @@ or:
     # OR is symmetric
     swap
 .or_yneg:
-	# x | (-y)
+    # x | (-y)
     # == x | ^(y-1)
     # == ^((y-1) &^ x)
     # == -(^((y-1) &^ x) + 1)
@@ -113,7 +113,7 @@ andnot:
     1 + -1 *
     ret
 .andnot_yneg:
-	# x &^ (-y)
+    # x &^ (-y)
     # == x &^ ^(y-1)
     # == x & (y-1)
     -1 * 1 -
@@ -254,4 +254,20 @@ bit_len:
     1 +
     jmp .bit_len_loop
 .bit_len_ret:
+    drop ret
+
+# pop_count returns the population count, or the number of 1 bits, of
+# the absolute value of x.
+# (x -- n)
+pop_count:
+    call abs
+    0 swap
+.pop_count_loop
+    ^ 2 % jz .pop_count_0
+    swap 1 + swap
+.pop_count_0:
+    2 /
+    ^ jz .pop_count_done
+    jmp .pop_count_loop
+.pop_count_done:
     drop ret
