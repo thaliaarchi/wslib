@@ -71,7 +71,7 @@ tediv:
     #   else     return q + 1
     # return q
 
-    ^1 ^1 % jn .tediv_r_lt0
+    2dup % jn .tediv_r_lt0
     # r >= 0 => q
     / ret
 .tediv_r_lt0:
@@ -92,7 +92,7 @@ temod:
     #   else     return r - y
     # return r
 
-    ^1 ^1 % ^ jn .temod_r_lt0
+    2dup % ^ jn .temod_r_lt0
     # r >= 0 => q
     2slide ret
 .temod_r_lt0:
@@ -114,7 +114,7 @@ tfdiv:
     # else
     #   return q
 
-    ^1 ^1 %
+    2dup %
     ^ jn .tfdiv_r_lt0
     ^ -1 * jn .tfdiv_r_gt0
 .tfdiv_q:
@@ -142,7 +142,7 @@ tfmod:
     # else
     #   return r
 
-    ^1 ^1 %
+    2dup %
     ^ jn .tfmod_r_lt0
     ^ -1 * jn .tfmod_r_gt0
 .tfmod_q:

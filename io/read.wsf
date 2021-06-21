@@ -10,7 +10,7 @@
 read_line_heap:
     0
 .read_line_heap_loop:
-    ^1 ^1 +
+    2dup +
     ^ readc
     retrieve
     ^ '\n' - jz .read_line_heap_done

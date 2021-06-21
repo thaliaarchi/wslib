@@ -26,7 +26,7 @@ sign:
 # min returns the lesser value of x and y.
 # (x y -- min)
 min:
-    ^1 ^1 - jn .min_x_lt_y
+    2dup - jn .min_x_lt_y
     1slide ret
 .min_x_lt_y:
     drop ret
@@ -34,7 +34,7 @@ min:
 # max returns the greater value of x and y.
 # (x y -- max)
 max:
-    ^1 ^1 - jn .max_x_lt_y
+    2dup - jn .max_x_lt_y
     drop ret
 .max_x_lt_y:
     1slide ret

@@ -49,16 +49,16 @@ test_bitwise:
     "y " prints ^ printi '\n' printc
 
     "x&y " prints
-    ^1 ^1 call and printi '\n' printc
+    2dup call and printi '\n' printc
 
     "x|y " prints
-    ^1 ^1 call or printi '\n' printc
+    2dup call or printi '\n' printc
 
     "x^y " prints
-    ^1 ^1 call xor printi '\n' printc
+    2dup call xor printi '\n' printc
 
     "x&^y " prints
-    ^1 ^1 call andnot printi '\n' printc
+    2dup call andnot printi '\n' printc
 
     '\n' printc
     2drop ret

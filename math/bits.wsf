@@ -167,7 +167,7 @@ uor:
     # z += (x%2 + y%2 - (x%2 * y%2)) * i
     ^3 2 %
     ^3 2 %
-    ^1 ^1 *
+    2dup *
     - +
     ^2 *
     +
@@ -262,7 +262,7 @@ bit_len:
 pop_count:
     call abs
     0 swap
-.pop_count_loop
+.pop_count_loop:
     ^ jz .pop_count_done
     ^ 2 % jz .pop_count_0
     swap 1 + swap
