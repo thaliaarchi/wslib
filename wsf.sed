@@ -217,25 +217,16 @@ s/(^| )\^([0-9]+)\b/\1copy \2/g
 # repeated drop shorthand
 s/\b2drop\b/drop drop/g
 s/\b3drop\b/drop drop drop/g
-s/\b4drop\b/slide 3 drop/g
-s/\b5drop\b/slide 4 drop/g
-s/\b6drop\b/slide 5 drop/g
-s/\b7drop\b/slide 6 drop/g
-s/\b8drop\b/slide 7 drop/g
-s/\b9drop\b/slide 8 drop/g
-s/\b10drop\b/slide 9 drop/g
+s/\b4drop\b/3slide drop/g
+s/\b5drop\b/4slide drop/g
+s/\b6drop\b/5slide drop/g
+s/\b7drop\b/6slide drop/g
+s/\b8drop\b/7slide drop/g
+s/\b9drop\b/8slide drop/g
+s/\b10drop\b/9slide drop/g
 
 # slide
-s/\b1slide\b/slide 1/g
-s/\b2slide\b/slide 2/g
-s/\b3slide\b/slide 3/g
-s/\b4slide\b/slide 4/g
-s/\b5slide\b/slide 5/g
-s/\b6slide\b/slide 6/g
-s/\b7slide\b/slide 7/g
-s/\b8slide\b/slide 8/g
-s/\b9slide\b/slide 9/g
-s/\b10slide\b/slide 10/g
+s/\b([0-9]+)slide\b/slide \1/g
 
 # Alias for jeof to jz or jn, depending on desired EOF behavior
 s/\bjeof\b/jn/g
