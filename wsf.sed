@@ -6,56 +6,56 @@
 
 # Comments and spaces
 s/(^|[^\\'])#.*//g
-s/\s+/ /g
+s/\s/ /g
 s/^ | $//g
 
 # String printing up to 15 chars long
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"'(([^\\"]|\\.)+)" prints/\1'\\'' printc "\2" prints/g
-s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" prints/\1'\2' printc "\3" prints/g
-s/(^| )"([^\\"'])" prints/\1'\2' printc/g
-s/(^| )"'" prints/\1'\\'' printc/g
-s/(^| )"(\\[abtnvfre"\\])" prints/\1'\2' printc/g
-s/(^| )"" prints/\1/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
+s/(^| )"(\\[abtnvfre"\\])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
+s/(^| )"([^\\"'])" +prints/\1'\2' printc/g
+s/(^| )"'" +prints/\1'\\'' printc/g
+s/(^| )"(\\[abtnvfre"\\])" +prints/\1'\2' printc/g
+s/(^| )"" +prints/\1/g
 
 # Strings up to 15 chars long
 s/(^| )"([^\\"'])(([^\\"]|\\.)+)"( |$)/\1"\3" '\2'\5/g
@@ -104,6 +104,9 @@ s/(^| )"([^\\"'])"( |$)/\1'\2'\3/g
 s/(^| )"'"( |$)/\1'\\''\2/g
 s/(^| )"(\\[abtnvfre"\\])"( |$)/\1'\2'\3/g
 s/(^| )""( |$)/\1\2/g
+
+# Collapse consecutive spaces
+s/ +/ /g
 
 # C-style escapes
 s/'\\a'/7/g; s/'\\b'/8/g; s/'\\t'/9/g; s/'\\n'/10/g; s/'\\v'/11/g; s/'\\f'/12/g; s/'\\r'/13/g; s/'\\e'/27/g
@@ -199,7 +202,7 @@ s/' '/32/g;
 # push literals
 s/(^| )([+-]?[0-9]+)\b/\1push \2/g
 
-# repeated copy shorthands
+# Repeated copy shorthand
 s/\b2dup\b/^1 ^1/g
 s/\b3dup\b/^2 ^2 ^2/g
 s/\b4dup\b/^3 ^3 ^3 ^3/g
@@ -211,10 +214,11 @@ s/\b9dup\b/^8 ^8 ^8 ^8 ^8 ^8 ^8 ^8 ^8/g
 s/\b10dup\b/^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9/g
 
 # copy ^ shorthand
-s/(^| )\^0*( |$)/\1dup\2/g
 s/(^| )\^([0-9]+)\b/\1copy \2/g
+s/(^| )\^( |$)/\1dup\2/g
+s/(^| )\^( |$)/\1dup\2/g
 
-# repeated drop shorthand
+# Repeated drop shorthand
 s/\b2drop\b/drop drop/g
 s/\b3drop\b/drop drop drop/g
 s/\b4drop\b/3slide drop/g
@@ -234,7 +238,9 @@ s/\bjeof\b/jn/g
 # Format labels as expected by wsc
 s/\b(call|jmp|jz|jn) %([0-9]+)\b/\1 \2/g
 s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 _\2/g
-s/\.([A-Za-z0-9_-]+:)/_\1/g
+s/\b(call|jmp|jz|jn) ([0-9][A-Za-z0-9_-]+)\b/\1 L_\2/g
+s/(^| )\.([A-Za-z0-9_-]+:)/\1_\2/g
+s/\b([0-9][A-Za-z0-9_-]+:)/L_\1/g
 
 # Arithmetic ops
 s/(^| )\+( |$)/\1add\2/g
