@@ -9,53 +9,53 @@
     "Plain: " prints
 
     1
-.rot_init_loop:
+.caesar_init_loop:
     ^ readc
     ^ retrieve
 
-    ^ 1    - jn .rot_init_done
-    ^ '\n' - jz .rot_init_done
+    ^ 1    - jn .caesar_init_done
+    ^ '\n' - jz .caesar_init_done
 
     1 +
-    jmp .rot_init_loop
-.rot_init_done:
+    jmp .caesar_init_loop
+.caesar_init_done:
     0 store
     0 retrieve
     0
     # fallthrough
 
 # (shift addr -- )
-rot:
+caesar:
     1 +
 
     ^ retrieve
-    ^ jz .rot_done
+    ^ jz .caesar_done
 
-    ^ 'A' - jn .rot_skip
-    ^ '[' - jn .rot_upper
-    ^ 'a' - jn .rot_skip
-    ^ '{' - jn .rot_lower
+    ^ 'A' - jn .caesar_skip
+    ^ '[' - jn .caesar_upper
+    ^ 'a' - jn .caesar_skip
+    ^ '{' - jn .caesar_lower
 
-.rot_skip:
+.caesar_skip:
     printc
-    jmp rot
+    jmp caesar
 
-.rot_upper:
+.caesar_upper:
     'A' -
     ^2 +
     26 %
     'A' +
     printc
-    jmp rot
+    jmp caesar
 
-.rot_lower:
+.caesar_lower:
     'a' -
     ^2 +
     26 %
     'a' +
     printc
-    jmp rot
+    jmp caesar
 
-.rot_done:
+.caesar_done:
     '\n' printc
     drop end
