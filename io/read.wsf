@@ -5,17 +5,17 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 # read_line_heap reads a line of text, stores it on the heap starting at
-# addr, and returns the length.
+# addr, and returns the length (not including '\n').
 # (addr -- len)
 read_line_heap:
     0
 .read_line_heap_loop:
-    2dup +
-    ^ readc
-    retrieve
+    2dup + ^ readc retrieve
     ^ '\n' - jz .read_line_heap_done
-    ^ jn .read_line_heap_done
-    1 +
+    ^ 1 - jn .read_line_heap_done
+    drop 1 +
     jmp .read_line_heap_loop
 .read_line_heap_done:
-    2drop ret
+    drop
+    swap ^1 + 0 store # overwrite '\n' with 0
+    ret

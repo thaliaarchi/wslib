@@ -4,58 +4,45 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "Key: " prints
-    0 readi
+    "Shift: " prints
+    0 ^ readi retrieve
     "Plain: " prints
+    0 call read_line_heap
+    swap 0 call caesar
+    0 swap call prints_len_heap
+    '\n' printc
+    end
 
-    1
-.caesar_init_loop:
-    ^ readc
-    ^ retrieve
-
-    ^ 1    - jn .caesar_init_done
-    ^ '\n' - jz .caesar_init_done
-
-    1 +
-    jmp .caesar_init_loop
-.caesar_init_done:
-    0 store
-    0 retrieve
-    0
-    # fallthrough
-
+# caesar shifts the alphabetic characters in the string starting at addr
+# in-place by shift.
 # (shift addr -- )
 caesar:
-    1 +
-
     ^ retrieve
     ^ jz .caesar_done
-
-    ^ 'A' - jn .caesar_skip
+    ^ 'A' - jn .caesar_other
     ^ '[' - jn .caesar_upper
-    ^ 'a' - jn .caesar_skip
+    ^ 'a' - jn .caesar_other
     ^ '{' - jn .caesar_lower
-
-.caesar_skip:
-    printc
+.caesar_continue:
+    1 +
     jmp caesar
-
 .caesar_upper:
-    'A' -
-    ^2 +
-    26 %
-    'A' +
-    printc
-    jmp caesar
-
+    'A' - ^2 + 26 % 'A' +
+    ^1 swap store
+    jmp .caesar_continue
 .caesar_lower:
-    'a' -
-    ^2 +
-    26 %
-    'a' +
-    printc
-    jmp caesar
-
+    'a' - ^2 + 26 % 'a' +
+    ^1 swap store
+    jmp .caesar_continue
+.caesar_other:
+    drop
+    jmp .caesar_continue
 .caesar_done:
-    '\n' printc
-    drop end
+    3drop ret
+
+# rot13 shifts the alphabetic characters in the string starting at addr
+# in-place by 13.
+# (addr -- )
+rot13:
+    13 swap
+    jmp caesar
