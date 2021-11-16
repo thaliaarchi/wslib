@@ -8,14 +8,14 @@
 # addr, and returns the length (not including '\n').
 # (addr -- len)
 read_line_heap:
-    0
+    ^
 .read_line_heap_loop:
-    2dup + ^ readc retrieve
+    ^ ^ readc retrieve
     ^ '\n' - jz .read_line_heap_done
     ^ 1 - jn .read_line_heap_done
     drop 1 +
     jmp .read_line_heap_loop
 .read_line_heap_done:
     drop
-    swap ^1 + 0 store # overwrite '\n' with 0
-    ret
+    ^ 0 store # overwrite '\n' with 0
+    swap - ret
