@@ -6,10 +6,10 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 list_package() {
-  echo "Package $1"
+  echo "Package \`$1\`"
   echo
-  find "$1" -name '*.wsa' ! -name '*_test.wsa' \
-    -exec grep '^[A-Za-z][A-Za-z0-9_]*:' {} \; | sort | sed -E 's/(.+):/  - `\1`/'
+  find "$1" -name '*.wsf' ! -name '*_test.wsf' \
+    -exec grep '^[A-Za-z][A-Za-z0-9_]*:' {} \; | sort | sed -E 's/(.+):/- `\1`/'
   echo
 }
 
