@@ -124,6 +124,7 @@ prints_len_heap:
 
 # printc_quote prints a quoted character with escape sequences for
 # ASCII control characters.
+# (c -- )
 printc_quote:
     '\'' printc
     call printc_escape

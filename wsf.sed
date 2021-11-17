@@ -234,7 +234,7 @@ s/\b10drop\b/9slide drop/g
 s/\b([0-9]+)slide\b/slide \1/g
 
 # Alias for jeof to jz or jn, depending on desired EOF behavior
-s/\bjeof\b/jn/g
+s/\bjeof\b/push 1 sub jn/g
 
 # Format labels as expected by wsc
 s/\b(call|jmp|jz|jn) %([0-9]+)\b/\1 \2/g
