@@ -38,3 +38,23 @@ max:
     drop ret
 .max_x_lt_y:
     1slide ret
+
+# sum computes the sum of all numbers below x.
+# (x -- sum)
+sum:
+    # x(x+1)/2
+    ^ 1 + * 2 / ret
+
+# sum_multiples computes the sum of all numbers below x that are
+# divisible by d.
+# (x d -- sum)
+sum_multiples:
+    swap ^1 /
+    ^ 1 + * 2 /
+    * ret
+
+# sum_squares computes the sum of the squares of all numbers below x.
+# (n -- sum)
+sum_squares:
+    # n(n+1)(2n+1)/6
+    ^ 1 + ^1 2 * 1 + * * 6 / ret
