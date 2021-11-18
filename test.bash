@@ -10,7 +10,6 @@ run_test() {
   prog="build/$(basename "${1%.wsf}")"
   in="${1%.wsf}.in"
   out="${1%.wsf}.out"
-  ./assemble.sh "$1" <(echo end) "${@:2}"
   if [ -f "$in" ]; then
     wspace "$prog.ws" < "$in" > "$prog.out"
   else
@@ -19,11 +18,12 @@ run_test() {
   diff -q "$out" "$prog.out"
 }
 
-run_test crypto/caesar.wsf io/print.wsf io/format_int.wsf io/read.wsf math/exp.wsf math/math.wsf
-run_test crypto/luhn_test.wsf crypto/luhn.wsf
-run_test io/format_int_test.wsf io/format_int.wsf math/exp.wsf math/math.wsf
-run_test io/print_test.wsf io/print.wsf io/format_int.wsf math/exp.wsf math/math.wsf
-run_test math/bits_test.wsf math/bits.wsf math/math.wsf
-run_test math/collatz_test.wsf math/collatz.wsf
-run_test math/exp_test.wsf math/exp.wsf math/math.wsf io/print.wsf io/format_int.wsf
-run_test math/matrix_test.wsf math/matrix.wsf
+make -k
+run_test crypto/caesar.wsf
+run_test crypto/luhn_test.wsf
+run_test io/format_int_test.wsf
+run_test io/print_test.wsf
+run_test math/bits_test.wsf
+run_test math/collatz_test.wsf
+run_test math/exp_test.wsf
+run_test math/matrix_test.wsf
