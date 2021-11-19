@@ -16,3 +16,6 @@ insert_final_newline = false
 
 [*.ws{a,f}]
 indent_size = 4
+
+[Makefile]
+indent_style = tab
