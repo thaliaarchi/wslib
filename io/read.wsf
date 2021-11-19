@@ -25,7 +25,7 @@ read_line_heap:
     ^
 .read_line_heap_loop:
     ^ ^ readc retrieve
-    ^ '\n' - jz .read_line_heap_done
+    ^ '\n' j= .read_line_heap_done
     ^ jeof .read_line_heap_done
     drop 1 +
     jmp .read_line_heap_loop

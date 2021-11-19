@@ -17,7 +17,7 @@
     ^ readc
     ^ retrieve
     ^ jeof .read_end
-    '\n' - jz .read_next_line
+    '\n' j= .read_next_line
     1 +
     jmp .read_line
 .read_next_line:

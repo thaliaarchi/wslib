@@ -18,11 +18,11 @@
 # (shift addr -- )
 caesar:
     ^ retrieve
-    ^ 1 - jn .caesar_done
-    ^ 'A' - jn .caesar_other
-    ^ '[' - jn .caesar_upper
-    ^ 'a' - jn .caesar_other
-    ^ '{' - jn .caesar_lower
+    ^ 1   j< .caesar_done
+    ^ 'A' j< .caesar_other
+    ^ '[' j< .caesar_upper
+    ^ 'a' j< .caesar_other
+    ^ '{' j< .caesar_lower
 .caesar_continue:
     1 +
     jmp caesar

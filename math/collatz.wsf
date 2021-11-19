@@ -9,11 +9,11 @@
 # term is n/2, otherwise 3*n+1.
 # (n -- steps)
 collatz:
-    ^ 1 - jn .collatz_le0
+    ^ 1 j< .collatz_le0
     0
 .collatz_loop:
     swap
-    ^ 1 - jz .collatz_1
+    ^ 1 j= .collatz_1
     ^ 2 % jz .collatz_even
 # .collatz_odd:
     3 * 1 +

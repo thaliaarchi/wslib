@@ -75,7 +75,7 @@ tediv:
     # r >= 0 => q
     / ret
 .tediv_r_lt0:
-    ^ 1 - jn .tediv_y_le0
+    ^ 1 j< .tediv_y_le0
     # y > 0 => q - 1
     / 1 - ret
 .tediv_y_le0:
@@ -96,7 +96,7 @@ temod:
     # r >= 0 => q
     2slide ret
 .temod_r_lt0:
-    ^1 1 - jn .temod_y_le0
+    ^1 1 j< .temod_y_le0
     # y > 0 => q + y
     + 1slide ret
 .temod_y_le0:

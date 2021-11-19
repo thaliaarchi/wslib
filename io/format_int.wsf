@@ -14,8 +14,8 @@ printi_base:
 .printu_base:
     2dup call .next_pow
 .printu_base_pad_0:
-    ^2 11 - jn .printu_base10
-    ^2 37 - jn .printu_base36
+    ^2 11 j< .printu_base10
+    ^2 37 j< .printu_base36
     jmp .printu_base62
 
 # printi_base_prefixed prints x in the given base with a 0b prefix for
@@ -73,9 +73,9 @@ printi_base_pad_s:
 # for base 8, and 0x for base 16.
 # (base -- )
 .print_base_prefix:
-    ^ 2  - jz .print_base_2_prefix
-    ^ 8  - jz .print_base_8_prefix
-    ^ 16 - jz .print_base_16_prefix
+    ^ 2  j= .print_base_2_prefix
+    ^ 8  j= .print_base_8_prefix
+    ^ 16 j= .print_base_16_prefix
     drop ret
 .print_base_2_prefix:
     'b' jmp .print_base_prefix_ret
@@ -140,7 +140,7 @@ printi_base_pad_s:
     ^2 /
     ^ jz .printu_base36_ret
     2dup / ^3 %
-    ^ 10 - jn .printu_base36_10
+    ^ 10 j< .printu_base36_10
     # print (x/pow % base) - 10 + 'a'
     87 + printc
     jmp .printu_base36
@@ -160,8 +160,8 @@ printi_base_pad_s:
     ^2 /
     ^ jz .printu_base62_ret
     2dup / ^3 %
-    ^ 10 - jn .printu_base62_10
-    ^ 36 - jn .printu_base62_36
+    ^ 10 j< .printu_base62_10
+    ^ 36 j< .printu_base62_36
     # print (x/pow % base) - 36 + 'a'
     61 + printc
     jmp .printu_base62

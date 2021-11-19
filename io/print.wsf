@@ -135,9 +135,9 @@ printc_quote:
 # control characters.
 # (c -- )
 printc_escape:
-    ^ ' '  - jn .printc_escape_control
-    ^ '\'' - jz .printc_escape_slash
-    ^ '\\' - jz .printc_escape_slash
+    ^ ' '  j< .printc_escape_control
+    ^ '\'' j= .printc_escape_slash
+    ^ '\\' j= .printc_escape_slash
 .printc_escape_ret:
     printc
     ret
@@ -146,14 +146,14 @@ printc_escape:
     jmp .printc_escape_ret
 .printc_escape_control:
     '\\' printc
-    ^ '\a' - jz .printc_escape_a
-    ^ '\b' - jz .printc_escape_b
-    ^ '\t' - jz .printc_escape_t
-    ^ '\n' - jz .printc_escape_n
-    ^ '\v' - jz .printc_escape_v
-    ^ '\f' - jz .printc_escape_f
-    ^ '\r' - jz .printc_escape_r
-    ^ '\e' - jz .printc_escape_e
+    ^ '\a' j= .printc_escape_a
+    ^ '\b' j= .printc_escape_b
+    ^ '\t' j= .printc_escape_t
+    ^ '\n' j= .printc_escape_n
+    ^ '\v' j= .printc_escape_v
+    ^ '\f' j= .printc_escape_f
+    ^ '\r' j= .printc_escape_r
+    ^ '\e' j= .printc_escape_e
     'x' printc
     16 swap 2
     call printi_base_pad_0

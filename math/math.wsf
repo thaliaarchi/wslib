@@ -26,16 +26,16 @@ sign:
 # min returns the lesser value of x and y.
 # (x y -- min)
 min:
-    2dup - jn .min_x_lt_y
-    1slide ret
+    2dup j< .min_x_lt_y
+    swap
 .min_x_lt_y:
     drop ret
 
 # max returns the greater value of x and y.
 # (x y -- max)
 max:
-    2dup - jn .max_x_lt_y
-    drop ret
+    2dup j< .max_x_lt_y
+    swap
 .max_x_lt_y:
     1slide ret
 

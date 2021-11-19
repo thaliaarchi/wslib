@@ -8,9 +8,9 @@
 # squaring. If y <= 0, 1 is returned.
 # (x y -- x**y)
 exp:
-    ^ 1 - jn .exp_one   # y <= 0
+    ^ 1   j< .exp_one   # y <= 0
 .exp:
-    ^ 1 - jz .exp_x     # y == 1
+    ^ 1   j= .exp_x     # y == 1
     ^ 2 % jz .exp_even  # y%2 == 0
 # .exp_odd:
     # exp(x**2, (y-1)/2) * x

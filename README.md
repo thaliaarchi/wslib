@@ -80,26 +80,44 @@ instruction names, with extended arguments and shorthands. `assemble.sh`
 converts the wslib dialect to a format recognizable by
 [whitespace-rs](https://github.com/CensoredUsername/whitespace-rs).
 
-### Arguments
+### Instruction shorthands
 
-- `add`, `sub`, `mul`, `div`, `mod`, and `store` may take up to two
-  arguments
-- `retrieve`, `ret`, `printc`, `printi`, `readc`, and `readi` may take
-  one argument
-- `drop` with one argument expands to a combination of `slide` and
-  `drop`
-- `jz` and `jn` may take one argument as the condition
-- `call` and `jmp` may take any number of arguments
+- `n` -> `push n`
+- `^` -> `dup`
+- `^n` -> `copy n`
+- `nslide` -> `slide n`
+- `+` -> `add`
+- `-` -> `sub`
+- `*` -> `mul`
+- `/` -> `div`
+- `%` -> `mod`
 
-### Argument shorthands
+### Instruction macros
 
-- `n` is `push n`
-- `^` is `dup`
-- `^n` is `copy n`
-
-### Instruction aliases
-
-- `jeof` resolves to `jn` or `jz`, depending on desired EOF behavior
+- `2dup` -> `^1 ^1`
+- `3dup` -> `^2 ^2 ^2`
+- `4dup` -> `^3 ^3 ^3 ^3`
+- `5dup` -> `^4 ^4 ^4 ^4 ^4`
+- `6dup` -> `^5 ^5 ^5 ^5 ^5 ^5`
+- `7dup` -> `^6 ^6 ^6 ^6 ^6 ^6 ^6`
+- `8dup` -> `^7 ^7 ^7 ^7 ^7 ^7 ^7 ^7`
+- `9dup` -> `^8 ^8 ^8 ^8 ^8 ^8 ^8 ^8 ^8`
+- `10dup` -> `^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9`
+- `2drop` -> `drop drop`
+- `3drop` -> `drop drop drop`
+- `4drop` -> `3slide drop`
+- `5drop` -> `4slide drop`
+- `6drop` -> `5slide drop`
+- `7drop` -> `6slide drop`
+- `8drop` -> `7slide drop`
+- `9drop` -> `8slide drop`
+- `10drop` -> `9slide drop`
+- `j=` -> `- jz`
+- `j<` -> `- jn`
+- `j>` -> `swap - jn`
+- `j<=` -> `- 1 - jn`
+- `j>=` -> `swap - 1 - jn`
+- `jeof` -> `jn`, `jz`, or `1 - jn` (depending on desired EOF behavior)
 
 ### Tokens
 

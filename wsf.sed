@@ -233,8 +233,15 @@ s/\b10drop\b/9slide drop/g
 # slide
 s/\b([0-9]+)slide\b/slide \1/g
 
-# Alias for jeof to jz or jn, depending on desired EOF behavior
-s/\bjeof\b/push 1 sub jn/g
+# Macros for comparison jumps
+s/\bj=( |$)/- jz\1/g
+s/\bj<( |$)/- jn\1/g
+s/\bj>( |$)/swap - jn\1/g
+s/\bj<=( |$)/- push 1 - jn\1/g
+s/\bj>=( |$)/swap - push 1 - jn\1/g
+
+# Macro for jeof, depending on desired EOF behavior (0, -1, either)
+s/\bjeof\b/push 1 - jn/g
 
 # Format labels as expected by wsc
 s/\b(call|jmp|jz|jn) %([0-9]+)\b/\1 \2/g

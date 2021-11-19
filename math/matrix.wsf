@@ -8,7 +8,7 @@
 # stored at addr on the heap in row-major order.
 # (addr m n -- )
 transpose:
-    ^1 ^1 - jz .transpose_m_eq_n
+    ^1 ^1 j= .transpose_m_eq_n
     # TODO
     3drop ret
 .transpose_m_eq_n:
