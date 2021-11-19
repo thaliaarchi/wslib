@@ -14,11 +14,11 @@
     end
 
 # caesar shifts the alphabetic characters in the string starting at addr
-# in-place by shift.
+# in-place by shift. The string must be zero- or negative-terminated.
 # (shift addr -- )
 caesar:
     ^ retrieve
-    ^ jz .caesar_done
+    ^ 1 - jn .caesar_done
     ^ 'A' - jn .caesar_other
     ^ '[' - jn .caesar_upper
     ^ 'a' - jn .caesar_other
@@ -41,7 +41,7 @@ caesar:
     3drop ret
 
 # rot13 shifts the alphabetic characters in the string starting at addr
-# in-place by 13.
+# in-place by 13. The string must be zero- or negative-terminated.
 # (addr -- )
 rot13:
     13 swap

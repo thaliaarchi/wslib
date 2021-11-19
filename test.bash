@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 # Copyright (c) 2021 Andrew Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
@@ -7,15 +7,15 @@
 
 run_test() {
   echo "Testing $1"
-  prog="build/$(basename "${1%.wsf}")"
+  prog="build/${1%.wsf}"
   in="${1%.wsf}.in"
   out="${1%.wsf}.out"
   if [ -f "$in" ]; then
     wspace "$prog.ws" < "$in" > "$prog.out"
   else
     wspace "$prog.ws" > "$prog.out"
-  fi
-  diff -q "$out" "$prog.out"
+  fi &&
+  diff "$out" "$prog.out"
 }
 
 make -k

@@ -8,10 +8,8 @@
 # https://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers
 # https://codegolf.stackexchange.com/questions/22/the-luhn-algorithm-for-verifying-credit-card-numbers-etc
 
-    0 ^ readi retrieve
-    call luhn_valid printi
-    end
-
+# luhn_valid validates an identification number, such as a credit card
+# or NPI number, using the Luhn algorithm. It returns 0 when n is valid.
 # (n -- valid)
 luhn_valid:
     0 # checksum
@@ -28,3 +26,10 @@ luhn_valid:
     jmp .luhn_valid_loop
 .luhn_ret:
     1slide 10 % ret
+
+# luhn_checksum computes the checksum digit for an identification
+# number, using the Luhn algorithm.
+# (n -- checksum)
+luhn_checksum:
+    10 * call luhn_valid
+    9 * 10 % ret
