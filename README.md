@@ -45,7 +45,6 @@ Package `math` manipulates arbitrary-precision integers
 - `tetrate`
 - `tfdiv`
 - `tfmod`
-- `transpose` (unimplemented)
 - `transpose_square`
 - `uand`
 - `uandnot`
@@ -115,8 +114,8 @@ converts the wslib dialect to a format recognizable by
 - `j=` -> `- jz`
 - `j<` -> `- jn`
 - `j>` -> `swap - jn`
-- `j<=` -> `- 1 - jn`
-- `j>=` -> `swap - 1 - jn`
+- `j<=` -> `1 + - jn`
+- `j>=` -> `swap 1 + - jn`
 - `jeof` -> `jn`, `jz`, or `1 - jn` (depending on desired EOF behavior)
 
 ### Tokens
@@ -151,7 +150,6 @@ to implement!
   - `extended_gcd`
   - `modexp`
   - `crt`
-  - `transpose`
   - `print_matrix_padded`
 
 - `misc`:

@@ -237,8 +237,8 @@ s/\b([0-9]+)slide\b/slide \1/g
 s/\bj=( |$)/- jz\1/g
 s/\bj<( |$)/- jn\1/g
 s/\bj>( |$)/swap - jn\1/g
-s/\bj<=( |$)/- push 1 - jn\1/g
-s/\bj>=( |$)/swap - push 1 - jn\1/g
+s/\bj<=( |$)/push 1 + - jn\1/g
+s/\bj>=( |$)/swap push 1 + - jn\1/g
 
 # Macro for jeof, depending on desired EOF behavior (0, -1, either)
 s/\bjeof\b/push 1 - jn/g
