@@ -7,7 +7,7 @@
 # Comments and spaces
 s/(^|[^\\'])#.*//g
 s/\s/ /g
-s/^ | $//g
+s/^ +| +$//g
 
 # String printing up to 15 chars long
 s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
