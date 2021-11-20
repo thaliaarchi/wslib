@@ -111,6 +111,12 @@ converts the wslib dialect to a format recognizable by
 - `8drop` -> `7slide drop`
 - `9drop` -> `8slide drop`
 - `10drop` -> `9slide drop`
+- `n+` -> `n +`
+- `n-` -> `n -`
+- `n*` -> `n *`
+- `n/` -> `n /`
+- `n%` -> `n %`
+- `neg` -> `-1 *`
 - `j=` -> `- jz`
 - `j<` -> `- jn`
 - `j>` -> `swap - jn`

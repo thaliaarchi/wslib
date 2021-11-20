@@ -77,10 +77,10 @@ tediv:
 .tediv_r_lt0:
     ^ 1 j< .tediv_y_le0
     # y > 0 => q - 1
-    / 1 - ret
+    / 1- ret
 .tediv_y_le0:
     # y <= 0 => q + 1
-    / 1 + ret
+    / 1+ ret
 
 # temod returns the Euclidean modulo of x and y, in terms of truncated
 # division.
@@ -116,13 +116,13 @@ tfdiv:
 
     2dup %
     ^ jn .tfdiv_r_lt0
-    ^ -1 * jn .tfdiv_r_gt0
+    ^ neg jn .tfdiv_r_gt0
 .tfdiv_q:
     # return q
     drop / ret
 .tfdiv_r_lt0:
     # r < 0 && y > 0
-    ^1 -1 * jn .tfdiv_q1
+    ^1 neg jn .tfdiv_q1
     jmp .tfdiv_q
 .tfdiv_r_gt0:
     # r > 0 && y < 0
@@ -130,7 +130,7 @@ tfdiv:
     jmp .tfdiv_q
 .tfdiv_q1:
     # return q - 1
-    drop / 1 - ret
+    drop / 1- ret
 
 # temod returns the floored modulo of x and y, in terms of truncated
 # division.
@@ -144,13 +144,13 @@ tfmod:
 
     2dup %
     ^ jn .tfmod_r_lt0
-    ^ -1 * jn .tfmod_r_gt0
+    ^ neg jn .tfmod_r_gt0
 .tfmod_q:
     # return r
     2slide ret
 .tfmod_r_lt0:
     # r < 0 && y > 0
-    ^1 -1 * jn .tfmod_q1
+    ^1 neg jn .tfmod_q1
     jmp .tfmod_q
 .tfmod_r_gt0:
     # r > 0 && y < 0

@@ -199,6 +199,11 @@ s/\b(-?)0x1f\b/\131/gi; s/\b(-?)0x3f\b/\163/gi; s/\b(-?)0x5f\b/\195/gi; s/\b(-?)
 
 s/' '/32/g;
 
+# push arithmetic literals
+s/(^| )([0-9]+)([+*\/%]|-)( |$)/\1\2 \3\4/g
+s/(^| )([0-9]+)([+*\/%]|-)( |$)/\1\2 \3\4/g
+s/(^| )([0-9]+)([+*\/%]|-)( |$)/\1\2 \3\4/g
+
 # push literals
 s/(^| )([+-]?[0-9]+)\b/\1push \2/g
 
@@ -232,6 +237,9 @@ s/\b10drop\b/9slide drop/g
 
 # slide
 s/\b([0-9]+)slide\b/slide \1/g
+
+# Macro for negate
+s/\bneg\b/push -1 */g
 
 # Macros for comparison jumps
 s/\bj=( |$)/- jz\1/g

@@ -9,7 +9,7 @@ collatz_test:
 .collatz_test_loop:
     ^ call collatz
     printi '\n' printc
-    1 +
+    1+
     ^ 73 j= .collatz_test_end
     jmp .collatz_test_loop
 .collatz_test_end:

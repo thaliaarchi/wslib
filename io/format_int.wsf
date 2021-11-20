@@ -50,7 +50,7 @@ printi_base_pad_s:
     ^2 ^2 call .width
     -
 .printi_base_pad_s_loop:
-    1 -
+    1-
     ^ jn .printi_base_pad_s_done
     ' ' printc
     jmp .printi_base_pad_s_loop
@@ -65,8 +65,7 @@ printi_base_pad_s:
     ^ jn .print_sign_neg
     ret
 .print_sign_neg:
-    -1 *
-    '-' printc
+    neg '-' printc
     ret
 
 # .print_base_prefix prints the prefix for a number: 0b for base 2, 0o
@@ -108,7 +107,7 @@ printi_base_pad_s:
     ^ jn .width_neg
     0
 .width_loop:
-    1 +
+    1+
     swap
     ^2 /
     ^ jz .width_ret
@@ -117,7 +116,7 @@ printi_base_pad_s:
 .width_ret:
     drop 1slide ret
 .width_neg:
-    -1 * 1 jmp .width_loop
+    neg 1 jmp .width_loop
 
 # .printu_base10 prints x in the given base with the alphabet [0-9].
 # Requires 2<=base<=10 && 0<=x<=pow
@@ -126,7 +125,7 @@ printi_base_pad_s:
     # pow /= base
     ^2 /
     ^ jz .printu_base10_ret
-    # print x/pow % base
+    # x/pow % base
     2dup / ^3 % printi
     jmp .printu_base10
 .printu_base10_ret:
@@ -141,11 +140,11 @@ printi_base_pad_s:
     ^ jz .printu_base36_ret
     2dup / ^3 %
     ^ 10 j< .printu_base36_10
-    # print (x/pow % base) - 10 + 'a'
-    87 + printc
+    # (x/pow % base) - 10 + 'a'
+    87+ printc
     jmp .printu_base36
 .printu_base36_10:
-    # print x/pow % base
+    # x/pow % base
     printi
     jmp .printu_base36
 .printu_base36_ret:
@@ -162,16 +161,16 @@ printi_base_pad_s:
     2dup / ^3 %
     ^ 10 j< .printu_base62_10
     ^ 36 j< .printu_base62_36
-    # print (x/pow % base) - 36 + 'a'
-    61 + printc
+    # (x/pow % base) - 36 + 'a'
+    61+ printc
     jmp .printu_base62
 .printu_base62_10:
-    # print x/pow % base
+    # x/pow % base
     printi
     jmp .printu_base62
 .printu_base62_36:
-    # print (x/pow % base) - 10 + 'A'
-    55 + printc
+    # (x/pow % base) - 10 + 'A'
+    55+ printc
     jmp .printu_base62
 .printu_base62_ret:
     3drop ret
@@ -182,12 +181,12 @@ formati:
     -1 swap
     ^ jn .formati_neg
 .formatu:
-    ^ 10 % '0' +
-    swap 10 /
+    ^ 10% '0' +
+    swap 10/
     ^ jz .formatu_done
     jmp .formatu
 .formatu_done:
     drop ret
 .formati_neg:
-    -1 * call .formatu '-'
+    neg call .formatu '-'
     ret

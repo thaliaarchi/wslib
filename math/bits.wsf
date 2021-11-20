@@ -21,18 +21,16 @@ and:
     # x & (-y)
     # == x & ^(y-1)
     # == x &^ (y-1)
-    -1 * 1 -
+    neg 1-
     jmp uandnot
 .and_xyneg:
     # (-x) & (-y)
     # == ^(x-1) & ^(y-1)
     # == ^((x-1) | (y-1))
     # == -(((x-1) | (y-1)) + 1)
-    -1 * 1 -
-    swap
-    -1 * 1 -
+    neg 1- swap neg 1-
     call uor
-    1 + -1 *
+    1+ neg
     ret
 
 # or returns the bitwise OR of x and y.
@@ -50,20 +48,18 @@ or:
     # == x | ^(y-1)
     # == ^((y-1) &^ x)
     # == -(^((y-1) &^ x) + 1)
-    -1 * 1 -
+    neg 1-
     swap call uandnot
-    1 + -1 *
+    1+ neg
     ret
 .or_xyneg:
     # (-x) | (-y)
     # == ^(x-1) | ^(y-1)
     # == ^((x-1) & (y-1))
     # == -(((x-1) & (y-1)) + 1)
-    -1 * 1 -
-    swap
-    -1 * 1 -
+    neg 1- swap neg 1-
     call uand
-    1 + -1 *
+    1+ neg
     ret
 
 # xor returns the bitwise XOR of x and y.
@@ -81,17 +77,15 @@ xor:
     # == x ^ ^(y-1)
     # == ^(x ^ (y-1))
     # == -((x ^ (y-1)) + 1)
-    -1 * 1 -
+    neg 1-
     call uxor
-    1 + -1 *
+    1+ neg
     ret
 .xor_xyneg:
     # (-x) ^ (-y)
     # == ^(x-1) ^ ^(y-1)
     # == (x-1) ^ (y-1)
-    -1 * 1 -
-    swap
-    -1 * 1 -
+    neg 1- swap neg 1-
     call uxor
     ret
 
@@ -108,24 +102,22 @@ andnot:
     # == ^(x-1) & ^y
     # == ^((x-1) | y)
     # == -(((x-1) | y) + 1)
-    swap -1 * 1 -
+    swap neg 1-
     call uor
-    1 + -1 *
+    1+ neg
     ret
 .andnot_yneg:
     # x &^ (-y)
     # == x &^ ^(y-1)
     # == x & (y-1)
-    -1 * 1 -
+    neg 1-
     jmp uand
 .andnot_xyneg:
     # (-x) &^ (-y)
     # == ^(x-1) &^ ^(y-1)
     # == ^(x-1) & (y-1)
     # == (y-1) &^ (x-1)
-    -1 * 1 -
-    swap
-    -1 * 1 -
+    neg 1- swap neg 1-
     call uandnot
     ret
 
@@ -139,16 +131,16 @@ uand:
     ^3 ^3 + jz .uand_ret
 
     # z += (x%2 * y%2) * i
-    ^3 2 %
-    ^3 2 %
+    ^3 2%
+    ^3 2%
     *
     ^2 *
     +
 
-    ^3 2 /  # x/2
-    ^3 2 /  # y/2
-    ^3 2 *  # i*2
-    ^3      # z
+    ^3 2/ # x/2
+    ^3 2/ # y/2
+    ^3 2* # i*2
+    ^3    # z
     call .uand_loop
 
     1slide
@@ -165,17 +157,17 @@ uor:
     ^3 ^3 + jz .uor_ret
 
     # z += (x%2 + y%2 - (x%2 * y%2)) * i
-    ^3 2 %
-    ^3 2 %
+    ^3 2%
+    ^3 2%
     2dup *
     - +
     ^2 *
     +
 
-    ^3 2 /  # x/2
-    ^3 2 /  # y/2
-    ^3 2 *  # i*2
-    ^3      # z
+    ^3 2/ # x/2
+    ^3 2/ # y/2
+    ^3 2* # i*2
+    ^3    # z
     call .uor_loop
 
     1slide
@@ -192,16 +184,16 @@ uxor:
     ^3 ^3 + jz .uxor_ret
 
     # z += (x%2 + y%2)%2 * i
-    ^3 2 %
-    ^3 2 %
-    + 2 %
+    ^3 2%
+    ^3 2%
+    + 2%
     ^2 *
     +
 
-    ^3 2 /  # x/2
-    ^3 2 /  # y/2
-    ^3 2 *  # i*2
-    ^3      # z
+    ^3 2/ # x/2
+    ^3 2/ # y/2
+    ^3 2* # i*2
+    ^3    # z
     call .uxor_loop
 
     1slide
@@ -218,16 +210,16 @@ uandnot:
     ^3 ^3 + jz .uandnot_ret
 
     # z += (x%2 * (1 - y%2)) * i
-    ^3 2 %
-    1 ^4 2 % -
+    ^3 2%
+    1 ^4 2% -
     *
     ^2 *
     +
 
-    ^3 2 /  # x/2
-    ^3 2 /  # y/2
-    ^3 2 *  # i*2
-    ^3      # z
+    ^3 2/ # x/2
+    ^3 2/ # y/2
+    ^3 2* # i*2
+    ^3    # z
     call .uandnot_loop
 
     1slide
@@ -237,7 +229,7 @@ uandnot:
 # not returns the bitwise complement of x.
 # (x -- ^x)
 not:
-    1 + -1 *
+    1+ neg
     ret
 
 # bit_len returns the length of the absolute value of x in bits.
@@ -249,9 +241,9 @@ bit_len:
 .bit_len_loop:
     swap
     ^ jz .bit_len_ret
-    2 /
+    2/
     swap
-    1 +
+    1+
     jmp .bit_len_loop
 .bit_len_ret:
     drop ret
@@ -264,10 +256,10 @@ pop_count:
     0 swap
 .pop_count_loop:
     ^ jz .pop_count_done
-    ^ 2 % jz .pop_count_0
-    swap 1 + swap
+    ^ 2% jz .pop_count_0
+    swap 1+ swap
 .pop_count_0:
-    2 /
+    2/
     jmp .pop_count_loop
 .pop_count_done:
     drop ret

@@ -24,14 +24,14 @@ caesar:
     ^ 'a' j< .caesar_other
     ^ '{' j< .caesar_lower
 .caesar_continue:
-    1 +
+    1+
     jmp caesar
 .caesar_upper:
-    'A' - ^2 + 26 % 'A' +
+    'A' - ^2 + 26% 'A' +
     ^1 swap store
     jmp .caesar_continue
 .caesar_lower:
-    'a' - ^2 + 26 % 'a' +
+    'a' - ^2 + 26% 'a' +
     ^1 swap store
     jmp .caesar_continue
 .caesar_other:

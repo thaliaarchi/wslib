@@ -14,15 +14,15 @@ collatz:
 .collatz_loop:
     swap
     ^ 1 j= .collatz_1
-    ^ 2 % jz .collatz_even
+    ^ 2% jz .collatz_even
 # .collatz_odd:
-    3 * 1 +
-    2 / # next step is always even
-    swap 2 +
+    3* 1+
+    2/ # next step is always even
+    swap 2+
     jmp .collatz_loop
 .collatz_even:
-    2 /
-    swap 1 +
+    2/
+    swap 1+
     jmp .collatz_loop
 .collatz_1:
     drop ret

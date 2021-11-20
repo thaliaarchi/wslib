@@ -18,7 +18,7 @@
     ^ retrieve
     ^ jeof .read_end
     '\n' j= .read_next_line
-    1 +
+    1+
     jmp .read_line
 .read_next_line:
     2dup -
@@ -70,7 +70,7 @@
 .repeat:
     ^ jz .repeat_end
     ^1 printc
-    1 -
+    1-
     jmp .repeat
 .repeat_end:
     2drop ret

@@ -31,22 +31,22 @@ printf:
     printc
     jmp printf
 .printf_verb:
-    1 + ^ jz .printf_ret         # -1
-    1 + ^ jz .printf_d           # -2
-    1 + ^ jz .printf_b           # -3
-    1 + ^ jz .printf_o           # -4
-    1 + ^ jz .printf_x           # -5
-    1 + ^ jz .printf_b_prefixed  # -6
-    1 + ^ jz .printf_o_prefixed  # -7
-    1 + ^ jz .printf_x_prefixed  # -8
-    1 + ^ jz .printf_b_pad_0     # -9
-    1 + ^ jz .printf_o_pad_0     # -10
-    1 + ^ jz .printf_x_pad_0     # -11
-    1 + ^ jz .printf_b_pad_s     # -12
-    1 + ^ jz .printf_o_pad_s     # -13
-    1 + ^ jz .printf_x_pad_s     # -14
-    1 + ^ jz .printf_q           # -15
-    1 + ^ jz .printf_s           # -16
+    1+ ^ jz .printf_ret        # -1
+    1+ ^ jz .printf_d          # -2
+    1+ ^ jz .printf_b          # -3
+    1+ ^ jz .printf_o          # -4
+    1+ ^ jz .printf_x          # -5
+    1+ ^ jz .printf_b_prefixed # -6
+    1+ ^ jz .printf_o_prefixed # -7
+    1+ ^ jz .printf_x_prefixed # -8
+    1+ ^ jz .printf_b_pad_0    # -9
+    1+ ^ jz .printf_o_pad_0    # -10
+    1+ ^ jz .printf_x_pad_0    # -11
+    1+ ^ jz .printf_b_pad_s    # -12
+    1+ ^ jz .printf_o_pad_s    # -13
+    1+ ^ jz .printf_x_pad_s    # -14
+    1+ ^ jz .printf_q          # -15
+    1+ ^ jz .printf_s          # -16
     '!' printc
     # fallthrough
 .printf_ret:
@@ -82,12 +82,12 @@ printf:
 .printf_s:
     drop call printf jmp printf
 .printf_pad_0:
-    1slide swap ^2 swap  # (x w verb base -- x base x w)
+    1slide swap ^2 swap # (x w verb base -- x base x w)
     call printi_base_pad_0
     drop
     jmp printf
 .printf_pad_s:
-    1slide swap ^2 swap  # (x w verb base -- x base x w)
+    1slide swap ^2 swap # (x w verb base -- x base x w)
     call printi_base_pad_s
     drop
     jmp printf
@@ -104,7 +104,7 @@ prints0:
 # prints_len prints a string on the stack, prefixed with the length.
 # (str... len -- )
 prints_len:
-    1 -
+    1-
     ^ jn .prints_len_done
     swap printc
     jmp prints_len
@@ -115,9 +115,9 @@ prints_len:
 # length.
 # (addr len -- )
 prints_len_heap:
-    1 -
+    1-
     ^ jn .prints_len_heap_done
-    swap ^ retrieve printc 1 + swap
+    swap ^ retrieve printc 1+ swap
     jmp prints_len_heap
 .prints_len_heap_done:
     2drop ret

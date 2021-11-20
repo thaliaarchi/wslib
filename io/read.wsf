@@ -12,7 +12,7 @@ read_eof_heap:
 .read_eof_heap_loop:
     ^ ^ readc retrieve
     jeof .read_eof_heap_done
-    1 +
+    1+
     jmp .read_eof_heap_loop
 .read_eof_heap_done:
     ^ -1 store # overwrite 0 with -1
@@ -27,7 +27,7 @@ read_line_heap:
     ^ ^ readc retrieve
     ^ '\n' j= .read_line_heap_done
     ^ jeof .read_line_heap_done
-    drop 1 +
+    drop 1+
     jmp .read_line_heap_loop
 .read_line_heap_done:
     drop

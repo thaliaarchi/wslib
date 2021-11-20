@@ -8,21 +8,21 @@
 # squaring. If y <= 0, 1 is returned.
 # (x y -- x**y)
 exp:
-    ^ 1   j< .exp_one   # y <= 0
+    ^ 1  j< .exp_one  # y <= 0
 .exp:
-    ^ 1   j= .exp_x     # y == 1
-    ^ 2 % jz .exp_even  # y%2 == 0
+    ^ 1  j= .exp_x    # y == 1
+    ^ 2% jz .exp_even # y%2 == 0
 # .exp_odd:
     # exp(x**2, (y-1)/2) * x
     ^1 ^ * swap
-    1 - 2 /
+    1- 2/
     call .exp
     *
     ret
 .exp_even:
     # exp(x**2, y/2)
     swap ^ * swap
-    2 /
+    2/
     jmp .exp
 .exp_one:
     2drop 1 ret
@@ -40,7 +40,7 @@ modexp:
 tetrate:
     1
 .tetrate_loop:
-    swap 1 - swap
+    swap 1- swap
     ^1 jn .tetrate_done
     ^2 swap call exp
     jmp .tetrate_loop
@@ -53,7 +53,7 @@ tetrate:
 pentate:
     1
 .pentate_loop:
-    swap 1 - swap
+    swap 1- swap
     ^1 jn .pentate_done
     ^2 swap call tetrate
     jmp .pentate_loop
