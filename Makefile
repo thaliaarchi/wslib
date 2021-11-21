@@ -7,28 +7,44 @@
 BUILD = build
 SED = gsed
 ASSEMBLE = wsc
-TARGETS = crypto/caesar.ws crypto/luhn_test.ws io/format_int_test.ws \
-	io/print_test.ws math/bits_test.ws math/collatz_test.ws \
-	math/exp_test.ws math/matrix_test.ws
+
+WSF = crypto/caesar.wsf crypto/luhn_test.wsf io/format_int_test.wsf \
+	io/print_test.wsf math/bits_test.wsf math/collatz_test.wsf \
+	math/exp_test.wsf math/matrix_test.wsf
+WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
 
 .PHONY: all
-all: $(addprefix $(BUILD)/,$(TARGETS))
+all: $(WS)
 
 $(BUILD)/%.ws: $(BUILD)/%.wsa
 	$(ASSEMBLE) -f asm -t -o $@ $<
 
-$(BUILD)/%.wsa: wsf.sed %.wsf
-	@mkdir -p $(dir $@)
-	$(SED) -Ef $^ > $@
+.PRECIOUS: $(BUILD)/%.wsa
+$(BUILD)/%.wsa: %.wsf wsf.sed
+	@mkdir -p $(@D)
+	$(SED) -Ef wsf.sed $< > $@
+	@cat $@ $(filter %.wsa,$^) | sponge $@
 
-$(BUILD)/crypto/caesar.wsa: io/print.wsf io/format_int.wsf io/read.wsf math/exp.wsf math/math.wsf
-$(BUILD)/crypto/luhn_test.wsa: crypto/luhn.wsf
-$(BUILD)/io/format_int_test.wsa: io/format_int.wsf math/exp.wsf math/math.wsf
-$(BUILD)/io/print_test.wsa: io/print.wsf io/format_int.wsf math/exp.wsf math/math.wsf
-$(BUILD)/math/bits_test.wsa: math/bits.wsf math/math.wsf
-$(BUILD)/math/collatz_test.wsa: math/collatz.wsf
-$(BUILD)/math/exp_test.wsa: math/exp.wsf math/math.wsf io/print.wsf io/format_int.wsf
-$(BUILD)/math/matrix_test.wsa: math/matrix.wsf
+$(BUILD)/crypto/caesar.wsa: $(BUILD)/io/read.wsa $(BUILD)/io/print.wsa
+$(BUILD)/crypto/luhn.wsa:
+$(BUILD)/crypto/luhn_test.wsa: $(BUILD)/crypto/luhn.wsa
+$(BUILD)/io/format_int.wsa: $(BUILD)/math/exp.wsa $(BUILD)/math/math.wsa
+$(BUILD)/io/format_int_test.wsa: $(BUILD)/io/format_int.wsa
+$(BUILD)/io/print.wsa: $(BUILD)/io/format_int.wsa
+$(BUILD)/io/print_test.wsa: $(BUILD)/io/print.wsa
+$(BUILD)/io/read.wsa:
+$(BUILD)/math/bits.wsa: $(BUILD)/math/math.wsa
+$(BUILD)/math/bits_test.wsa: $(BUILD)/math/bits.wsa
+$(BUILD)/math/collatz.wsa:
+$(BUILD)/math/collatz_test.wsa: $(BUILD)/math/collatz.wsa
+$(BUILD)/math/divmod.wsa:
+$(BUILD)/math/exp.wsa:
+$(BUILD)/math/exp_test.wsa: $(BUILD)/math/exp.wsa $(BUILD)/io/print.wsa
+$(BUILD)/math/gcd.wsa: $(BUILD)/math/math.wsa
+$(BUILD)/math/math.wsa:
+$(BUILD)/math/matrix.wsa:
+$(BUILD)/math/matrix_test.wsa: $(BUILD)/math/matrix.wsa
+$(BUILD)/misc/cowsay.wsa:
 
 .PHONY: clean
 clean:
