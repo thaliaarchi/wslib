@@ -7,7 +7,7 @@
     "Shift: " prints
     0 ^ readi retrieve
     "Plain: " prints
-    0 call read_line_heap
+    0 call read_line
     swap 0 call caesar
     0 swap call prints_len_heap
     '\n' printc
