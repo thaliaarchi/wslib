@@ -7,8 +7,8 @@
 # count returns the number of occurrences of x in the array.
 # (addr len x -- count)
 count:
-    swap 1- 0 ^
-    ^2 jn .count_ret
+    swap 0 ^
+    ^2 1- jn .count_ret
 .count_loop:
     ^1 ^5 + retrieve ^4 j= .count_equal
 .count_loop_next:
@@ -18,6 +18,21 @@ count:
     4slide ret
 .count_equal:
     1+ jmp .count_loop_next
+
+# contains returns whether x is contained within the array.
+# (addr len x -- ?)
+contains:
+    swap 0
+    ^1 1- jn .contains_false
+.contains_loop:
+    ^ ^4 + retrieve ^3 j= .contains_true
+.contains_loop_next:
+    1+
+    ^ ^2 j< .contains_loop
+.contains_false:
+    0 4slide ret
+.contains_true:
+    1 4slide ret
 
 # print_array prints an array, delimited by the given char.
 # (addr len delim -- )
