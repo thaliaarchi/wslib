@@ -26,4 +26,5 @@ run_test io/print_test.wsf
 run_test math/bits_test.wsf
 run_test math/collatz_test.wsf
 run_test math/exp_test.wsf
+run_test math/logical_test.wsf
 run_test math/matrix_test.wsf

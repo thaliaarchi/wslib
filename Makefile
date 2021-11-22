@@ -10,7 +10,7 @@ ASSEMBLE = wsc
 
 WSF = crypto/caesar.wsf crypto/luhn_test.wsf io/format_int_test.wsf \
 	io/print_test.wsf math/bits_test.wsf math/collatz_test.wsf \
-	math/exp_test.wsf math/matrix_test.wsf
+	math/exp_test.wsf math/logical_test.wsf math/matrix_test.wsf
 WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
 
 .PHONY: all
@@ -42,6 +42,8 @@ $(BUILD)/math/divmod.wsa:
 $(BUILD)/math/exp.wsa:
 $(BUILD)/math/exp_test.wsa: $(BUILD)/io/print.wsa
 $(BUILD)/math/gcd.wsa: $(BUILD)/math/math.wsa
+$(BUILD)/math/logical.wsa:
+$(BUILD)/math/logical_test.wsa: $(BUILD)/math/logical.wsa
 $(BUILD)/math/math.wsa:
 $(BUILD)/math/matrix.wsa: $(BUILD)/array/array.wsa
 $(BUILD)/math/matrix_test.wsa: $(BUILD)/math/matrix.wsa
