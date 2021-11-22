@@ -9,6 +9,9 @@ s/(^|[^\\'])#.*//g
 s/\s/ /g
 s/^ +| +$//g
 
+# Remove imports
+s/(^| )"[^"]+" +import\b/\1/g
+
 # String printing up to 25 chars long
 s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g
 s/(^| )"'(([^\\"]|\\.)+)" +prints/\1'\\'' printc "\2" prints/g
@@ -312,11 +315,12 @@ s/\bj>=( |$)/swap push 1 + - jn\1/g
 s/\bjeof\b/push 1 - jn/g
 
 # Format labels as expected by wsc
+s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_.-]+)\b/\1 _\2/g
+s/\b(call|jmp|jz|jn) ([0-9][A-Za-z0-9_.-]+)\b/\1 L_\2/g
 s/\b(call|jmp|jz|jn) %([0-9]+)\b/\1 \2/g
-s/\b(call|jmp|jz|jn) \.([A-Za-z0-9_-]+)\b/\1 _\2/g
-s/\b(call|jmp|jz|jn) ([0-9][A-Za-z0-9_-]+)\b/\1 L_\2/g
-s/(^| )\.([A-Za-z0-9_-]+:)/\1_\2/g
-s/\b([0-9][A-Za-z0-9_-]+:)/L_\1/g
+s/(^| )\.([A-Za-z0-9_.-]+:)/\1_\2/g
+s/\b([0-9][A-Za-z0-9_.-]+:)/L_\1/g
+s/(^| )%([0-9]+:)\b/\1\2/g
 
 # Arithmetic ops
 s/(^| )\+( |$)/\1add\2/g
@@ -334,6 +338,9 @@ s/(^| )\/( |$)/\1div\2/g
 s/(^| )%( |$)/\1mod\2/g
 s/(^| )%( |$)/\1mod\2/g
 s/(^| )%( |$)/\1mod\2/g
+
+# Replace all scope dots in labels
+s/\./__/g
 
 # One instruction per line
 s/(push|copy|slide) (-?[0-9]+) /\1 \2\n/g

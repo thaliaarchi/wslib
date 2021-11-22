@@ -1,0 +1,56 @@
+#!/bin/bash -e
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+[ $# -ne 2 ] && echo "usage: ${0##*/} <file> <out_file>" >&2 && exit 2
+prog="$1"
+out="$2"
+
+WSLIB="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+gsed -Ef "$WSLIB"/wsf.sed "$prog" > "$out"
+final_inst=$(awk '/./{line=$0} END{print line}' "$out")
+if ! grep -Eq '^(call|jmp|j[zn]) |^(ret|exit)$' <<< "$final_inst"; then
+  echo "$out: Program does not end with a control flow instruction: $final_inst" >&2
+  exit 1
+fi
+
+imports=()
+in_imports() {
+  local import
+  for import in "${imports[@]}"; do
+    [ "$import" = "$1" ] && return 0
+  done
+  return 1
+}
+
+get_imports() {
+  local file="$1"
+  imports=("${imports[@]}" "$file")
+  local import
+  while read -r import; do
+    local import_file="$import.wsf"
+    if [ ! -f "$import_file" ]; then
+      import_file="$WSLIB/$import_file"
+      if [ ! -f "$import_file" ]; then
+        echo "$file: Unable to resolve import: $import" >&1; exit 1
+      fi
+    fi
+    if ! in_imports "$import_file"; then
+      get_imports "$import_file"
+    fi
+  done < <(gsed -En 's/(^|\s)"([^"]+)"\s+import\b/\2/p' "$file")
+}
+
+get_imports "$prog"
+
+for import in "${imports[@]:1}"; do
+  package="$(basename "${import%.wsf}")"
+  gsed -E "
+    s/\b(call|jmp|j[zn=<>]|j[<>]=)\s+(\.?)([A-za-z0-9_.-]+)\b/\1 \2$package.\3/
+    s/\b(\.?)([A-za-z0-9_.-]+:)/\1$package.\2/
+  " "$import"
+done | gsed -Ef "$WSLIB"/wsf.sed >> "$out"
