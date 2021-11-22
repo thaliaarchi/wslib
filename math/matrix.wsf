@@ -37,24 +37,9 @@ print_matrix:
 .print_matrix_loop:
     1-
     ^ jn .print_matrix_ret
-    ^1 ^3 call print_vector
+    ^1 ^3 ' ' call print_array
     '\n' printc
     swap ^2 + swap
     jmp .print_matrix_loop
 .print_matrix_ret:
     5drop ret
-
-# print_vector prints an n-length vector starting at addr, delimited by
-# spaces.
-# (addr n -- )
-print_vector:
-    1- 0
-    ^1 jn .print_matrix_ret
-.print_vector_loop:
-    ^ ^3 + retrieve printi
-    1+
-    2dup j< .print_vector_ret
-    ' ' printc
-    jmp .print_vector_loop
-.print_vector_ret:
-    3drop ret

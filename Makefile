@@ -25,6 +25,7 @@ $(BUILD)/%.wsa: %.wsf wsf.sed
 	$(SED) -Ef wsf.sed $< > $@
 	@cat $@ $(filter %.wsa,$^) | sponge $@
 
+$(BUILD)/array/array.wsa:
 $(BUILD)/crypto/caesar.wsa: $(BUILD)/io/read.wsa $(BUILD)/io/print.wsa
 $(BUILD)/crypto/luhn.wsa:
 $(BUILD)/crypto/luhn_test.wsa: $(BUILD)/crypto/luhn.wsa
@@ -39,10 +40,10 @@ $(BUILD)/math/collatz.wsa:
 $(BUILD)/math/collatz_test.wsa: $(BUILD)/math/collatz.wsa
 $(BUILD)/math/divmod.wsa:
 $(BUILD)/math/exp.wsa:
-$(BUILD)/math/exp_test.wsa: $(BUILD)/math/exp.wsa $(BUILD)/io/print.wsa
+$(BUILD)/math/exp_test.wsa: $(BUILD)/io/print.wsa
 $(BUILD)/math/gcd.wsa: $(BUILD)/math/math.wsa
 $(BUILD)/math/math.wsa:
-$(BUILD)/math/matrix.wsa:
+$(BUILD)/math/matrix.wsa: $(BUILD)/array/array.wsa
 $(BUILD)/math/matrix_test.wsa: $(BUILD)/math/matrix.wsa
 $(BUILD)/misc/cowsay.wsa:
 

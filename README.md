@@ -5,56 +5,11 @@ become the standard library for an upcoming compiler.
 
 ## Packages
 
-Package `io` prints formatted values to stdout and parses values from
-stdin
-
-- `formati`
-- `printc_escape`
-- `printc_quote`
-- `printf`
-- `printi_base`
-- `printi_base_pad_0`
-- `printi_base_pad_s`
-- `printi_base_prefixed`
-- `prints0`
-- `prints_len`
-- `prints_len_heap`
-- `read_line_heap`
-
-Package `math` manipulates arbitrary-precision integers
-
-- `abs`
-- `and`
-- `andnot`
-- `bit_len`
-- `collatz`
-- `exp`
-- `gcd` (unimplemented)
-- `max`
-- `min`
-- `modexp` (unimplemented)
-- `not`
-- `or`
-- `pentate`
-- `pop_count`
-- `print_matrix`
-- `print_vector`
-- `sign`
-- `tediv`
-- `temod`
-- `tetrate`
-- `tfdiv`
-- `tfmod`
-- `transpose_square`
-- `uand`
-- `uandnot`
-- `uor`
-- `uxor`
-- `xor`
-
-Package `misc` contains miscellaneous standalone programs
-
-- `cowsay`
+- `array`: array manipulation
+- `crypto`: non-cryptographic ciphers
+- `io`: reading and printing routines
+- `math`: arbitrary-precision integer math functions
+- `misc`: miscellaneous standalone programs
 
 ## Style
 
@@ -150,8 +105,6 @@ to implement!
 
 - `math`:
 
-  - Fix `transpose_square`
-  - Fix `print_matrix`
   - `gcd`
   - `extended_gcd`
   - `modexp`
