@@ -4,64 +4,64 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# logical_and returns the logical AND of x and y.
+# and returns the logical AND of x and y.
 # (x y -- x&&y)
-logical_and:
-    jz .logical_0
-    jmp logical_cast
+and:
+    jz .zero
+    jmp cast
 
-# logical_or returns the logical OR of x and y.
+# or returns the logical OR of x and y.
 # (x y -- x||y)
-logical_or:
-    jz logical_cast
-    jmp .logical_1
+or:
+    jz cast
+    jmp .one
 
-# logical_xor returns the logical XOR of x and y.
+# xor returns the logical XOR of x and y.
 # (x y -- x^y)
-logical_xor:
-    jz logical_cast
-    jmp logical_not
+xor:
+    jz cast
+    jmp not
 
-# logical_andnot returns the logical AND NOT of x and y.
+# andnot returns the logical AND NOT of x and y.
 # (x y -- x&&!y)
-logical_andnot:
-    jz logical_cast
-    jmp .logical_0
+andnot:
+    jz cast
+    jmp .zero
 
-# logical_nand returns the logical NAND of x and y.
+# nand returns the logical NAND of x and y.
 # (x y -- !(x&&y))
-logical_nand:
-    jz .logical_1
-    jmp logical_not
+nand:
+    jz .one
+    jmp not
 
-# logical_nor returns the logical NOR of x and y.
+# nor returns the logical NOR of x and y.
 # (x y -- ^(x||y))
-logical_nor:
-    jz logical_not
-    jmp .logical_0
+nor:
+    jz not
+    jmp .zero
 
-# logical_xnor returns the logical XNOR of x and y.
+# xnor returns the logical XNOR of x and y.
 # (x y -- !(x^y))
-logical_xnor:
-    jz logical_not
-    jmp logical_cast
+xnor:
+    jz not
+    jmp cast
 
-# logical_nandnot returns the logical NAND NOT of x and y.
+# nandnot returns the logical NAND NOT of x and y.
 # (x y -- !(x&&!y))
-logical_nandnot:
-    jz logical_not
-    jmp .logical_1
+nandnot:
+    jz not
+    jmp .one
 
-# logical_not returns the logical NOT of x.
+# not returns the logical NOT of x.
 # (x -- !x)
-logical_not:
-    jz .logical_1
-.logical_0:
+not:
+    jz .one
+.zero:
     0 ret
 
-# logical_cast coerces x to a boolean.
+# cast coerces x to a boolean.
 # (x -- !!x)
-logical_cast:
-    jz .logical_0
-.logical_1:
+cast:
+    jz .zero
+.one:
     1 ret

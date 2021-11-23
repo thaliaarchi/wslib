@@ -3,12 +3,16 @@
 wslib is a library of utilities written in Whitespace, intended to
 become the standard library for an upcoming compiler.
 
-## Packages
+## Modules
 
-- `array`: array manipulation
 - `crypto`: non-cryptographic ciphers
 - `io`: reading and printing routines
 - `math`: arbitrary-precision integer math functions
+- `types`: higher-level types
+  - `array`
+  - `bits`
+  - `bool`
+  - `matrix`
 - `misc`: miscellaneous standalone programs
 
 ## Style
@@ -78,6 +82,11 @@ converts the wslib dialect to a format recognizable by
 - `j<=` -> `1 + - jn`
 - `j>=` -> `swap 1 + - jn`
 - `jeof` -> `jn`, `jz`, or `1 - jn` (depending on desired EOF behavior)
+
+### Imports
+
+- `"module" import` - import module
+- `"module" export` - import module under the exporting module's name
 
 ### Tokens
 

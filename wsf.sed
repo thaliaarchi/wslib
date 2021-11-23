@@ -11,6 +11,7 @@ s/^ +| +$//g
 
 # Remove imports
 s/(^| )"[^"]+" +import\b/\1/g
+s/(^| )"[^"]+" +export\b/\1/g
 
 # String printing up to 25 chars long
 s/(^| )"([^\\"'])(([^\\"]|\\.)+)" +prints/\1'\2' printc "\3" prints/g

@@ -5,16 +5,16 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-list_package() {
-  echo "Package \`$1\`"
+list_module() {
+  echo "Module \`$1\`"
   echo
   find "$1" -name '*.wsf' ! -name '*_test.wsf' \
     -exec gsed -En 's/^([A-Za-z][A-Za-z0-9_-]*):/- `\1`/p' {} \; | sort
   echo
 }
 
-list_package array
-list_package crypto
-list_package io
-list_package math
-list_package misc
+list_module array
+list_module crypto
+list_module io
+list_module math
+list_module misc
