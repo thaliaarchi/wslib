@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+    "array/array" import
+
 # transpose_square transposes a square matrix with size n*n in-place at
 # addr.
 # Requires n>=0
@@ -37,7 +39,7 @@ print_matrix:
 .print_matrix_loop:
     1-
     ^ jn .print_matrix_ret
-    ^1 ^3 ' ' call print_array
+    ^1 ^3 ' ' call array.print
     '\n' printc
     swap ^2 + swap
     jmp .print_matrix_loop

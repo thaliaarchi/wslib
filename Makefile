@@ -20,33 +20,33 @@ $(BUILD)/%.ws: $(BUILD)/%.wsa
 	$(ASSEMBLE) -f asm -t -o $@ $<
 
 .PRECIOUS: $(BUILD)/%.wsa
-$(BUILD)/%.wsa: %.wsf wsf.sed
+$(BUILD)/%.wsa: %.wsf wsf.sed wsf-assemble
 	@mkdir -p $(@D)
-	$(SED) -Ef wsf.sed $< > $@
-	@cat $@ $(filter %.wsa,$^) | sponge $@
+	./wsf-assemble $< $@
+
 
 $(BUILD)/array/array.wsa:
-$(BUILD)/crypto/caesar.wsa: $(BUILD)/io/read.wsa $(BUILD)/io/print.wsa
+$(BUILD)/crypto/caesar.wsa: io/read.wsf io/print.wsf
 $(BUILD)/crypto/luhn.wsa:
-$(BUILD)/crypto/luhn_test.wsa: $(BUILD)/crypto/luhn.wsa
-$(BUILD)/io/format_int.wsa: $(BUILD)/math/exp.wsa $(BUILD)/math/math.wsa
-$(BUILD)/io/format_int_test.wsa: $(BUILD)/io/format_int.wsa
-$(BUILD)/io/print.wsa: $(BUILD)/io/format_int.wsa
-$(BUILD)/io/print_test.wsa: $(BUILD)/io/print.wsa
+$(BUILD)/crypto/luhn_test.wsa: crypto/luhn.wsf
+$(BUILD)/io/format_int.wsa: math/exp.wsf math/math.wsf
+$(BUILD)/io/format_int_test.wsa: io/format_int.wsf
+$(BUILD)/io/print.wsa: io/format_int.wsf
+$(BUILD)/io/print_test.wsa: io/print.wsf
 $(BUILD)/io/read.wsa:
-$(BUILD)/math/bits.wsa: $(BUILD)/math/math.wsa
-$(BUILD)/math/bits_test.wsa: $(BUILD)/math/bits.wsa
+$(BUILD)/math/bits.wsa: math/math.wsf
+$(BUILD)/math/bits_test.wsa: math/bits.wsf
 $(BUILD)/math/collatz.wsa:
-$(BUILD)/math/collatz_test.wsa: $(BUILD)/math/collatz.wsa
+$(BUILD)/math/collatz_test.wsa: math/collatz.wsf
 $(BUILD)/math/divmod.wsa:
 $(BUILD)/math/exp.wsa:
-$(BUILD)/math/exp_test.wsa: $(BUILD)/io/print.wsa
-$(BUILD)/math/gcd.wsa: $(BUILD)/math/math.wsa
+$(BUILD)/math/exp_test.wsa: io/print.wsf
+$(BUILD)/math/gcd.wsa: math/math.wsf
 $(BUILD)/math/logical.wsa:
-$(BUILD)/math/logical_test.wsa: $(BUILD)/math/logical.wsa
+$(BUILD)/math/logical_test.wsa: math/logical.wsf
 $(BUILD)/math/math.wsa:
-$(BUILD)/math/matrix.wsa: $(BUILD)/array/array.wsa
-$(BUILD)/math/matrix_test.wsa: $(BUILD)/math/matrix.wsa
+$(BUILD)/math/matrix.wsa: array/array.wsf
+$(BUILD)/math/matrix_test.wsa: math/matrix.wsf
 $(BUILD)/misc/cowsay.wsa:
 
 .PHONY: clean

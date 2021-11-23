@@ -4,6 +4,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+    "math/exp"  import
+    "math/math" import
+
 # printi_base prints x in the given base. The alphabet is [0-9a-z] for
 # bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
 # Requires 2<=base<=62
@@ -37,9 +40,9 @@ printi_base_pad_0:
     swap
     call .print_sign
     swap
-    ^2 swap call exp
+    ^2 swap call math.exp
     ^2 ^2 call .next_pow
-    call max
+    call math.max
     jmp .printu_base_pad_0
 
 # printi_base_pad_s prints x in the given base, padded with spaces to at

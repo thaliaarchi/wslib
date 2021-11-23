@@ -9,10 +9,12 @@ list_package() {
   echo "Package \`$1\`"
   echo
   find "$1" -name '*.wsf' ! -name '*_test.wsf' \
-    -exec grep '^[A-Za-z][A-Za-z0-9_]*:' {} \; | sort | sed -E 's/(.+):/- `\1`/'
+    -exec gsed -En 's/^([A-Za-z][A-Za-z0-9_-]*):/- `\1`/p' {} \; | sort
   echo
 }
 
+list_package array
+list_package crypto
 list_package io
 list_package math
 list_package misc

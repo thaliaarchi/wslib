@@ -34,16 +34,16 @@ contains:
 .contains_true:
     1 4slide ret
 
-# print_array prints an array, delimited by the given char.
+# print prints an array, delimited by the given char.
 # (addr len delim -- )
-print_array:
+print:
     swap 1- 0
-    ^1 jn .print_array_ret
-.print_array_loop:
+    ^1 jn .print_ret
+.print_loop:
     ^ ^4 + retrieve printi
     1+
-    2dup j< .print_array_ret
+    2dup j< .print_ret
     ^2 printc
-    jmp .print_array_loop
-.print_array_ret:
+    jmp .print_loop
+.print_ret:
     4drop ret

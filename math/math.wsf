@@ -39,16 +39,16 @@ max:
 .max_x_lt_y:
     1slide ret
 
-# within_range returns 1 if x is between min and max (inclusive) and 0
+# in_range returns 1 if x is between min and max (inclusive) and 0
 # otherwise.
 # (min max x -- ?)
-within_range:
-    swap ^1 j< .within_range_higher
-    swap j< .within_range_lower
+in_range:
+    swap ^1 j< .in_range_higher
+    swap j< .in_range_lower
     1 ret
-.within_range_higher:
+.in_range_higher:
     2drop
-.within_range_lower:
+.in_range_lower:
     0 ret
 
 # sum computes the sum of all numbers below x.

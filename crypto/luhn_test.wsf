@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+    "crypto/luhn" import
+
     79927398713 call test_luhn
     49927398716 call test_luhn
     49927398717 call test_luhn
@@ -13,7 +15,7 @@
 
 # (n -- )
 test_luhn:
-    ^ call luhn_valid printi
-    10/ call luhn_checksum printi
+    ^ call crypto.luhn_valid printi
+    10/ call crypto.luhn_checksum printi
     '\n' printc
     ret

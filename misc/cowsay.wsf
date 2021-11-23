@@ -68,9 +68,9 @@
 # Requires n>=0
 # (char n --)
 .repeat:
-    ^ jz .repeat_end
+    ^ jz .repeat_ret
     ^1 printc
     1-
     jmp .repeat
-.repeat_end:
+.repeat_ret:
     2drop ret

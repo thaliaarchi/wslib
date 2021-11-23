@@ -48,9 +48,10 @@ get_imports() {
 get_imports "$prog"
 
 for import in "${imports[@]:1}"; do
-  package="$(basename "${import%.wsf}")"
+  package="${import%/*}"
+  package="${package##*/}"
   gsed -E "
-    s/\b(call|jmp|j[zn=<>]|j[<>]=)\s+(\.?)([A-za-z0-9_.-]+)\b/\1 \2$package.\3/
-    s/\b(\.?)([A-za-z0-9_.-]+:)/\1$package.\2/
+    s/\b(call|jmp|j[zn=<>]|j[<>]=|jeof)\s+(\.?)([A-za-z0-9_-]+)( |$)/\1 \2$package.\3\4/
+    s/\b(\.?)([A-za-z0-9_-]+:)( |$)/\1$package.\2\3/
   " "$import"
 done | gsed -Ef "$WSLIB"/wsf.sed >> "$out"

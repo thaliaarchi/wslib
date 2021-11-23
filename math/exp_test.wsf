@@ -4,6 +4,9 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+"math/exp" import
+"io/print" import
+
 # Exp tests borrowed from Go
 # https://golang.org/src/math/big/int_test.go#L527
 
@@ -127,12 +130,12 @@ end
 # (x y -- )
 test_exp:
     -1 '\n'
-    ^3 ^3 call exp -2
+    ^3 ^3 call math.exp -2
     " = "
     ^7 -2
     " ** "
     ^14 -2
-    call printf
+    call io.printf
     2drop ret
 
 # (x y m -- )
@@ -141,34 +144,34 @@ test_modexp:
     ")\n"
     ^3 -2
     " (mod "
-    ^13 ^13 ^13 call modexp -2
+    ^13 ^13 ^13 call math.modexp -2
     " = "
     ^17 -2
     " ** "
     ^24 -2
-    call printf
+    call io.printf
     3drop ret
 
 # (x y -- )
 test_tetrate:
     -1
     '\n'
-    ^3 ^3 call tetrate -2
+    ^3 ^3 call math.tetrate -2
     " = "
     ^7 -2
     " ^^ "
     ^14 -2
-    call printf
+    call io.printf
     2drop ret
 
 # (x y -- )
 test_pentate:
     -1
     '\n'
-    ^3 ^3 call pentate -2
+    ^3 ^3 call math.pentate -2
     " = "
     ^7 -2
     " ^^^ "
     ^15 -2
-    call printf
+    call io.printf
     2drop ret
