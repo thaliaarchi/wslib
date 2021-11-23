@@ -4,12 +4,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "math" import
-
 collatz_test:
     1
 .collatz_test_loop:
-    ^ call math.collatz
+    ^ call collatz
     printi '\n' printc
     1+
     ^ 73 j= .collatz_test_end

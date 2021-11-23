@@ -4,8 +4,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "io" import
-
     0          call test_printi
     -0         call test_printi
     -6         call test_printi
@@ -16,10 +14,10 @@
 
 # (x -- )
 test_printi:
-    ^ 2  call io.printi_base ' ' printc
-    ^ 2  call io.printi_base_prefixed ' ' printc
-    ^ 8  call io.printi_base ' ' printc
-    ^ 8  call io.printi_base_prefixed ' ' printc
-    ^ 16 call io.printi_base ' ' printc
-    ^ 16 call io.printi_base_prefixed '\n' printc
+    ^ 2  call printi_base ' ' printc
+    ^ 2  call printi_base_prefixed ' ' printc
+    ^ 8  call printi_base ' ' printc
+    ^ 8  call printi_base_prefixed ' ' printc
+    ^ 16 call printi_base ' ' printc
+    ^ 16 call printi_base_prefixed '\n' printc
     drop ret

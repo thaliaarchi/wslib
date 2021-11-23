@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "types/array" import
+    "@types/array" import
 
 # transpose_square transposes a square matrix with size n*n in-place at
 # addr.
