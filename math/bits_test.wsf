@@ -4,46 +4,46 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-"math/bits" import
+    "math/bits" import
 
-# Bitwise tests borrowed from Go
-# https://golang.org/src/math/big/int_test.go#L1193
+    # Bitwise tests borrowed from Go
+    # https://golang.org/src/math/big/int_test.go#L1193
 
-0      0      call test_bitwise
-0      1      call test_bitwise
-1      0      call test_bitwise
--1     0      call test_bitwise
--175   -80    call test_bitwise
-0      -1     call test_bitwise
-1      1      call test_bitwise
--1     -1     call test_bitwise
-7      8      call test_bitwise
-5      15     call test_bitwise
-255    -10    call test_bitwise
-81910  39502  call test_bitwise
--81910 39502  call test_bitwise
--81910 -39502 call test_bitwise
+    0      0      call test_bitwise
+    0      1      call test_bitwise
+    1      0      call test_bitwise
+    -1     0      call test_bitwise
+    -175   -80    call test_bitwise
+    0      -1     call test_bitwise
+    1      1      call test_bitwise
+    -1     -1     call test_bitwise
+    7      8      call test_bitwise
+    5      15     call test_bitwise
+    255    -10    call test_bitwise
+    81910  39502  call test_bitwise
+    -81910 39502  call test_bitwise
+    -81910 -39502 call test_bitwise
 
-340282566926938463463474637401768211457
-298472983472983471903246121093472394872319615612417471234712061
-call test_bitwise
+    340282566926938463463474637401768211457
+    298472983472983471903246121093472394872319615612417471234712061
+    call test_bitwise
 
-340282566926938463463474637401768211457
--298472983472983471903246121093472394872319615612417471234712061
-call test_bitwise
+    340282566926938463463474637401768211457
+    -298472983472983471903246121093472394872319615612417471234712061
+    call test_bitwise
 
--340282566926938463463474637401768211457
--298472983472983471903246121093472394872319615612417471234712061
-call test_bitwise
+    -340282566926938463463474637401768211457
+    -298472983472983471903246121093472394872319615612417471234712061
+    call test_bitwise
 
-0      call test_not
-1      call test_not
-7      call test_not
-0      call test_not
--81910 call test_not
-298472983472983471903246121093472394872319615612417471234712061 call test_not
+    0      call test_not
+    1      call test_not
+    7      call test_not
+    0      call test_not
+    -81910 call test_not
+    298472983472983471903246121093472394872319615612417471234712061 call test_not
 
-end
+    end
 
 # (x y -- )
 test_bitwise:

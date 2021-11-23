@@ -4,15 +4,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-"io/format_int" import
+    "io/format_int" import
 
-0          call test_printi
--0         call test_printi
--6         call test_printi
-7          call test_printi
-255        call test_printi
-3735928559 call test_printi
-end
+    0          call test_printi
+    -0         call test_printi
+    -6         call test_printi
+    7          call test_printi
+    255        call test_printi
+    3735928559 call test_printi
+    end
 
 # (x -- )
 test_printi:

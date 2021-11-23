@@ -4,53 +4,53 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-"math/logical" import
+    "math/logical" import
 
-"and     " prints
-0 0 call math.logical_and     printi
-0 1 call math.logical_and     printi
-1 0 call math.logical_and     printi
-1 1 call math.logical_and     printi
-"\nor      " prints
-0 0 call math.logical_or      printi
-0 1 call math.logical_or      printi
-1 0 call math.logical_or      printi
-1 1 call math.logical_or      printi
-"\nxor     " prints
-0 0 call math.logical_xor     printi
-0 1 call math.logical_xor     printi
-1 0 call math.logical_xor     printi
-1 1 call math.logical_xor     printi
-"\nandnot  " prints
-0 0 call math.logical_andnot  printi
-0 1 call math.logical_andnot  printi
-1 0 call math.logical_andnot  printi
-1 1 call math.logical_andnot  printi
-"\nnand    " prints
-0 0 call math.logical_nand    printi
-0 1 call math.logical_nand    printi
-1 0 call math.logical_nand    printi
-1 1 call math.logical_nand    printi
-"\nnor     " prints
-0 0 call math.logical_nor     printi
-0 1 call math.logical_nor     printi
-1 0 call math.logical_nor     printi
-1 1 call math.logical_nor     printi
-"\nxnor    " prints
-0 0 call math.logical_xnor    printi
-0 1 call math.logical_xnor    printi
-1 0 call math.logical_xnor    printi
-1 1 call math.logical_xnor    printi
-"\nnandnot " prints
-0 0 call math.logical_nandnot printi
-0 1 call math.logical_nandnot printi
-1 0 call math.logical_nandnot printi
-1 1 call math.logical_nandnot printi
-"\nnot     " prints
-0   call math.logical_not     printi
-1   call math.logical_not     printi
-"\ncast    " prints
-0   call math.logical_cast    printi
-1   call math.logical_cast    printi
-'\n' printc
-end
+    "and     " prints
+    0 0 call math.logical_and     printi
+    0 1 call math.logical_and     printi
+    1 0 call math.logical_and     printi
+    1 1 call math.logical_and     printi
+    "\nor      " prints
+    0 0 call math.logical_or      printi
+    0 1 call math.logical_or      printi
+    1 0 call math.logical_or      printi
+    1 1 call math.logical_or      printi
+    "\nxor     " prints
+    0 0 call math.logical_xor     printi
+    0 1 call math.logical_xor     printi
+    1 0 call math.logical_xor     printi
+    1 1 call math.logical_xor     printi
+    "\nandnot  " prints
+    0 0 call math.logical_andnot  printi
+    0 1 call math.logical_andnot  printi
+    1 0 call math.logical_andnot  printi
+    1 1 call math.logical_andnot  printi
+    "\nnand    " prints
+    0 0 call math.logical_nand    printi
+    0 1 call math.logical_nand    printi
+    1 0 call math.logical_nand    printi
+    1 1 call math.logical_nand    printi
+    "\nnor     " prints
+    0 0 call math.logical_nor     printi
+    0 1 call math.logical_nor     printi
+    1 0 call math.logical_nor     printi
+    1 1 call math.logical_nor     printi
+    "\nxnor    " prints
+    0 0 call math.logical_xnor    printi
+    0 1 call math.logical_xnor    printi
+    1 0 call math.logical_xnor    printi
+    1 1 call math.logical_xnor    printi
+    "\nnandnot " prints
+    0 0 call math.logical_nandnot printi
+    0 1 call math.logical_nandnot printi
+    1 0 call math.logical_nandnot printi
+    1 1 call math.logical_nandnot printi
+    "\nnot     " prints
+    0   call math.logical_not     printi
+    1   call math.logical_not     printi
+    "\ncast    " prints
+    0   call math.logical_cast    printi
+    1   call math.logical_cast    printi
+    '\n' printc
+    end
