@@ -4,53 +4,53 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/bool" import
+    "bool" export
 
     "and     " prints
-    0 0 call bool.and     printi
-    0 1 call bool.and     printi
-    1 0 call bool.and     printi
-    1 1 call bool.and     printi
+    0 0 call and     printi
+    0 1 call and     printi
+    1 0 call and     printi
+    1 1 call and     printi
     "\nor      " prints
-    0 0 call bool.or      printi
-    0 1 call bool.or      printi
-    1 0 call bool.or      printi
-    1 1 call bool.or      printi
+    0 0 call or      printi
+    0 1 call or      printi
+    1 0 call or      printi
+    1 1 call or      printi
     "\nxor     " prints
-    0 0 call bool.xor     printi
-    0 1 call bool.xor     printi
-    1 0 call bool.xor     printi
-    1 1 call bool.xor     printi
+    0 0 call xor     printi
+    0 1 call xor     printi
+    1 0 call xor     printi
+    1 1 call xor     printi
     "\nandnot  " prints
-    0 0 call bool.andnot  printi
-    0 1 call bool.andnot  printi
-    1 0 call bool.andnot  printi
-    1 1 call bool.andnot  printi
+    0 0 call andnot  printi
+    0 1 call andnot  printi
+    1 0 call andnot  printi
+    1 1 call andnot  printi
     "\nnand    " prints
-    0 0 call bool.nand    printi
-    0 1 call bool.nand    printi
-    1 0 call bool.nand    printi
-    1 1 call bool.nand    printi
+    0 0 call nand    printi
+    0 1 call nand    printi
+    1 0 call nand    printi
+    1 1 call nand    printi
     "\nnor     " prints
-    0 0 call bool.nor     printi
-    0 1 call bool.nor     printi
-    1 0 call bool.nor     printi
-    1 1 call bool.nor     printi
+    0 0 call nor     printi
+    0 1 call nor     printi
+    1 0 call nor     printi
+    1 1 call nor     printi
     "\nxnor    " prints
-    0 0 call bool.xnor    printi
-    0 1 call bool.xnor    printi
-    1 0 call bool.xnor    printi
-    1 1 call bool.xnor    printi
+    0 0 call xnor    printi
+    0 1 call xnor    printi
+    1 0 call xnor    printi
+    1 1 call xnor    printi
     "\nnandnot " prints
-    0 0 call bool.nandnot printi
-    0 1 call bool.nandnot printi
-    1 0 call bool.nandnot printi
-    1 1 call bool.nandnot printi
+    0 0 call nandnot printi
+    0 1 call nandnot printi
+    1 0 call nandnot printi
+    1 1 call nandnot printi
     "\nnot     " prints
-    0   call bool.not     printi
-    1   call bool.not     printi
+    0   call not     printi
+    1   call not     printi
     "\ncast    " prints
-    0   call bool.cast    printi
-    1   call bool.cast    printi
+    0   call cast    printi
+    1   call cast    printi
     '\n' printc
     end

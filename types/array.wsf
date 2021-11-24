@@ -47,3 +47,17 @@ print:
     jmp .print_loop
 .print_ret:
     4drop ret
+
+# read_eof reads integers, one per line, until EOF, stores them on the
+# heap starting at addr terminated with -1, and returns the length.
+# (addr -- len)
+read_eof:
+    ^
+.read_eof_loop:
+    ^ ^ readi retrieve
+    jeof .read_eof_heap_ret
+    1+
+    jmp .read_eof_loop
+.read_eof_heap_ret:
+    ^ -1 store # overwrite 0 with -1
+    swap - ret

@@ -6,4 +6,3 @@
 
     "format_int" export
     "print"      export
-    "read"       export

@@ -25,6 +25,8 @@ run_test io/format_int_test.wsf
 run_test io/print_test.wsf
 run_test math/collatz_test.wsf
 run_test math/exp_test.wsf
+run_test types/array_test.wsf
 run_test types/bits_test.wsf
 run_test types/bool_test.wsf
 run_test types/matrix_test.wsf
+run_test types/string_test.wsf

@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/bits" import
+    "bits" export
 
     # Bitwise tests borrowed from Go
     # https://golang.org/src/math/big/int_test.go#L1193
@@ -51,16 +51,16 @@ test_bitwise:
     "y " prints ^ printi '\n' printc
 
     "x&y " prints
-    2dup call bits.and printi '\n' printc
+    2dup call and printi '\n' printc
 
     "x|y " prints
-    2dup call bits.or printi '\n' printc
+    2dup call or printi '\n' printc
 
     "x^y " prints
-    2dup call bits.xor printi '\n' printc
+    2dup call xor printi '\n' printc
 
     "x&^y " prints
-    2dup call bits.andnot printi '\n' printc
+    2dup call andnot printi '\n' printc
 
     '\n' printc
     2drop ret
@@ -69,5 +69,5 @@ test_bitwise:
 test_not:
     "x " prints ^ printi '\n' printc
     "-x " prints
-    call bits.not printi "\n\n" prints
+    call not printi "\n\n" prints
     ret

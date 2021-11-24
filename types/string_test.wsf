@@ -1,0 +1,23 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "string" export
+
+    0 'H' store
+    1 'e' store
+    2 'l' store
+    3 'l' store
+    4 'o' store
+    5 '\n' store
+
+    6 1 store 0 6 call print
+    6 0 store 0 call print_0
+    6 -1 store 0 call print_neg
+
+    "Hello\n" 6 call print_stack
+    0 "Hello\n" call print_0_stack
+    -1 "Hello\n" call print_neg_stack
+    end

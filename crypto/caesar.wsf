@@ -4,14 +4,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@io" import
+    "@types/string" import
 
     "Shift: " prints
     0 ^ readi retrieve
     "Plain: " prints
-    0 call io.read_line
+    0 call string.read_line
     swap 0 call caesar
-    0 swap call io.prints_len_heap
+    0 swap call string.print
     '\n' printc
     end
 

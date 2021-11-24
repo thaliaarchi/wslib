@@ -1,0 +1,95 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# print prints a string on the heap at addr, with the given length.
+# (addr len -- )
+print:
+    1-
+    ^ jn .print_ret
+    swap ^ retrieve printc 1+ swap
+    jmp print
+.print_ret:
+    2drop ret
+
+# print_0 prints a string on the heap at addr, terminated with 0.
+# (addr -- )
+print_0:
+    ^ retrieve
+    ^ jz .print_0_ret
+    printc 1+
+    jmp print_0
+.print_0_ret:
+    2drop ret
+
+# print_neg prints a string on the heap at addr, terminated with a
+# negative number.
+# (addr -- )
+print_neg:
+    ^ retrieve
+    ^ jn .print_neg_ret
+    printc 1+
+    jmp print_neg
+.print_neg_ret:
+    2drop ret
+
+# print_stack prints a string on the stack, prefixed with the length.
+# (str... len -- )
+print_stack:
+    1-
+    ^ jn .print_stack_ret
+    swap printc
+    jmp print_stack
+.print_stack_ret:
+    drop ret
+
+# print_0_stack prints a string on the stack, terminated with 0.
+# (0 str... -- )
+print_0_stack:
+    ^ jz .print_0_stack_ret
+    printc
+    jmp print_0_stack
+.print_0_stack_ret:
+    drop ret
+
+# print_neg_stack prints a string on the stack, terminated with a
+# negative number.
+# (0 str... -- )
+print_neg_stack:
+    ^ jn .print_neg_stack_ret
+    printc
+    jmp print_neg_stack
+.print_neg_stack_ret:
+    drop ret
+
+# read_line reads a line of text, stores it on the heap starting at addr
+# terminated with -1, and returns the length (not including '\n').
+# (addr -- len)
+read_line:
+    ^
+.read_line_loop:
+    ^ ^ readc retrieve
+    ^ '\n' j= .read_line_ret
+    ^ jeof .read_line_ret
+    drop 1+
+    jmp .read_line_loop
+.read_line_ret:
+    drop
+    ^ -1 store # overwrite '\n' with -1
+    swap - ret
+
+# read_eof reads text until EOF, stores it on the heap starting at addr
+# terminated with -1, and returns the length.
+# (addr -- len)
+read_eof:
+    ^
+.read_eof_loop:
+    ^ ^ readc retrieve
+    jeof .read_eof_ret
+    1+
+    jmp .read_eof_loop
+.read_eof_ret:
+    ^ -1 store # overwrite 0 with -1
+    swap - ret

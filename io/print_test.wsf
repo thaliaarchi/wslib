@@ -20,6 +20,4 @@
     31 call printc_quote '\n' printc
     'A' call printc_quote '\n' printc
     -1 "Hello\n" call printf
-    0 "Hello\n" call prints0
-    "Hello\n" 6 call prints_len
     end
