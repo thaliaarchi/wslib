@@ -335,12 +335,22 @@ s/\b([0-9]+)slide\b/slide \1/g
 # Macro for negate
 s/\bneg\b/push -1 */g
 
-# Macros for comparison jumps
+# Comparison jump macros
 s/\bj=( |$)/- jz\1/g
 s/\bj<( |$)/- jn\1/g
 s/\bj>( |$)/swap - jn\1/g
 s/\bj<=( |$)/push 1 + - jn\1/g
 s/\bj>=( |$)/swap push 1 + - jn\1/g
+
+# Boolean predicate aliases
+s/(^| )=( |$)/\1call bool.is_eq\2/g
+s/(^| )<( |$)/\1call bool.is_lt\2/g
+s/(^| )>( |$)/\1call bool.is_gt\2/g
+s/(^| )<=( |$)/\1call bool.is_le\2/g
+s/(^| )>=( |$)/\1call bool.is_ge\2/g
+s/(^| )zero\?( |$)/\1call bool.is_zero\2/g
+s/(^| )pos\?( |$)/\1call bool.is_pos\2/g
+s/(^| )neg\?( |$)/\1call bool.is_neg\2/g
 
 # Macro for jeof, depending on desired EOF behavior (0, -1, either)
 s/\bjeof\b/push 1 - jn/g
