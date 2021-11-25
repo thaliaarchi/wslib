@@ -48,7 +48,7 @@ $(BUILD)/types/bits_test.wsa: types/bits.wsf
 $(BUILD)/types/bool.wsa:
 $(BUILD)/types/bool_test.wsa: types/bool.wsf
 $(BUILD)/types/matrix.wsa: types/array.wsf
-$(BUILD)/types/matrix_test.wsa: types/matrix.wsf
+$(BUILD)/types/matrix_test.wsa: types/matrix.wsf types/array.wsf
 $(BUILD)/types/string.wsa:
 $(BUILD)/types/string_test.wsa: types/string.wsf
 

@@ -56,7 +56,7 @@ print_0_stack:
 
 # print_neg_stack prints a string on the stack, terminated with a
 # negative number.
-# (0 str... -- )
+# (-1 str... -- )
 print_neg_stack:
     ^ jn .print_neg_stack_ret
     printc

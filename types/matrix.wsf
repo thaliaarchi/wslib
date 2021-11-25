@@ -4,7 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/array" import
+    "@types/array"  import
+    "@types/string" import
 
 # transpose_square transposes a square matrix with size n*n in-place at
 # addr.
@@ -32,7 +33,8 @@ transpose_square:
 .transpose_square_ret:
     4drop ret
 
-# print prints a row-major matrix with size m*n.
+# print prints a row-major matrix with size m*n (m rows, n columns)
+# delimited by spaces.
 # (addr m n -- )
 print:
     ^2 ^2
@@ -45,3 +47,42 @@ print:
     jmp .print_loop
 .print_ret:
     5drop ret
+
+# print_chars prints a row-major matrix with size m*n (m rows, n
+# columns).
+# (addr m n -- )
+print_chars:
+    ^2 ^2
+.print_chars_loop:
+    1-
+    ^ jn .print_chars_ret
+    ^1 ^3 call string.print
+    '\n' printc
+    swap ^2 + swap
+    jmp .print_chars_loop
+.print_chars_ret:
+    5drop ret
+
+# read_chars reads a grid of chars of size m*n (m rows, n cols) to fill
+# a matrix. Callers should handle the error code with jz. Clobbers the
+# value at addr+m*n.
+# (addr m n -- err?)
+read_chars:
+    swap ^2 swap
+.read_chars_loop_row:
+    1- ^ jn .read_chars_ret
+    swap ^2
+.read_chars_loop_col:
+    1- ^ jn .read_chars_next_row
+    swap
+    ^ ^ readc retrieve '\n' j= .read_chars_error
+    1+ swap
+    jmp .read_chars_loop_col
+.read_chars_next_row:
+    drop swap
+    ^1 ^ readc retrieve '\n' j= .read_chars_loop_row
+    0 # temp
+.read_chars_error:
+    0 5slide ret
+.read_chars_ret:
+    1 4slide ret

@@ -90,8 +90,8 @@ get_imports() {
       get_imports "$import_file" "$import_module"
     fi
   done < <(gsed -En '
-    s/(^|\s)"([^"]+)"\s+import\b/import:\2/p
-    s/(^|\s)"([^"]+)"\s+export\b/export:\2/p
+    s/^\s*"([^"]+)"\s+import( |$)/import:\1/p
+    s/^\s*"([^"]+)"\s+export( |$)/export:\1/p
   ' "$file")
 }
 
@@ -99,7 +99,7 @@ get_imports "$prog" ''
 
 gsed -Ef "$WSLIB"/wsf.sed "$prog" > "$out"
 final_inst=$(awk '/./{line=$0} END{print line}' "$out")
-if ! grep -Eq '^(call|jmp|j[zn]) |^(ret|exit)$' <<< "$final_inst"; then
+if ! grep -Eq '^(jmp|j[zn]) |^(ret|exit)$' <<< "$final_inst"; then
   echo "$out: Program does not end with a control flow instruction: $final_inst" >&2
   exit 1
 fi
