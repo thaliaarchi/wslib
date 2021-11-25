@@ -64,20 +64,40 @@ print_neg_stack:
 .print_neg_stack_ret:
     drop ret
 
-# read_line reads a line of text, stores it on the heap starting at addr
-# terminated with -1, and returns the length (not including '\n').
+# read reads len chars and stores it on the heap starting at addr.
+# (addr len -- )
+read:
+    ^1 1- + swap
+.read_loop:
+    2dup j< .read_ret
+    ^ readc
+    1+
+    jmp .read_loop
+.read_ret:
+    2drop ret
+
+# read_line reads a line of text (or until EOF), stores it on the heap
+# starting at addr terminated with -1, and returns the length (not
+# including '\n').
 # (addr -- len)
 read_line:
-    ^
-.read_line_loop:
+    '\n' # fallthrough
+
+# read_until reads text until the delimiter (or EOF), stores it on the
+# heap starting at addr terminated with -1, and returns the length (not
+# including the delimiter).
+# (addr delim -- len)
+read_until:
+    ^1
+.read_until_loop:
     ^ ^ readc retrieve
-    ^ '\n' j= .read_line_ret
-    ^ jeof .read_line_ret
+    ^ ^3 j= .read_until_ret
+    ^ jeof .read_until_ret
     drop 1+
-    jmp .read_line_loop
-.read_line_ret:
-    drop
-    ^ -1 store # overwrite '\n' with -1
+    jmp .read_until_loop
+.read_until_ret:
+    drop swap drop
+    ^ -1 store # overwrite delim with -1
     swap - ret
 
 # read_eof reads text until EOF, stores it on the heap starting at addr
