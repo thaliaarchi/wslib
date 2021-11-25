@@ -8,3 +8,11 @@ xnor    1001
 nandnot 1101
 not     10
 cast    01
+is_eq   100
+is_lt   01010
+is_gt   00101
+is_le   11010
+is_ge   10101
+is_zero 100
+is_pos  010
+is_neg  001

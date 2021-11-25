@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+# Boolean operators
+
 # and returns the logical AND of x and y.
 # (x y -- x&&y)
 and:
@@ -65,3 +67,47 @@ cast:
     jz .zero
 .one:
     1 ret
+
+# Predicates
+
+# is_eq returns whether x equals y.
+# (x y -- x==y)
+is_eq:
+    - jmp not
+
+# is_lt returns whether x is less than y.
+# (x y -- x<y)
+is_lt:
+    - jmp is_neg
+
+# is_gt returns whether x is greater than y.
+# (x y -- x>y)
+is_gt:
+    - jmp is_pos
+
+# is_le returns whether x is less than or equal to y.
+# (x y -- x<=y)
+is_le:
+    1+ - jmp is_neg
+
+# is_ge returns whether x is greater than or equal to y.
+# (x y -- x>=y)
+is_ge:
+    1- - jmp is_pos
+
+# is_zero returns whether x is zero.
+# (x -- x==0)
+is_zero:
+    jmp not
+
+# is_pos returns whether x is positive (not including zero).
+# (x -- x>0)
+is_pos:
+    1- jn .zero
+    jmp .one
+
+# is_neg returns whether x is negative.
+# (x -- x<0)
+is_neg:
+    jn .one
+    jmp .zero

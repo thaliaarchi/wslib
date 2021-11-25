@@ -7,50 +7,90 @@
     "bool" export
 
     "and     " prints
-    0 0 call and     printi
-    0 1 call and     printi
-    1 0 call and     printi
-    1 1 call and     printi
+    0 0 call and printi
+    0 1 call and printi
+    1 0 call and printi
+    1 1 call and printi
     "\nor      " prints
-    0 0 call or      printi
-    0 1 call or      printi
-    1 0 call or      printi
-    1 1 call or      printi
+    0 0 call or printi
+    0 1 call or printi
+    1 0 call or printi
+    1 1 call or printi
     "\nxor     " prints
-    0 0 call xor     printi
-    0 1 call xor     printi
-    1 0 call xor     printi
-    1 1 call xor     printi
+    0 0 call xor printi
+    0 1 call xor printi
+    1 0 call xor printi
+    1 1 call xor printi
     "\nandnot  " prints
-    0 0 call andnot  printi
-    0 1 call andnot  printi
-    1 0 call andnot  printi
-    1 1 call andnot  printi
+    0 0 call andnot printi
+    0 1 call andnot printi
+    1 0 call andnot printi
+    1 1 call andnot printi
     "\nnand    " prints
-    0 0 call nand    printi
-    0 1 call nand    printi
-    1 0 call nand    printi
-    1 1 call nand    printi
+    0 0 call nand printi
+    0 1 call nand printi
+    1 0 call nand printi
+    1 1 call nand printi
     "\nnor     " prints
-    0 0 call nor     printi
-    0 1 call nor     printi
-    1 0 call nor     printi
-    1 1 call nor     printi
+    0 0 call nor printi
+    0 1 call nor printi
+    1 0 call nor printi
+    1 1 call nor printi
     "\nxnor    " prints
-    0 0 call xnor    printi
-    0 1 call xnor    printi
-    1 0 call xnor    printi
-    1 1 call xnor    printi
+    0 0 call xnor printi
+    0 1 call xnor printi
+    1 0 call xnor printi
+    1 1 call xnor printi
     "\nnandnot " prints
     0 0 call nandnot printi
     0 1 call nandnot printi
     1 0 call nandnot printi
     1 1 call nandnot printi
     "\nnot     " prints
-    0   call not     printi
-    1   call not     printi
+    0 call not printi
+    1 call not printi
     "\ncast    " prints
-    0   call cast    printi
-    1   call cast    printi
+    0 call cast printi
+    1 call cast printi
+    "\nis_eq   " prints
+    1 1 call is_eq printi
+    2 3 call is_eq printi
+    3 2 call is_eq printi
+    "\nis_lt   " prints
+    1 1 call is_lt printi
+    2 3 call is_lt printi
+    3 2 call is_lt printi
+    -6 -4 call is_lt printi
+    -4 -6 call is_lt printi
+    "\nis_gt   " prints
+    1 1 call is_gt printi
+    2 3 call is_gt printi
+    3 2 call is_gt printi
+    -6 -4 call is_gt printi
+    -4 -6 call is_gt printi
+    "\nis_le   " prints
+    1 1 call is_le printi
+    2 3 call is_le printi
+    3 2 call is_le printi
+    -6 -4 call is_le printi
+    -4 -6 call is_le printi
+    "\nis_ge   " prints
+    1 1 call is_ge printi
+    2 3 call is_ge printi
+    3 2 call is_ge printi
+    -6 -4 call is_ge printi
+    -4 -6 call is_ge printi
+    "\nis_zero " prints
+    0 call is_zero printi
+    1 call is_zero printi
+    -1 call is_zero printi
+    "\nis_pos  " prints
+    0 call is_pos printi
+    1 call is_pos printi
+    -1 call is_pos printi
+    "\nis_neg  " prints
+    0 call is_neg printi
+    1 call is_neg printi
+    -1 call is_neg printi
     '\n' printc
     end
