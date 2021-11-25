@@ -75,6 +75,11 @@ cast:
 is_eq:
     - jmp not
 
+# is_ne returns whether x is not equal to y.
+# (x y -- x!=y)
+is_ne:
+    - jmp cast
+
 # is_lt returns whether x is less than y.
 # (x y -- x<y)
 is_lt:
@@ -95,19 +100,24 @@ is_le:
 is_ge:
     1- - jmp is_pos
 
-# is_zero returns whether x is zero.
-# (x -- x==0)
-is_zero:
-    jmp not
-
 # is_pos returns whether x is positive (not including zero).
 # (x -- x>0)
 is_pos:
-    1- jn .zero
-    jmp .one
+    1- jmp is_non_neg
 
 # is_neg returns whether x is negative.
 # (x -- x<0)
 is_neg:
     jn .one
     jmp .zero
+
+# is_non_pos returns whether x is zero or negative.
+# (x -- x<=0)
+is_non_pos:
+    1- jmp is_neg
+
+# is_non_neg returns whether x is zero or positive.
+# (x -- x>=0)
+is_non_neg:
+    jn .zero
+    jmp .one

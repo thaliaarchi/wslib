@@ -47,11 +47,15 @@
     1 0 call nandnot printi
     1 1 call nandnot printi
     "\nnot     " prints
+    -1 call not printi
     0 call not printi
     1 call not printi
+    2 call not printi
     "\ncast    " prints
+    -1 call cast printi
     0 call cast printi
     1 call cast printi
+    2 call cast printi
     "\nis_eq   " prints
     1 1 call is_eq printi
     2 3 call is_eq printi
@@ -80,10 +84,6 @@
     3 2 call is_ge printi
     -6 -4 call is_ge printi
     -4 -6 call is_ge printi
-    "\nis_zero " prints
-    0 call is_zero printi
-    1 call is_zero printi
-    -1 call is_zero printi
     "\nis_pos  " prints
     0 call is_pos printi
     1 call is_pos printi
@@ -92,5 +92,13 @@
     0 call is_neg printi
     1 call is_neg printi
     -1 call is_neg printi
+    "\nis_non_pos " prints
+    0 call is_non_pos printi
+    1 call is_non_pos printi
+    -1 call is_non_pos printi
+    "\nis_non_neg " prints
+    0 call is_non_neg printi
+    1 call is_non_neg printi
+    -1 call is_non_neg printi
     '\n' printc
     end

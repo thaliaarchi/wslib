@@ -6,13 +6,14 @@ nand    1110
 nor     1000
 xnor    1001
 nandnot 1101
-not     10
-cast    01
+not     0100
+cast    1011
 is_eq   100
 is_lt   01010
 is_gt   00101
 is_le   11010
 is_ge   10101
-is_zero 100
 is_pos  010
 is_neg  001
+is_non_pos 101
+is_non_neg 110
