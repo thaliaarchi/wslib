@@ -1,0 +1,18 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# read_until reads a number, stopping at character ch. Clobbers the
+# given address.
+# (addr ch -- n)
+read_until:
+    0
+.read_until_loop:
+    ^2 ^ readc retrieve
+    ^ ^3 j= .read_until_ret
+    '0' - swap 10* +
+    jmp .read_until_loop
+.read_until_ret:
+    drop 2slide ret

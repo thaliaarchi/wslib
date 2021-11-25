@@ -10,9 +10,10 @@ become the standard library for an upcoming compiler.
 - `math`: arbitrary-precision integer math functions
 - `types`: higher-level types
   - `array`
-  - `bits`
   - `bool`
+  - `int`
   - `matrix`
+  - `string`
 - `misc`: miscellaneous standalone programs
 
 ## Style

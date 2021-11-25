@@ -6,11 +6,11 @@
 
     "@math" import
 
-# printi_base prints x in the given base. The alphabet is [0-9a-z] for
+# print_base prints x in the given base. The alphabet is [0-9a-z] for
 # bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
 # Requires 2<=base<=62
 # (x base -- )
-printi_base:
+print_base:
     swap
     call .print_sign
 .printu_base:
@@ -20,22 +20,22 @@ printi_base:
     ^2 37 j< .printu_base36
     jmp .printu_base62
 
-# printi_base_prefixed prints x in the given base with a 0b prefix for
+# print_base_prefixed prints x in the given base with a 0b prefix for
 # base 2, 0o for base 8, or 0x for base 16. The alphabet is [0-9a-z] for
 # bases 2..=36 and [0-9A-Za-z] for bases 37..=62.
 # Requires 2<=base<=62
 # (x base -- )
-printi_base_prefixed:
+print_base_prefixed:
     swap
     call .print_sign
     ^1 call .print_base_prefix
     jmp .printu_base
 
-# printi_base_pad_0 prints x in the given base, padded with zeros to at
+# print_base_pad_0 prints x in the given base, padded with zeros to at
 # least a width of w.
 # Requires 2<=base<=62 && base**n==w
 # (base x w -- )
-printi_base_pad_0:
+print_base_pad_0:
     swap
     call .print_sign
     swap
@@ -44,21 +44,21 @@ printi_base_pad_0:
     call math.max
     jmp .printu_base_pad_0
 
-# printi_base_pad_s prints x in the given base, padded with spaces to at
+# print_base_pad_s prints x in the given base, padded with spaces to at
 # least a width of w.
 # Requires 2<=base<=62 && base**n==w
 # (base x w -- )
-printi_base_pad_s:
+print_base_pad_s:
     ^2 ^2 call .width
     -
-.printi_base_pad_s_loop:
+.print_base_pad_s_loop:
     1-
-    ^ jn .printi_base_pad_s_done
+    ^ jn .print_base_pad_s_done
     ' ' printc
-    jmp .printi_base_pad_s_loop
-.printi_base_pad_s_done:
+    jmp .print_base_pad_s_loop
+.print_base_pad_s_done:
     drop swap
-    jmp printi_base
+    jmp print_base
 
 # .print_sign prints '-' for negative numbers and returns the absolute
 # value.
@@ -177,11 +177,11 @@ printi_base_pad_s:
 .printu_base62_ret:
     3drop ret
 
-# formati formats x in base 10.
+# format formats x in base 10.
 # (x -- -1 str...)
-formati:
+format:
     -1 swap
-    ^ jn .formati_neg
+    ^ jn .format_neg
 .formatu:
     ^ 10% '0' +
     swap 10/
@@ -189,6 +189,6 @@ formati:
     jmp .formatu
 .formatu_done:
     drop ret
-.formati_neg:
+.format_neg:
     neg call .formatu '-'
     ret

@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+    "@types/int" import
+
 # printf prints a string on the stack with format verbs, stopping at -1.
 #
 # The format verbs are defined as follows:
@@ -54,17 +56,17 @@ printf:
 .printf_d:
     drop printi jmp printf
 .printf_b:
-    drop 2 call printi_base jmp printf
+    drop 2 call int.print_base jmp printf
 .printf_o:
-    drop 8 call printi_base jmp printf
+    drop 8 call int.print_base jmp printf
 .printf_x:
-    drop 16 call printi_base jmp printf
+    drop 16 call int.print_base jmp printf
 .printf_b_prefixed:
-    drop 2 call printi_base_prefixed jmp printf
+    drop 2 call int.print_base_prefixed jmp printf
 .printf_o_prefixed:
-    drop 8 call printi_base_prefixed jmp printf
+    drop 8 call int.print_base_prefixed jmp printf
 .printf_x_prefixed:
-    drop 16 call printi_base_prefixed jmp printf
+    drop 16 call int.print_base_prefixed jmp printf
 .printf_b_pad_0:
     2 jmp .printf_pad_0
 .printf_o_pad_0:
@@ -83,12 +85,12 @@ printf:
     drop call printf jmp printf
 .printf_pad_0:
     1slide swap ^2 swap # (x w verb base -- x base x w)
-    call printi_base_pad_0
+    call int.print_base_pad_0
     drop
     jmp printf
 .printf_pad_s:
     1slide swap ^2 swap # (x w verb base -- x base x w)
-    call printi_base_pad_s
+    call int.print_base_pad_s
     drop
     jmp printf
 
@@ -126,7 +128,7 @@ printc_escape:
     ^ '\e' j= .printc_escape_e
     'x' printc
     16 swap 2
-    call printi_base_pad_0
+    call int.print_base_pad_0
     ret
 .printc_escape_a:
     'a' jmp .printc_escape_ret
