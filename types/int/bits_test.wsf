@@ -21,18 +21,54 @@
     81910  39502  call test_bitwise
     -81910 39502  call test_bitwise
     -81910 -39502 call test_bitwise
+    340282566926938463463474637401768211457  298472983472983471903246121093472394872319615612417471234712061  call test_bitwise
+    340282566926938463463474637401768211457  -298472983472983471903246121093472394872319615612417471234712061 call test_bitwise
+    -340282566926938463463474637401768211457 -298472983472983471903246121093472394872319615612417471234712061 call test_bitwise
 
-    340282566926938463463474637401768211457
-    298472983472983471903246121093472394872319615612417471234712061
-    call test_bitwise
+    0 0 call test_shl_shr
+	0 1 call test_shl_shr
+	0 2 call test_shl_shr
+	1 0 call test_shl_shr
+	1 1 call test_shl_shr
+	1 2 call test_shl_shr
+	2 0 call test_shl_shr
+	2 1 call test_shl_shr
+	2 2 call test_shl_shr
+	-87                  1   call test_shl_shr
+	4294967296           0   call test_shl_shr
+	4294967296           1   call test_shl_shr
+	4294967296           2   call test_shl_shr
+	18446744073709551616 0   call test_shl_shr
+	9223372036854775808  1   call test_shl_shr
+	4611686018427387904  2   call test_shl_shr
+	1                    64  call test_shl_shr
+	18446744073709551616 64  call test_shl_shr
+	1                    128 call test_shl_shr
 
-    340282566926938463463474637401768211457
-    -298472983472983471903246121093472394872319615612417471234712061
-    call test_bitwise
-
-    -340282566926938463463474637401768211457
-    -298472983472983471903246121093472394872319615612417471234712061
-    call test_bitwise
+	0    0   call test_shr
+	-0   0   call test_shr
+	0    1   call test_shr
+	0    2   call test_shr
+	1    0   call test_shr
+	1    1   call test_shr
+	1    2   call test_shr
+	2    0   call test_shr
+	2    1   call test_shr
+	-1   0   call test_shr
+	-1   1   call test_shr
+	-1   10  call test_shr
+	-100 2   call test_shr
+	-100 3   call test_shr
+	-100 100 call test_shr
+	4294967296 0 call test_shr
+	4294967296 1 call test_shr
+	4294967296 2 call test_shr
+	18446744073709551616 0  call test_shr
+	18446744073709551616 1  call test_shr
+	18446744073709551616 2  call test_shr
+	18446744073709551616 64 call test_shr
+	340282366920938463463374607431768211456 64  call test_shr
+	340282366920938463463374607431768211456 128 call test_shr
 
     0      call test_not
     1      call test_not
@@ -47,25 +83,29 @@
 test_bitwise:
     "x " prints ^1 printi '\n' printc
     "y " prints ^ printi '\n' printc
+    "x&y " prints 2dup call and printi '\n' printc
+    "x|y " prints 2dup call or printi '\n' printc
+    "x^y " prints 2dup call xor printi '\n' printc
+    "x&^y " prints call andnot printi "\n\n" prints
+    ret
 
-    "x&y " prints
-    2dup call and printi '\n' printc
+# (x y -- )
+test_shl_shr:
+    "x " prints ^1 printi '\n' printc
+    "y " prints ^ printi '\n' printc
+    "x<<y " prints 2dup call shl ^ printi '\n' printc
+    "(x<<y)>>y " prints swap call shr printi "\n\n" prints
+    drop ret
 
-    "x|y " prints
-    2dup call or printi '\n' printc
-
-    "x^y " prints
-    2dup call xor printi '\n' printc
-
-    "x&^y " prints
-    2dup call andnot printi '\n' printc
-
-    '\n' printc
-    2drop ret
+# (x y -- )
+test_shr:
+    "x " prints ^1 printi '\n' printc
+    "y " prints ^ printi '\n' printc
+    "x>>y " prints call shr printi "\n\n" prints
+    ret
 
 # (x -- )
 test_not:
     "x " prints ^ printi '\n' printc
-    "-x " prints
-    call not printi "\n\n" prints
+    "-x " prints call not printi "\n\n" prints
     ret

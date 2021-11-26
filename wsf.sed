@@ -332,9 +332,6 @@ s/\b10drop\b/9slide drop/g
 # slide
 s/\b([0-9]+)slide\b/slide \1/g
 
-# Macro for negate
-s/\bneg\b/push -1 */g
-
 # Comparison jump macros
 s/\bj=( |$)/- jz\1/g
 s/\bj<( |$)/- jn\1/g
@@ -355,6 +352,16 @@ s/(^| )<=( |$)/\1call bool.is_le\2/g
 s/(^| )>=( |$)/\1call bool.is_ge\2/g
 s/(^| )pos\?( |$)/\1call bool.is_pos\2/g
 s/(^| )neg\?( |$)/\1call bool.is_neg\2/g
+
+# int aliases
+s/(^| )&( |$)/\1call int.and\2/g
+s/(^| )\|( |$)/\1call int.or\2/g
+s/(^| )\^( |$)/\1call int.xor\2/g
+s/(^| )&~( |$)/\1call int.andnot\2/g
+s/(^| )<<( |$)/\1call int.shl\2/g
+s/(^| )>>( |$)/\1call int.shr\2/g
+s/(^| )~( |$)/\1push 1 + neg\2/g
+s/\bneg\b/push -1 */g
 
 # Macro for jeof, depending on desired EOF behavior (0, -1, either)
 s/\bjeof\b/push 1 - jn/g

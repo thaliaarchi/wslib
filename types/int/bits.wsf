@@ -31,9 +31,7 @@ and:
     # == ^((x-1) | (y-1))
     # == -(((x-1) | (y-1)) + 1)
     neg 1- swap neg 1-
-    call uor
-    1+ neg
-    ret
+    call uor 1+ neg ret
 
 # or returns the bitwise OR of x and y.
 # (x y -- x|y)
@@ -50,19 +48,15 @@ or:
     # == x | ^(y-1)
     # == ^((y-1) &^ x)
     # == -(^((y-1) &^ x) + 1)
-    neg 1-
-    swap call uandnot
-    1+ neg
-    ret
+    neg 1- swap
+    call uandnot 1+ neg ret
 .or_xyneg:
     # (-x) | (-y)
     # == ^(x-1) | ^(y-1)
     # == ^((x-1) & (y-1))
     # == -(((x-1) & (y-1)) + 1)
     neg 1- swap neg 1-
-    call uand
-    1+ neg
-    ret
+    call uand 1+ neg ret
 
 # xor returns the bitwise XOR of x and y.
 # (x y -- x^y)
@@ -80,16 +74,13 @@ xor:
     # == ^(x ^ (y-1))
     # == -((x ^ (y-1)) + 1)
     neg 1-
-    call uxor
-    1+ neg
-    ret
+    call uxor 1+ neg ret
 .xor_xyneg:
     # (-x) ^ (-y)
     # == ^(x-1) ^ ^(y-1)
     # == (x-1) ^ (y-1)
     neg 1- swap neg 1-
-    call uxor
-    ret
+    jmp uxor
 
 # andnot returns the bitwise AND NOT of x and y.
 # (x y -- x&^y)
@@ -105,9 +96,7 @@ andnot:
     # == ^((x-1) | y)
     # == -(((x-1) | y) + 1)
     swap neg 1-
-    call uor
-    1+ neg
-    ret
+    call uor 1+ neg ret
 .andnot_yneg:
     # x &^ (-y)
     # == x &^ ^(y-1)
@@ -120,8 +109,7 @@ andnot:
     # == ^(x-1) & (y-1)
     # == (y-1) &^ (x-1)
     neg 1- swap neg 1-
-    call uandnot
-    ret
+    jmp uandnot
 
 # uand returns the bitwise AND of unsigned x and y.
 # Requires x>=0 && y>=0
@@ -228,11 +216,30 @@ uandnot:
 .uandnot_ret:
     3slide ret
 
+# shl returns x shifted left by y bits.
+# (x y -- x<<y)
+shl:
+    1-
+    ^ jn .shl_ret
+    swap 2* swap
+    jmp shl
+.shl_ret:
+    drop ret
+
+# shr returns x shifted right by y bits.
+# (x y -- x>>y)
+shr:
+    1-
+    ^ jn .shr_ret
+    swap 2/ swap
+    jmp shr
+.shr_ret:
+    drop ret
+
 # not returns the bitwise complement of x.
 # (x -- ^x)
 not:
-    1+ neg
-    ret
+    1+ neg ret
 
 # bit_len returns the length of the absolute value of x in bits.
 # The bit length of 0 is 0.
@@ -243,9 +250,7 @@ bit_len:
 .bit_len_loop:
     swap
     ^ jz .bit_len_ret
-    2/
-    swap
-    1+
+    2/ swap 1+
     jmp .bit_len_loop
 .bit_len_ret:
     drop ret
