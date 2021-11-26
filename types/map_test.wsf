@@ -1,0 +1,17 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "map" export
+    "@types/array" import
+
+    10 0 store
+
+    5 0 1 2 call set
+    5 ^1 call print '\n' printc
+    5 swap 3 4 call set
+    5 ^1 call print '\n' printc
+    5 ^1 2 * ' ' call array.print '\n' printc
+    end

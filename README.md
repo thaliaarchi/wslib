@@ -12,6 +12,7 @@ become the standard library for an upcoming compiler.
   - `array`
   - `bool`
   - `int`
+  - `map`
   - `matrix`
   - `string`
 - `misc`: miscellaneous standalone programs

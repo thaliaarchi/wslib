@@ -28,5 +28,6 @@ run_test types/array_test.wsf
 run_test types/bool_test.wsf
 run_test types/int/bits_test.wsf
 run_test types/int/print_test.wsf
+run_test types/map_test.wsf
 run_test types/matrix_test.wsf
 run_test types/string_test.wsf

@@ -1,0 +1,75 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@types/bool" import
+
+# contains returns whether the key exists in the map.
+# (addr lem key -- ?)
+contains:
+    call .index_of
+    jmp bool.is_non_neg
+
+# contains returns whether the value exists in the map.
+# (addr lem val -- ?)
+contains_value:
+    swap 2* 1
+    call .index_of_loop
+    jmp bool.is_non_neg
+
+# get returns the value in the map at key, if it exists, and a boolean
+# indicating whether the key was found.
+# (addr len key -- val ?)
+get:
+    3dup call .index_of
+    ^ jn .get_not_found
+    ^3 + retrieve 3slide 1 swap ret
+.get_not_found:
+    0 3slide ^ ret
+
+# set stores the key-value pair in the map and returns the updated
+# length.
+# (addr len key val -- len')
+set:
+    ^3 ^3 ^3 call .index_of
+    ^ jn .set_not_found
+    0
+.set_store:
+    swap ^ ^4 store 1+ ^2 store
+    2slide + 1slide ret
+.set_not_found:
+    drop ^3 ^3 + 1
+    jmp .set_store
+
+# index_of returns the raw index of x in the map or -1 if not found.
+# (addr len x -- i)
+.index_of:
+    swap 2* 1- 0
+# (addr x max i -- i')
+.index_of_loop:
+    2dup j< .index_of_not_found
+    ^ ^4 + retrieve ^3 j= .index_of_found
+    2+
+    jmp .index_of_loop
+.index_of_not_found:
+    -1 1slide
+.index_of_found:
+    3slide ret
+
+# print prints the map with key-value pairs delimited by spaces.
+# (addr len -- )
+print:
+    1- 0
+    ^1 jn .print_ret
+.print_loop:
+    # addr len i
+    ^ ^3 + retrieve printi 1+
+    ':' printc
+    ^ ^3 + retrieve printi 1+
+    2dup j< .print_ret
+    ' ' printc
+    jmp .print_loop
+.print_ret:
+    3drop ret

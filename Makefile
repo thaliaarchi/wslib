@@ -11,7 +11,7 @@ ASSEMBLE = wsc
 WSF = crypto/caesar.wsf crypto/luhn_test.wsf io/print_test.wsf \
 	math/collatz_test.wsf math/exp_test.wsf types/array_test.wsf \
 	types/bool_test.wsf types/int/bits_test.wsf types/int/print_test.wsf \
-	types/matrix_test.wsf types/string_test.wsf
+	types/map_test.wsf types/matrix_test.wsf types/string_test.wsf
 WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
 
 .PHONY: all
@@ -48,6 +48,8 @@ $(BUILD)/types/int/bits_test.wsa: types/int/bits.wsf
 $(BUILD)/types/int/print.wsa: math/exp.wsf math/math.wsf
 $(BUILD)/types/int/print_test.wsa: types/int/print.wsf
 $(BUILD)/types/int/read.wsa:
+$(BUILD)/types/map.wsa: types/bool.wsf
+$(BUILD)/types/map_test.wsa: types/map.wsf
 $(BUILD)/types/matrix.wsa: types/array.wsf
 $(BUILD)/types/matrix_test.wsa: types/matrix.wsf types/array.wsf
 $(BUILD)/types/string.wsa:
