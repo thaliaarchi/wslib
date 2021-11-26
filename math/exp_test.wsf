@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@io" import
+    "@types/string" import
 
     # Exp tests borrowed from Go
     # https://golang.org/src/math/big/int_test.go#L527
@@ -134,7 +134,7 @@ test_exp:
     ^7 -2
     " ** "
     ^14 -2
-    call io.printf
+    call string.printf
     2drop ret
 
 # (x y m -- )
@@ -148,7 +148,7 @@ test_modexp:
     ^17 -2
     " ** "
     ^24 -2
-    call io.printf
+    call string.printf
     3drop ret
 
 # (x y -- )
@@ -160,7 +160,7 @@ test_tetrate:
     ^7 -2
     " ^^ "
     ^14 -2
-    call io.printf
+    call string.printf
     2drop ret
 
 # (x y -- )
@@ -172,5 +172,5 @@ test_pentate:
     ^7 -2
     " ^^^ "
     ^15 -2
-    call io.printf
+    call string.printf
     2drop ret

@@ -6,7 +6,6 @@ become the standard library for an upcoming compiler.
 ## Modules
 
 - `crypto`: non-cryptographic ciphers
-- `io`: reading and printing routines
 - `math`: arbitrary-precision integer math functions
 - `types`: higher-level types
   - `array`

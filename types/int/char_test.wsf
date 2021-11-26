@@ -19,5 +19,4 @@
     26 call printc_quote '\n' printc
     31 call printc_quote '\n' printc
     'A' call printc_quote '\n' printc
-    -1 "Hello\n" call printf
     end
