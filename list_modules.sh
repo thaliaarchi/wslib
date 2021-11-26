@@ -17,4 +17,6 @@ list_module array
 list_module crypto
 list_module io
 list_module math
+list_module types
+list_module types/int
 list_module misc

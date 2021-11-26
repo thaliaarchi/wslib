@@ -4,15 +4,153 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# read_until reads a number, stopping at character ch. Clobbers the
-# given address.
-# (addr ch -- n)
+# read reads a number in decimal, binary (0b prefix), octal (0b prefix),
+# or hexadecimal (0x prefix). Clobbers the given address.
+# (addr -- n ok?)
+read:
+    '\n' jmp read_until
+
+# read_until reads a number in decimal, binary (0b prefix), octal (0b
+# prefix), or hexadecimal (0x prefix), stopping at character ch.
+# Clobbers the given address.
+# (addr ch -- n ok?)
 read_until:
+    ^1 ^ readc retrieve
+    ^ '-' j= .read_until_neg
+.read_until_pos:
+    ^ '0' j= .read_until_0_prefix
+    jmp .read_until_no_prefix
+.read_until_neg:
+    ^1 ^ readc retrieve
+    call .read_until_pos
+    swap neg swap ret
+.read_until_0_prefix:
+    ^1 ^ readc retrieve
+    ^ 'b' j= .read_until_0b_prefix
+    ^ 'o' j= .read_until_0o_prefix
+    ^ 'x' j= .read_until_0x_prefix
+.read_until_no_prefix:
+    10 swap 0 swap jmp .read_base10_until_check
+.read_until_0b_prefix:
+    2 swap jmp .read_base10_until
+.read_until_0o_prefix:
+    8 swap jmp .read_base10_until
+.read_until_0x_prefix:
+    16 swap jmp .read_base36_until
+
+# read_base_until reads a number in the given base, stopping at
+# character ch. The alphabet is [0-9a-z] for bases 2..=36 and
+# [0-9A-Za-z] for bases 37..=62. Clobbers the given address.
+# (addr ch base -- n ok?)
+read_base_until:
+    ^ 2 j< .read_base_until_invalid_base
+    ^ 11 j< .read_base10_until
+    ^ 37 j< .read_base36_until
+    ^ 63 j< .read_base62_until
+.read_base_until_invalid_base:
+    0 3slide ^ ret
+
+# .read_base10_until reads a number in the given base with the alphabet
+# [0-9], stopping at character ch. Clobbers the given address.
+# Requires 2<=base<=10
+# (addr ch base -- n ok?)
+.read_base10_until:
     0
-.read_until_loop:
+.read_base10_until_loop:
+    ^3 ^ readc retrieve
+.read_base10_until_check:
+    ^ ^4 j= .read_base10_until_ret
+    ^ '0' j< .read_base10_until_invalid
+    ^ ^3 '0' + j< .read_base10_until_digit
+.read_base10_until_invalid:
+    drop 3slide 0 ret
+.read_base10_until_ret:
+    drop 3slide 1 ret
+.read_base10_until_digit:
+    '0' - swap ^2 * +
+    jmp .read_base10_until_loop
+
+# .read_base36_until reads a number in the given base with the alphabet
+# [0-9a-z] (case-insensitive), stopping at character ch. Clobbers the
+# given address.
+# Requires 10<base<=36
+# (addr ch base -- n ok?)
+.read_base36_until:
+    0
+.read_base36_until_loop:
+    ^3 ^ readc retrieve
+    ^ ^4 j= .read_base36_until_ret
+    ^ '0' j< .read_base36_until_invalid
+    ^ ':' j< .read_base36_until_digit
+    ^ 'A' j< .read_base36_until_invalid
+    ^ ^3 55 + j< .read_base36_until_upper # 'A' + base - 10
+    ^ 'a' j< .read_base36_until_invalid
+    ^ ^3 87 + j< .read_base36_until_lower # 'a' + base - 10
+.read_base36_until_invalid:
+    drop 3slide 0 ret
+.read_base36_until_ret:
+    drop 3slide 1 ret
+.read_base36_until_digit:
+    '0' jmp .read_base36_until_next
+.read_base36_until_upper:
+    55 jmp .read_base36_until_next # 'A' - 10
+.read_base36_until_lower:
+    87 # 'a' - 10
+.read_base36_until_next:
+    - swap ^2 * +
+    jmp .read_base36_until_loop
+
+# .read_base62_until reads a number in the given base with the alphabet
+# [0-9A-Za-z] (case-sensitive), stopping at character ch. Clobbers the
+# given address.
+# Requires 36<base<=62
+# (addr ch base -- n ok?)
+.read_base62_until:
+    0
+.read_base62_until_loop:
+    ^3 ^ readc retrieve
+    ^ ^4 j= .read_base62_until_ret
+    ^ '0' j< .read_base62_until_invalid
+    ^ ':' j< .read_base62_until_digit
+    ^ 'A' j< .read_base62_until_invalid
+    ^ '[' j< .read_base62_until_upper
+    ^ 'a' j< .read_base62_until_invalid
+    ^ ^3 61 + j< .read_base62_until_lower # 'a' + base - 36
+.read_base62_until_invalid:
+    drop 3slide 0 ret
+.read_base62_until_ret:
+    drop 3slide 1 ret
+.read_base62_until_digit:
+    '0' jmp .read_base62_until_next
+.read_base62_until_upper:
+    55 jmp .read_base62_until_next # 'A' - 10
+.read_base62_until_lower:
+    61 # 'a' - 36
+.read_base62_until_next:
+    - swap ^2 * +
+    jmp .read_base62_until_loop
+
+# read_base26_until reads a number in base 26 with the alphabet [A-Z]
+# (case-insensitive), stopping at character ch. Clobbers the given
+# address.
+# (addr ch -- n ok?)
+read_base26_until:
+    0
+.read_base26_until_loop:
     ^2 ^ readc retrieve
-    ^ ^3 j= .read_until_ret
-    '0' - swap 10* +
-    jmp .read_until_loop
-.read_until_ret:
-    drop 2slide ret
+    ^ ^3 j= .read_base26_until_ret
+    ^ 'A' j< .read_base26_until_invalid
+    ^ '[' j< .read_base26_until_upper
+    ^ 'a' j< .read_base26_until_invalid
+    ^ '{' j< .read_base26_until_lower
+.read_base26_until_invalid:
+    drop 2slide 0 ret
+.read_base26_until_ret:
+    drop 2slide 1 ret
+.read_base26_until_upper:
+    'A' jmp .read_base26_until_next
+.read_base26_until_lower:
+    'a'
+.read_base26_until_next:
+    - swap 26* +
+    jmp .read_base26_until_loop
