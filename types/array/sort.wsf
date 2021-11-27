@@ -1,0 +1,85 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# quicksort sorts an array using the Quicksort algorithm.
+# (addr len -- )
+quicksort:
+    ^1 + 1-
+# .quicksort recursively sorts a segment of an array. Bounds are
+# inclusive.
+# (lo hi -- )
+.quicksort:
+    ^ ^2 - 1-
+    ^ jn .quicksort_none # one or less elements
+    jz .quicksort_two    # two elements
+    2dup 2dup call .median_of_three call .partition
+    ^2 ^1   call .quicksort # lo p
+    1+ swap call .quicksort # p+1 hi
+    drop ret
+.quicksort_none:
+    3drop ret
+.quicksort_two:
+    swap ^ retrieve swap ^2 retrieve
+    ^ ^3 j< .quicksort_two_swap
+    4drop ret
+.quicksort_two_swap:
+    store store ret
+
+# .median_of_three returns the median of the elements A[lo], A[mid], and
+# A[hi], which is used as the pivot value. These three elements are
+# sorted, then A[mid] and A[hi] are swapped so that A[hi] contains the
+# pivot.
+# (lo hi -- pivot)
+.median_of_three:
+    # Performs 3 retrieves and stores in every case.
+    # Branches are inverted and undo the already-swapped elements.
+    2dup ^1 - 2/ + # mid = lo + (hi-lo)/2
+    ^2 retrieve ^1 retrieve # A[lo] A[mid]
+    ^ ^2 j< .median_of_three_checked_mid_lo
+    swap
+.median_of_three_checked_mid_lo:
+    ^3 retrieve # A[hi]
+    ^ ^2 j< .median_of_three_checked_hi_lo
+    swap
+.median_of_three_checked_hi_lo:
+    ^5 swap store # A[lo] = min(A[lo], A[mid], A[hi])
+    ^ ^2 j< .median_of_three_checked_mid_hi
+    swap
+.median_of_three_checked_mid_hi:
+    ^3 ^1 store        # A[hi] = median(A[lo], A[mid], A[hi])
+    swap ^2 swap store # A[mid] = max(A[lo], A[mid], A[hi])
+    3slide ret # return A[hi]
+
+# .partition divides the array into two partitions where all values to
+# the left of p are less than pivot and all values to the right of (and
+# including) p are greater than or equal to pivot. lo and hi bounds are
+# inclusive. A[hi] must be set to the pivot value.
+# (lo hi pivot -- p)
+.partition:
+    ^1 1+ # right index: j = hi+1
+    ^3 1- # left index: i = lo-1
+
+    # Move i rightward while all elements to
+    # the left are less than the pivot.
+.partition_left_loop:
+    1+ # do i++ while A[i] < pivot
+    ^ retrieve ^3 j< .partition_left_loop
+
+    # Move j leftward while all elements to
+    # the right are greater than the pivot.
+    swap
+.partition_right_loop:
+    1- # do j-- while A[j] > pivot
+    ^2 ^1 retrieve j< .partition_right_loop
+
+    ^1 ^1 j< .partition_swap
+    4slide ret # return j if i >= j
+
+.partition_swap:
+    # A[i], A[j] = A[j], A[i]
+    ^ ^2 retrieve ^3 ^3 retrieve store store
+    swap
+    jmp .partition_left_loop

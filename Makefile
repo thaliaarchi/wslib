@@ -9,7 +9,8 @@ SED = gsed
 ASSEMBLE = wsc
 
 WSF = crypto/caesar.wsf crypto/luhn_test.wsf  math/collatz_test.wsf \
-	math/exp_test.wsf types/array_test.wsf types/bool_test.wsf \
+	math/exp_test.wsf types/array/array_test.wsf \
+	types/array/sort_test.wsf types/bool_test.wsf \
 	types/int/bits_test.wsf types/int/char_test.wsf \
 	types/int/print_test.wsf types/map_test.wsf types/matrix_test.wsf \
 	types/string/io_test.wsf types/string/printf_test.wsf
@@ -38,8 +39,10 @@ $(BUILD)/math/exp_test.wsa: types/string/printf.wsf
 $(BUILD)/math/gcd.wsa: math/math.wsf
 $(BUILD)/math/math.wsa:
 $(BUILD)/misc/cowsay.wsa:
-$(BUILD)/types/array.wsa:
-$(BUILD)/types/array_test.wsa: types/array.wsf
+$(BUILD)/types/array/array.wsa:
+$(BUILD)/types/array/array_test.wsa: types/array/array.wsf
+$(BUILD)/types/array/sort.wsa:
+$(BUILD)/types/array/sort_test.wsa: types/array/sort.wsf types/array/array.wsf
 $(BUILD)/types/bool.wsa:
 $(BUILD)/types/bool_test.wsa: types/bool.wsf
 $(BUILD)/types/int/bits.wsa: math/math.wsf
@@ -51,8 +54,8 @@ $(BUILD)/types/int/print_test.wsa: types/int/print.wsf
 $(BUILD)/types/int/read.wsa:
 $(BUILD)/types/map.wsa: types/bool.wsf
 $(BUILD)/types/map_test.wsa: types/map.wsf
-$(BUILD)/types/matrix.wsa: types/array.wsf
-$(BUILD)/types/matrix_test.wsa: types/matrix.wsf types/array.wsf
+$(BUILD)/types/matrix.wsa: types/array/array.wsf
+$(BUILD)/types/matrix_test.wsa: types/matrix.wsf types/array/array.wsf
 $(BUILD)/types/string/io.wsa:
 $(BUILD)/types/string/io_test.wsa: types/string/io.wsf
 $(BUILD)/types/string/printf.wsa: types/int/char.wsf

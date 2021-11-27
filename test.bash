@@ -23,7 +23,8 @@ run_test crypto/caesar.wsf
 run_test crypto/luhn_test.wsf
 run_test math/collatz_test.wsf
 run_test math/exp_test.wsf
-run_test types/array_test.wsf
+run_test types/array/array_test.wsf
+run_test types/array/sort_test.wsf
 run_test types/bool_test.wsf
 run_test types/int/bits_test.wsf
 run_test types/int/char_test.wsf
