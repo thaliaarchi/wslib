@@ -66,23 +66,23 @@ print_chars:
 # read_chars reads a grid of chars of size m*n (m rows, n cols) to fill
 # a matrix. Callers should handle the error code with jz. Clobbers the
 # value at addr+m*n.
-# (addr m n -- err?)
+# (addr m n -- ok?)
 read_chars:
     swap ^2 swap
 .read_chars_loop_row:
-    1- ^ jn .read_chars_ret
+    1- ^ jn .read_chars_ok
     swap ^2
 .read_chars_loop_col:
     1- ^ jn .read_chars_next_row
     swap
-    ^ ^ readc retrieve '\n' j= .read_chars_error
+    ^ ^ readc retrieve '\n' j= .read_chars_invalid
     1+ swap
     jmp .read_chars_loop_col
 .read_chars_next_row:
     drop swap
     ^1 ^ readc retrieve '\n' j= .read_chars_loop_row
     0 # temp
-.read_chars_error:
+.read_chars_invalid:
     0 5slide ret
-.read_chars_ret:
+.read_chars_ok:
     1 4slide ret

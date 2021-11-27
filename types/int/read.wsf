@@ -59,12 +59,12 @@ read_base_until:
 .read_base10_until_loop:
     ^3 ^ readc retrieve
 .read_base10_until_check:
-    ^ ^4 j= .read_base10_until_ret
+    ^ ^4 j= .read_base10_until_ok
     ^ '0' j< .read_base10_until_invalid
     ^ ^3 '0' + j< .read_base10_until_digit
 .read_base10_until_invalid:
     drop 3slide 0 ret
-.read_base10_until_ret:
+.read_base10_until_ok:
     drop 3slide 1 ret
 .read_base10_until_digit:
     '0' - swap ^2 * +
@@ -79,7 +79,7 @@ read_base_until:
     0
 .read_base36_until_loop:
     ^3 ^ readc retrieve
-    ^ ^4 j= .read_base36_until_ret
+    ^ ^4 j= .read_base36_until_ok
     ^ '0' j< .read_base36_until_invalid
     ^ ':' j< .read_base36_until_digit
     ^ 'A' j< .read_base36_until_invalid
@@ -88,7 +88,7 @@ read_base_until:
     ^ ^3 87 + j< .read_base36_until_lower # 'a' + base - 10
 .read_base36_until_invalid:
     drop 3slide 0 ret
-.read_base36_until_ret:
+.read_base36_until_ok:
     drop 3slide 1 ret
 .read_base36_until_digit:
     '0' jmp .read_base36_until_next
@@ -109,7 +109,7 @@ read_base_until:
     0
 .read_base62_until_loop:
     ^3 ^ readc retrieve
-    ^ ^4 j= .read_base62_until_ret
+    ^ ^4 j= .read_base62_until_ok
     ^ '0' j< .read_base62_until_invalid
     ^ ':' j< .read_base62_until_digit
     ^ 'A' j< .read_base62_until_invalid
@@ -118,7 +118,7 @@ read_base_until:
     ^ ^3 61 + j< .read_base62_until_lower # 'a' + base - 36
 .read_base62_until_invalid:
     drop 3slide 0 ret
-.read_base62_until_ret:
+.read_base62_until_ok:
     drop 3slide 1 ret
 .read_base62_until_digit:
     '0' jmp .read_base62_until_next
@@ -138,14 +138,14 @@ read_base26_until:
     0
 .read_base26_until_loop:
     ^2 ^ readc retrieve
-    ^ ^3 j= .read_base26_until_ret
+    ^ ^3 j= .read_base26_until_ok
     ^ 'A' j< .read_base26_until_invalid
     ^ '[' j< .read_base26_until_upper
     ^ 'a' j< .read_base26_until_invalid
     ^ '{' j< .read_base26_until_lower
 .read_base26_until_invalid:
     drop 2slide 0 ret
-.read_base26_until_ret:
+.read_base26_until_ok:
     drop 2slide 1 ret
 .read_base26_until_upper:
     'A' jmp .read_base26_until_next
