@@ -29,6 +29,9 @@
     0 2 call .median_of_three printi ": " prints
     0 3 ' ' call print '\n' printc
 
+    # Test array borrowed from Go
+    # https://go.dev/src/sort/sort_test.go#L18
+
     # Unsorted
     0 74 store
     1 59 store

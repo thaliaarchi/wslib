@@ -7,7 +7,7 @@
     "@math" import
 
 # Negative operand handling borrowed from Go
-# https://golang.org/src/math/big/int.go#L1072
+# https://go.dev/src/math/big/int.go#L1072
 
 # and returns the bitwise AND of x and y.
 # (x y -- x&y)

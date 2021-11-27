@@ -7,7 +7,7 @@
     "@types/string" import
 
     # Exp tests borrowed from Go
-    # https://golang.org/src/math/big/int_test.go#L527
+    # https://go.dev/src/math/big/int_test.go#L527
 
     0    0          call test_exp
     1    0          call test_exp
