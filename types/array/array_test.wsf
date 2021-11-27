@@ -17,5 +17,5 @@
     2 4 3 call index_of printi ' ' printc
     2 4 4 call index_of printi '\n' printc
 
-    2 4 ' ' call print '\n' printc
+    2 4 call print '\n' printc
     end

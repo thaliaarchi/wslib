@@ -13,5 +13,5 @@
     5 ^1 call print '\n' printc
     5 swap 3 4 call set
     5 ^1 call print '\n' printc
-    5 ^1 2 * ' ' call array.print '\n' printc
+    5 ^1 2 * call array.print '\n' printc
     end

@@ -40,9 +40,14 @@ index_of:
 .index_of_found:
     3slide ret
 
-# print prints an array, delimited by the given char.
-# (addr len delim -- )
+# print prints an array, delimited by spaces.
+# (addr len -- )
 print:
+    ' ' jmp print_delim
+
+# print_delim prints an array, delimited by the given char.
+# (addr len delim -- )
+print_delim:
     swap 1- 0
     ^1 jn .print_ret
 .print_loop:

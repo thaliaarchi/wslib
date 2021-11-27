@@ -41,7 +41,7 @@ print:
 .print_loop:
     1-
     ^ jn .print_ret
-    ^1 ^3 ' ' call array.print
+    ^1 ^3 call array.print
     '\n' printc
     swap ^2 + swap
     jmp .print_loop
