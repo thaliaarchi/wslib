@@ -13,45 +13,67 @@ quicksort:
 # (lo hi -- )
 .quicksort:
     ^ ^2 - 1-
-    ^ jn .quicksort_none # one or less elements
-    jz .quicksort_two    # two elements
+    ^ jn .quicksort_1  # one or fewer elements
+    ^ jz .quicksort_2  # two elements
+    1- jz .quicksort_3 # three elements
     2dup 2dup call .median_of_three call .partition
     ^2 ^1   call .quicksort # lo p
     1+ swap call .quicksort # p+1 hi
     drop ret
-.quicksort_none:
+.quicksort_1:
     3drop ret
-.quicksort_two:
+.quicksort_2:
+    drop jmp .sort_2
+.quicksort_3:
+    ^ 1- swap jmp .sort_3
+
+# .sort_2 sorts the elements at the two addresses such that
+# A[i] <= A[j].
+# (i j -- )
+.sort_2:
     swap ^ retrieve swap ^2 retrieve
-    ^ ^3 j< .quicksort_two_swap
+    ^ ^3 j< .sort_2_swap
     4drop ret
-.quicksort_two_swap:
+.sort_2_swap:
     store store ret
 
-# .median_of_three returns the median of the elements A[lo], A[mid], and
-# A[hi], which is used as the pivot value. These three elements are
-# sorted, then A[mid] and A[hi] are swapped so that A[hi] contains the
-# pivot.
-# (lo hi -- pivot)
-.median_of_three:
+# .sort_3 sorts the elements at the three addresses such that
+# A[i] <= A[j] <= A[k].
+# (i j k -- )
+.sort_3:
+    call .sort_3_with_median
+    drop ret
+
+# .sort_3_with_median sorts the elements at the three addresses such
+# that A[i] <= A[j] <= A[k] and returns the median value of the three.
+# (i j k -- med)
+.sort_3_with_median:
     # Performs 3 retrieves and stores in every case.
     # Branches are inverted and undo the already-swapped elements.
+    ^2 retrieve        # A[i]
+    ^1 retrieve        # A[k]
+    ^ ^2 j< .sort_3_checked_i_k
+    swap
+.sort_3_checked_i_k:
+    ^3 retrieve        # A[j]
+    ^ ^2 j< .sort_3_checked_i_j
+    swap
+.sort_3_checked_i_j:
+    ^5 swap store      # A[i] = min
+    ^ ^2 j< .sort_3_checked_j_k
+    swap
+.sort_3_checked_j_k:
+    ^3 ^1 store        # A[j] = median
+    swap ^2 swap store # A[k] = max
+    3slide ret         # return median
+
+# .median_of_three sorts the elements at the addresses lo, hi, and mid
+# (the midpoint of lo and hi) such that A[lo] <= A[hi] <= A[mid]. This
+# places the median at A[hi] and this is returned as the pivot.
+# (lo hi -- pivot)
+.median_of_three:
     2dup ^1 - 2/ + # mid = lo + (hi-lo)/2
-    ^2 retrieve ^1 retrieve # A[lo] A[mid]
-    ^ ^2 j< .median_of_three_checked_mid_lo
-    swap
-.median_of_three_checked_mid_lo:
-    ^3 retrieve # A[hi]
-    ^ ^2 j< .median_of_three_checked_hi_lo
-    swap
-.median_of_three_checked_hi_lo:
-    ^5 swap store # A[lo] = min(A[lo], A[mid], A[hi])
-    ^ ^2 j< .median_of_three_checked_mid_hi
-    swap
-.median_of_three_checked_mid_hi:
-    ^3 ^1 store        # A[hi] = median(A[lo], A[mid], A[hi])
-    swap ^2 swap store # A[mid] = max(A[lo], A[mid], A[hi])
-    3slide ret # return A[hi]
+    jmp .sort_3_with_median
 
 # .partition divides the array into two partitions where all values to
 # the left of p are less than pivot and all values to the right of (and
