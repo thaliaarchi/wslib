@@ -22,6 +22,7 @@ make -k
 run_test crypto/caesar.wsf
 run_test crypto/luhn_test.wsf
 run_test math/collatz_test.wsf
+run_test math/divmod_test.wsf
 run_test math/exp_test.wsf
 run_test types/array/array_test.wsf
 run_test types/array/sort_test.wsf
