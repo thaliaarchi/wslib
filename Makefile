@@ -33,7 +33,7 @@ MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/exp.wsf math/gcd.ws
 ARRAY = types/array/module.wsf types/array/array.wsf types/array/sort.wsf
 BOOL = types/bool.wsf
 CHAR = types/char/module.wsf types/char/print.wsf types/char/unicode.wsf
-INT = types/int/module.wsf types/int/bits.wsf types/int/print.wsf types/int/read.wsf
+INT = types/int/module.wsf types/int/bits.wsf types/int/int.wsf types/int/print.wsf types/int/read.wsf
 MAP = types/map.wsf
 MATRIX = types/matrix.wsf
 STRING = types/string/module.wsf types/string/compare.wsf types/string/print.wsf types/string/read.wsf types/string/store.wsf
@@ -59,6 +59,7 @@ $(BUILD)/types/char/print_test.wsa: $(CHAR)
 $(BUILD)/types/char/unicode.wsa: $(CHAR)
 $(BUILD)/types/int/bits.wsa: $(INT) $(MATH)
 $(BUILD)/types/int/bits_test.wsa: $(INT)
+$(BUILD)/types/int/int.wsa: $(INT)
 $(BUILD)/types/int/print.wsa: $(INT) $(MATH)
 $(BUILD)/types/int/print_test.wsa: $(INT)
 $(BUILD)/types/int/read.wsa: $(INT)

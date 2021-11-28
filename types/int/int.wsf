@@ -1,0 +1,32 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# reverse_digits reverses the order of the digits of n.
+# (n base -- n')
+reverse_digits:
+    swap 0
+.reverse_digits_loop:
+    ^1 jz .reverse_digits_ret
+    ^2 * ^1 ^3 % +
+    swap ^2 / swap
+    jmp .reverse_digits_loop
+.reverse_digits_ret:
+    2slide ret
+
+# make_palindrome_odd mirrors the digits of n to create a palindrome
+# with an odd number of digits (a single middle digit).
+# (n base -- pal)
+make_palindrome_odd:
+    swap ^
+    ^2 / swap
+    jmp .reverse_digits_loop
+
+# make_palindrome_odd mirrors the digits of n to create a palindrome
+# with an even number of digits (doubled middle digits).
+# (n base -- pal)
+make_palindrome_even:
+    swap ^
+    jmp .reverse_digits_loop
