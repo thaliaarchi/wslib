@@ -4,7 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/int" import
+    "@types/char" import
+    "@types/int"  import
 
 # print prints a string on the heap at addr, with the given length.
 # (addr len -- )
@@ -140,7 +141,7 @@ printf:
 .printf_x_pad_s:
     16 jmp .printf_pad_s
 .printf_q:
-    drop call int.printc_quote jmp printf
+    drop call char.printc_quote jmp printf
 .printf_s:
     drop call printf jmp printf
 .printf_pad_0:

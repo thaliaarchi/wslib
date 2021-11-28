@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+    "@types/int" import
+
 # printc_quote prints a quoted character with escape sequences for
 # ASCII control characters.
 # (c -- )
@@ -38,7 +40,7 @@ printc_escape:
     ^ '\e' j= .printc_escape_e
     'x' printc
     16 swap 2
-    call print_base_pad_0
+    call int.print_base_pad_0
     ret
 .printc_escape_a:
     'a' jmp .printc_escape_ret

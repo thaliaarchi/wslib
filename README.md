@@ -10,6 +10,7 @@ become the standard library for an upcoming compiler.
 - `types`: higher-level types
   - `array`
   - `bool`
+  - `char`
   - `int`
   - `map`
   - `matrix`

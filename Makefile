@@ -11,7 +11,7 @@ ASSEMBLE = wsc
 WSF = crypto/caesar.wsf crypto/luhn_test.wsf  math/collatz_test.wsf \
 	math/divmod_test.wsf math/exp_test.wsf types/array/array_test.wsf \
 	types/array/sort_test.wsf types/bool_test.wsf \
-	types/int/bits_test.wsf types/int/char_test.wsf \
+	types/char/print_test.wsf types/int/bits_test.wsf \
 	types/int/print_test.wsf types/map_test.wsf types/matrix_test.wsf \
 	types/string/compare_test.wsf types/string/print_test.wsf
 WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
@@ -32,7 +32,8 @@ CRYPTO = crypto/module.wsf crypto/caesar.wsf crypto/luhn.wsf
 MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/exp.wsf math/gcd.wsf math/math.wsf
 ARRAY = types/array/module.wsf types/array/array.wsf types/array/sort.wsf
 BOOL = types/bool.wsf
-INT = types/int/module.wsf types/int/bits.wsf types/int/char.wsf types/int/print.wsf types/int/read.wsf
+CHAR = types/char/module.wsf types/char/print.wsf types/char/unicode.wsf
+INT = types/int/module.wsf types/int/bits.wsf types/int/print.wsf types/int/read.wsf
 MAP = types/map.wsf
 MATRIX = types/matrix.wsf
 STRING = types/string/module.wsf types/string/compare.wsf types/string/print.wsf types/string/read.wsf types/string/store.wsf
@@ -54,10 +55,11 @@ $(BUILD)/types/array/sort.wsa: $(ARRAY)
 $(BUILD)/types/array/sort_test.wsa: $(ARRAY)
 $(BUILD)/types/bool.wsa: $(BOOL)
 $(BUILD)/types/bool_test.wsa: $(BOOL)
+$(BUILD)/types/char/print.wsa: $(CHAR)
+$(BUILD)/types/char/print_test.wsa: $(CHAR)
+$(BUILD)/types/char/unicode.wsa: $(CHAR)
 $(BUILD)/types/int/bits.wsa: $(INT) $(MATH)
 $(BUILD)/types/int/bits_test.wsa: $(INT)
-$(BUILD)/types/int/char.wsa: $(INT)
-$(BUILD)/types/int/char_test.wsa: $(INT)
 $(BUILD)/types/int/print.wsa: $(INT) $(MATH)
 $(BUILD)/types/int/print_test.wsa: $(INT)
 $(BUILD)/types/int/read.wsa: $(INT)
@@ -67,7 +69,7 @@ $(BUILD)/types/matrix.wsa: $(MATRIX) $(ARRAY) $(STRING)
 $(BUILD)/types/matrix_test.wsa: $(MATRIX) $(ARRAY)
 $(BUILD)/types/string/compare.wsa: $(STRING) $(BOOL)
 $(BUILD)/types/string/compare_test.wsa: $(STRING) $(MATH)
-$(BUILD)/types/string/print.wsa: $(STRING) $(INT)
+$(BUILD)/types/string/print.wsa: $(STRING) $(CHAR) $(INT)
 $(BUILD)/types/string/print_test.wsa: $(STRING)
 $(BUILD)/types/string/read.wsa: $(STRING)
 $(BUILD)/types/string/store.wsa: $(STRING)

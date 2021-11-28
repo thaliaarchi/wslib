@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+    "@types/char" import
+
 # read reads len chars and stores it on the heap starting at addr.
 # (addr len -- )
 read:
@@ -38,6 +40,23 @@ read_until:
 .read_until_ret:
     drop swap drop
     ^ -1 store # overwrite delim with -1
+    swap - ret
+
+# read_until_space reads text until a Unicode whitespace character or
+# EOF, stores it on the heap starting at addr terminated with -1, and
+# returns the length (not including the delimiter).
+# (addr -- len)
+read_until_space:
+    ^
+.read_until_space_loop:
+    ^ ^ readc retrieve
+    ^ call char.is_space ! jz .read_until_space_ret
+    ^ jeof .read_until_space_ret
+    drop 1+
+    jmp .read_until_space_loop
+.read_until_space_ret:
+    drop swap
+    ^ -1 store # overwrite space with -1
     swap - ret
 
 # read_eof reads text until EOF, stores it on the heap starting at addr
