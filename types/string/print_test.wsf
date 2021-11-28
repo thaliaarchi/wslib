@@ -18,4 +18,6 @@
     "Hello\n" 6 call print_stack
     0 "Hello\n" call print_0_stack
     -1 "Hello\n" call print_neg_stack
+
+    -1 "Hello\n" call printf
     end
