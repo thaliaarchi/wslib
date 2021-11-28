@@ -1,0 +1,49 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+# store_0 stores the zero-terminated stack string at the given address
+# (not including the terminator).
+# (-1 str... addr -- )
+store_0:
+    swap ^ jz .store_0_ret
+    ^1 swap store
+    1+
+    jmp store_0
+.store_0_ret:
+    drop ret
+
+# store_neg stores the negative-terminated stack string at the given
+# address (not including the terminator).
+# (-1 str... addr -- )
+store_neg:
+    swap ^ jn .store_neg_ret
+    ^1 swap store
+    1+
+    jmp store_neg
+.store_neg_ret:
+    drop ret
+
+# store_0_term stores the zero-terminated stack string at the given address
+# (including the terminator).
+# (-1 str... addr -- )
+store_0_term:
+    ^ ^2 store
+    swap jz .store_0_term_ret
+    1+
+    jmp store_0_term
+.store_0_term_ret:
+    drop ret
+
+# store_neg_term stores the negative-terminated stack string at the given
+# address (including the terminator).
+# (-1 str... addr -- )
+store_neg_term:
+    ^ ^2 store
+    swap jn .store_neg_term_ret
+    1+
+    jmp store_neg_term
+.store_neg_term_ret:
+    drop ret

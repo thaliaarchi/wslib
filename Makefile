@@ -62,6 +62,7 @@ $(BUILD)/types/string/io.wsa:
 $(BUILD)/types/string/io_test.wsa: types/string/io.wsf
 $(BUILD)/types/string/printf.wsa: types/int/char.wsf
 $(BUILD)/types/string/printf_test.wsa: types/string/printf.wsf
+$(BUILD)/types/string/store.wsa:
 
 .PHONY: clean
 clean:

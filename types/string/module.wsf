@@ -7,3 +7,4 @@
     "compare" export
     "io"      export
     "printf"  export
+    "store"   export
