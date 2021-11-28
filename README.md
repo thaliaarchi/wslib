@@ -15,7 +15,6 @@ become the standard library for an upcoming compiler.
   - `map`
   - `matrix`
   - `string`
-- `misc`: miscellaneous standalone programs
 
 ## Style
 
@@ -121,10 +120,6 @@ to implement!
   - `modexp`
   - `crt`
   - `print_matrix_padded`
-
-- `misc`:
-
-  - Finish `cowsay`
 
 - `cipher`:
 

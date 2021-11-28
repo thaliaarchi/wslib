@@ -48,7 +48,6 @@ $(BUILD)/math/exp.wsa: $(MATH)
 $(BUILD)/math/exp_test.wsa: $(MATH) $(STRING)
 $(BUILD)/math/gcd.wsa: $(MATH)
 $(BUILD)/math/math.wsa: $(MATH)
-$(BUILD)/misc/cowsay.wsa:
 $(BUILD)/types/array/array.wsa: $(ARRAY) $(BOOL)
 $(BUILD)/types/array/array_test.wsa: $(ARRAY)
 $(BUILD)/types/array/sort.wsa: $(ARRAY)
