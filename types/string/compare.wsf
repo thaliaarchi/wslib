@@ -1,0 +1,57 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@types/bool" import
+
+# equals returns whether the two strings are equal.
+# (addr1 len1 addr2 len2 -- ?)
+equals:
+    ^2 ^1 j= .equals_len_equal
+    0 4slide ret
+.equals_len_equal:
+    drop swap ^3 + 1- # addr1+len-1
+    ^2 ^2 # i, j = addr1, addr2
+.equals_loop:
+    ^3 ^2 j< .equals_equal # i >= addr1+len
+    ^1 retrieve ^1 retrieve
+    j= .equals_char_equal
+    jmp .equals_not_equal
+.equals_char_equal:
+    swap 1+ swap 1+ # i++, j++
+    jmp .equals_loop
+.equals_equal:
+    1 6slide ret
+.equals_not_equal:
+    0 6slide ret
+
+# compare returns the relation between the two strings. Returns 0 if
+# both strings are equal. Returns negative if the first differing
+# character has a lower value in str1 than in str2. Returns positive
+# if the first differing character has a greater value in str1 than in
+# str2.
+# (addr1 len1 addr2 len2 -- relation)
+compare:
+    ^3 ^3 + 1- ^2 ^2 + 1- # addr1+len1-1 addr2+len2-1
+    ^5 ^4 # i, j = addr1, addr2
+.compare_loop:
+    ^3 ^2 j< .compare_bounds # i >= addr1+len
+    ^2 ^1 j< .compare_bounds # j >= addr2+len
+    ^1 retrieve ^1 retrieve
+    2dup j= .compare_char_equal
+    jmp .compare_ret
+.compare_char_equal:
+    2drop
+    swap 1+ swap 1+ # i++, j++
+    jmp .compare_loop
+.compare_bounds:
+    ^6 ^5 # len1 len2
+.compare_ret:
+    - 8slide ret
+
+# less returns whether str1 compares less than str2.
+# (addr1 len1 addr2 len2 -- ?)
+less:
+    call compare neg? ret

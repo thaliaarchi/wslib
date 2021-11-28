@@ -57,6 +57,7 @@ $(BUILD)/types/map.wsa: types/bool.wsf
 $(BUILD)/types/map_test.wsa: types/map.wsf
 $(BUILD)/types/matrix.wsa: types/array/array.wsf
 $(BUILD)/types/matrix_test.wsa: types/matrix.wsf types/array/array.wsf
+$(BUILD)/types/string/compare.wsa: types/bool.wsf
 $(BUILD)/types/string/io.wsa:
 $(BUILD)/types/string/io_test.wsa: types/string/io.wsf
 $(BUILD)/types/string/printf.wsa: types/int/char.wsf
