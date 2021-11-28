@@ -4,19 +4,19 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    '\a' call printc_quote '\n' printc
-    '\b' call printc_quote '\n' printc
-    '\t' call printc_quote '\n' printc
-    '\n' call printc_quote '\n' printc
-    '\v' call printc_quote '\n' printc
-    '\f' call printc_quote '\n' printc
-    '\r' call printc_quote '\n' printc
-    '\e' call printc_quote '\n' printc
-    '\'' call printc_quote '\n' printc
-    '\\' call printc_quote '\n' printc
-    0 call printc_quote '\n' printc
-    15 call printc_quote '\n' printc
-    26 call printc_quote '\n' printc
-    31 call printc_quote '\n' printc
-    'A' call printc_quote '\n' printc
+    '\a' call print_quote '\n' printc
+    '\b' call print_quote '\n' printc
+    '\t' call print_quote '\n' printc
+    '\n' call print_quote '\n' printc
+    '\v' call print_quote '\n' printc
+    '\f' call print_quote '\n' printc
+    '\r' call print_quote '\n' printc
+    '\e' call print_quote '\n' printc
+    '\'' call print_quote '\n' printc
+    '\\' call print_quote '\n' printc
+    0 call print_quote '\n' printc
+    15 call print_quote '\n' printc
+    26 call print_quote '\n' printc
+    31 call print_quote '\n' printc
+    'A' call print_quote '\n' printc
     end

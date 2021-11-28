@@ -141,7 +141,7 @@ printf:
 .printf_x_pad_s:
     16 jmp .printf_pad_s
 .printf_q:
-    drop call char.printc_quote jmp printf
+    drop call char.print_quote jmp printf
 .printf_s:
     drop call printf jmp printf
 .printf_pad_0:
