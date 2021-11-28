@@ -32,4 +32,5 @@ run_test types/int/char_test.wsf
 run_test types/int/print_test.wsf
 run_test types/map_test.wsf
 run_test types/matrix_test.wsf
+run_test types/string/compare_test.wsf
 run_test types/string/print_test.wsf

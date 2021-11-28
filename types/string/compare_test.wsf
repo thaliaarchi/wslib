@@ -1,0 +1,40 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@math" import
+
+    # compare tests borrowed from Go
+    # https://go.dev/src/strings/compare_test.go#L17
+
+    -1 "a"         2  call store_neg
+    -1 "b"         3  call store_neg
+    -1 "x"         4  call store_neg
+    -1 "ab"        5  call store_neg
+    -1 "abc"       7  call store_neg
+    -1 "abcdefgh"  10 call store_neg
+    -1 "abcdefghi" 18 call store_neg
+    -1 "abcdefghj" 27 call store_neg
+
+    0 0 1 0 call test_compare # "" ""
+    2 1 0 0 call test_compare # "a" ""
+    0 0 2 1 call test_compare # "" "a"
+    7 3 7 3 call test_compare # "abc" "abc"
+    5 2 7 3 call test_compare # "ab" "abc"
+    7 3 5 2 call test_compare # "abc" "ab"
+    4 1 5 2 call test_compare # "x" "ab"
+    5 2 4 1 call test_compare # "ab" "x"
+    4 1 2 1 call test_compare # "x" "a"
+    3 1 4 1 call test_compare # "b" "x"
+    10 8 10 8 call test_compare # "abcdefgh" "abcdefgh"
+    18 9 18 9 call test_compare # "abcdefghi" "abcdefghi"
+    18 9 27 9 call test_compare # "abcdefghi" "abcdefghj"
+    end
+
+# (addr1 len1 addr2 len2 -- )
+test_compare:
+    4dup call equals printi ' ' printc
+    call compare call math.sign printi '\n' printc
+    ret

@@ -13,7 +13,7 @@ WSF = crypto/caesar.wsf crypto/luhn_test.wsf  math/collatz_test.wsf \
 	types/array/sort_test.wsf types/bool_test.wsf \
 	types/int/bits_test.wsf types/int/char_test.wsf \
 	types/int/print_test.wsf types/map_test.wsf types/matrix_test.wsf \
-	types/string/print_test.wsf
+	types/string/compare_test.wsf types/string/print_test.wsf
 WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
 
 .PHONY: all
@@ -66,6 +66,7 @@ $(BUILD)/types/map_test.wsa: $(MAP)
 $(BUILD)/types/matrix.wsa: $(MATRIX) $(ARRAY) $(STRING)
 $(BUILD)/types/matrix_test.wsa: $(MATRIX) $(ARRAY)
 $(BUILD)/types/string/compare.wsa: $(STRING) $(BOOL)
+$(BUILD)/types/string/compare_test.wsa: $(STRING) $(MATH)
 $(BUILD)/types/string/print.wsa: $(STRING) $(INT)
 $(BUILD)/types/string/print_test.wsa: $(STRING)
 $(BUILD)/types/string/read.wsa: $(STRING)

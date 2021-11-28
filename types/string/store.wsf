@@ -13,7 +13,7 @@ store_0:
     1+
     jmp store_0
 .store_0_ret:
-    drop ret
+    2drop ret
 
 # store_neg stores the negative-terminated stack string at the given
 # address (not including the terminator).
@@ -24,7 +24,7 @@ store_neg:
     1+
     jmp store_neg
 .store_neg_ret:
-    drop ret
+    2drop ret
 
 # store_0_term stores the zero-terminated stack string at the given address
 # (including the terminator).

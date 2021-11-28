@@ -12,10 +12,10 @@ equals:
     ^2 ^1 j= .equals_len_equal
     0 4slide ret
 .equals_len_equal:
-    drop swap ^3 + 1- # addr1+len-1
+    drop swap ^2 + 1- # addr1+len-1
     ^2 ^2 # i, j = addr1, addr2
 .equals_loop:
-    ^3 ^2 j< .equals_equal # i >= addr1+len
+    ^2 ^2 j< .equals_equal # i >= addr1+len
     ^1 retrieve ^1 retrieve
     j= .equals_char_equal
     jmp .equals_not_equal
@@ -23,9 +23,9 @@ equals:
     swap 1+ swap 1+ # i++, j++
     jmp .equals_loop
 .equals_equal:
-    1 6slide ret
+    1 5slide ret
 .equals_not_equal:
-    0 6slide ret
+    0 5slide ret
 
 # compare returns the relation between the two strings. Returns 0 if
 # both strings are equal. Returns negative if the first differing
