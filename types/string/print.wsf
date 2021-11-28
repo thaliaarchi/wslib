@@ -7,7 +7,7 @@
     "@types/char" import
     "@types/int"  import
 
-# print prints a string on the heap at addr, with the given length.
+# print prints a heap string of the given length.
 # (addr len -- )
 print:
     1-
@@ -17,7 +17,7 @@ print:
 .print_ret:
     2drop ret
 
-# print_0 prints a string on the heap at addr, terminated with 0.
+# print_0 prints a zero-terminated heap string.
 # (addr -- )
 print_0:
     ^ retrieve
@@ -27,8 +27,7 @@ print_0:
 .print_0_ret:
     2drop ret
 
-# print_neg prints a string on the heap at addr, terminated with a
-# negative number.
+# print_neg prints a negative-terminated heap string.
 # (addr -- )
 print_neg:
     ^ retrieve
@@ -38,7 +37,7 @@ print_neg:
 .print_neg_ret:
     2drop ret
 
-# print_stack prints a string on the stack, prefixed with the length.
+# print_stack prints a length-prefixed stack string.
 # (str... len -- )
 print_stack:
     1-
@@ -48,7 +47,7 @@ print_stack:
 .print_stack_ret:
     drop ret
 
-# print_0_stack prints a string on the stack, terminated with 0.
+# print_0_stack prints a zero-terminated stack string.
 # (0 str... -- )
 print_0_stack:
     ^ jz .print_0_stack_ret
@@ -57,8 +56,7 @@ print_0_stack:
 .print_0_stack_ret:
     drop ret
 
-# print_neg_stack prints a string on the stack, terminated with a
-# negative number.
+# print_neg_stack prints a negative-terminated stack string.
 # (-1 str... -- )
 print_neg_stack:
     ^ jn .print_neg_stack_ret
@@ -67,7 +65,44 @@ print_neg_stack:
 .print_neg_stack_ret:
     drop ret
 
-# printf prints a string on the stack with format verbs, stopping at -1.
+
+# println prints a heap string of the given length and a line feed
+# afterwards.
+# (addr len -- )
+println:
+    call print '\n' printc ret
+
+# println_0 prints a zero-terminated heap string and a line feed
+# afterwards.
+# (addr -- )
+println_0:
+    call print_0 '\n' printc ret
+
+# println_neg prints a negative-terminated heap string and a line feed
+# afterwards.
+# (addr -- )
+println_neg:
+    call print_neg '\n' printc ret
+
+# println_stack prints a length-prefixed stack string and a line feed
+# afterwards.
+# (str... len -- )
+println_stack:
+    call print_stack '\n' printc ret
+
+# println_0_stack prints a zero-terminated stack string and a line feed
+# afterwards.
+# (0 str... -- )
+println_0_stack:
+    call print_0_stack '\n' printc ret
+
+# println_neg_stack prints a negative-terminated stack string and a line
+# feed afterwards.
+# (-1 str... -- )
+println_neg_stack:
+    call print_neg_stack '\n' printc ret
+
+# printf prints a stack string with format verbs, stopping at -1.
 #
 # The format verbs are defined as follows:
 #
