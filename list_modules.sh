@@ -16,3 +16,4 @@ list_module() {
 list_module crypto
 list_module math
 list_module types
+list_module vm

@@ -15,6 +15,8 @@ become the standard library for an upcoming compiler.
   - `map`
   - `matrix`
   - `string`
+- `vm`: language interpreters
+  - `intcode`
 
 ## Style
 

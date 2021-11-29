@@ -73,6 +73,7 @@ $(BUILD)/types/string/print.wsa: $(STRING) $(CHAR) $(INT)
 $(BUILD)/types/string/print_test.wsa: $(STRING)
 $(BUILD)/types/string/read.wsa: $(STRING)
 $(BUILD)/types/string/store.wsa: $(STRING)
+$(BUILD)/vm/intcode.wsa: $(INT)
 
 .PHONY: clean
 clean:

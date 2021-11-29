@@ -1,0 +1,56 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@types/int" import
+
+# read_program parses a comma-separated Intcode program and stores it in
+# the heap.
+# ( -- )
+read_program:
+    0
+.read_program_loop:
+    ^ ',' 10 call int.read_base_until
+    ^2 ^2 store
+    jz .read_program_ret
+    drop 1+
+    jmp .read_program_loop
+.read_program_ret:
+    2drop ret
+
+# interpret evaluates an Intcode program and returns the exit status.
+# ( -- status)
+interpret:
+    0
+.interpret_loop:
+    call eval_inst
+    ^ neg jn .interpret_loop
+    ret
+
+# eval_inst evaluates the Intcode instruction at pc and returns the
+# updated pc. A negative pc indicates that the program has halted.
+# (pc -- pc')
+eval_inst:
+    ^ retrieve
+    ^ 1  j= .eval_inst_add
+    ^ 2  j= .eval_inst_mul
+    ^ 99 j= .eval_inst_halt
+    2drop -2 ret # unknown opcode
+.eval_inst_add:
+    drop
+    ^  3+ retrieve          # dest
+    ^1 1+ retrieve retrieve # lhs
+    ^2 2+ retrieve retrieve # rhs
+    + store # dest = lhs+rhs
+    4+ ret  # pc += 4
+.eval_inst_mul:
+    drop
+    ^  3+ retrieve          # dest
+    ^1 1+ retrieve retrieve # lhs
+    ^2 2+ retrieve retrieve # rhs
+    * store # dest = lhs*rhs
+    4+ ret  # pc += 4
+.eval_inst_halt:
+    2drop -1 ret # halt
