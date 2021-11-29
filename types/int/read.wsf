@@ -38,6 +38,13 @@ read_until:
 .read_until_0x_prefix:
     16 swap jmp .read_base36_until
 
+# read_base reads a number in the given base. The alphabet is [0-9a-z]
+# for bases 2..=36 and [0-9A-Za-z] for bases 37..=62. Clobbers the given
+# address.
+# (addr base -- n ok?)
+read_base:
+    '\n' swap jmp read_base_until
+
 # read_base_until reads a number in the given base, stopping at
 # character ch. The alphabet is [0-9a-z] for bases 2..=36 and
 # [0-9A-Za-z] for bases 37..=62. Clobbers the given address.
@@ -129,6 +136,12 @@ read_base_until:
 .read_base62_until_next:
     - swap ^2 * +
     jmp .read_base62_until_loop
+
+# read_base26 reads a number in base 26 with the alphabet [A-Z]
+# (case-insensitive). Clobbers the given address.
+# (addr -- n ok?)
+read_base26:
+    '\n' jmp read_base26_until
 
 # read_base26_until reads a number in base 26 with the alphabet [A-Z]
 # (case-insensitive), stopping at character ch. Clobbers the given
