@@ -7,6 +7,7 @@ become the standard library for an upcoming compiler.
 
 - `crypto`: non-cryptographic ciphers
 - `math`: arbitrary-precision integer math functions
+- `mem`: heap memory management
 - `types`: higher-level types
   - `array`
   - `bool`

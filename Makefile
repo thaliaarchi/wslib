@@ -30,6 +30,7 @@ $(BUILD)/%.wsa: %.wsf wsf.sed wsf-assemble
 # Manually-enumerated dependencies
 CRYPTO = crypto/module.wsf crypto/caesar.wsf crypto/luhn.wsf
 MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/exp.wsf math/gcd.wsf math/math.wsf
+MEM = mem/module.wsf mem/mem.wsf
 ARRAY = types/array/module.wsf types/array/array.wsf types/array/sort.wsf
 BOOL = types/bool.wsf
 CHAR = types/char/module.wsf types/char/print.wsf types/char/unicode.wsf
@@ -48,6 +49,7 @@ $(BUILD)/math/exp.wsa: $(MATH)
 $(BUILD)/math/exp_test.wsa: $(MATH) $(STRING)
 $(BUILD)/math/gcd.wsa: $(MATH)
 $(BUILD)/math/math.wsa: $(MATH)
+$(BUILD)/mem/mem.wsa: $(MEM)
 $(BUILD)/types/array/array.wsa: $(ARRAY) $(BOOL)
 $(BUILD)/types/array/array_test.wsa: $(ARRAY)
 $(BUILD)/types/array/sort.wsa: $(ARRAY)
