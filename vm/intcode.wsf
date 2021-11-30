@@ -22,6 +22,22 @@ read_program:
 .read_program_ret:
     ret
 
+# init_program initializes the program before the first execution.
+# (offset -- )
+init_program:
+    0 swap ^ call mem.copy
+    ret
+
+# reset_program resets the program to before execution.
+# (offset maxaddr -- )
+reset_program:
+    ^1 call init_program
+    ^ ^2 j< .reset_program_no_clear
+    ^1 - swap ^ + swap call mem.clear
+    ret
+.reset_program_no_clear:
+    2drop ret
+
 # set_inputs replaces the values at address 1 (noun) and address 2
 # (verb).
 # (offset noun verb -- )
@@ -35,28 +51,28 @@ set_inputs:
 interpret:
     0 0
 .interpret_loop:
-    call eval_inst
+    call exec_inst
     ^1 neg jn .interpret_loop
     swap 1+ swap
     ret
 
-# eval_inst evaluates the Intcode instruction at pc and returns the
+# exec_inst executes the Intcode instruction at pc and returns the
 # updated pc. A negative pc indicates that the program has halted.
 # (offset pc maxaddr -- offset pc' maxaddr')
-eval_inst:
+exec_inst:
     ^2 ^2 + retrieve # opcode
-    ^ 1  j= .eval_inst_add
-    ^ 2  j= .eval_inst_mul
-    ^ 99 j= .eval_inst_halt
+    ^ 1  j= .exec_inst_add
+    ^ 2  j= .exec_inst_mul
+    ^ 99 j= .exec_inst_halt
     call .unknown_opcode
     1slide -2 swap ret
-.eval_inst_add:
+.exec_inst_add:
     drop call .load_binary_op
     + store ret # dest = lhs + rhs
-.eval_inst_mul:
+.exec_inst_mul:
     drop call .load_binary_op
     * store ret # dest = lhs * rhs
-.eval_inst_halt:
+.exec_inst_halt:
     drop 1slide -1 swap ret
 
 # load_binary_op retrieves the destination and operands for a binary
@@ -72,16 +88,6 @@ eval_inst:
     ^2 3- ^4 + retrieve ^4 + retrieve # lhs
     ^3 2- ^5 + retrieve ^5 + retrieve # lhs
     ret
-
-# reset_program resets the program to before execution.
-# (offset maxaddr -- )
-reset_program:
-    0 ^2 ^ call mem.copy
-    ^ ^2 j< .reset_program_no_clear
-    ^1 - swap ^ + swap call mem.clear
-    ret
-.reset_program_no_clear:
-    2drop ret
 
 # .unknown_opcode prints an error message for an unknown opcode.
 # (opcode -- )
