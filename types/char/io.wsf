@@ -4,7 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/int" import
+    "@types/bool" import
+    "@types/int"  import
 
 # print_quote prints a quoted character with escape sequences for
 # ASCII control characters.
@@ -58,3 +59,9 @@ print_escape:
     'r' jmp .print_escape_ret
 .print_escape_e:
     'e' jmp .print_escape_ret
+
+# read_expect reads the next char and returns whether it equals ch.
+# Clobbers the given address.
+# (addr ch -- ok?)
+read_expect:
+    swap ^ readc retrieve = ret

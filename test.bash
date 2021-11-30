@@ -27,7 +27,7 @@ run_test math/exp_test.wsf
 run_test types/array/array_test.wsf
 run_test types/array/sort_test.wsf
 run_test types/bool_test.wsf
-run_test types/char/print_test.wsf
+run_test types/char/io_test.wsf
 run_test types/int/bits_test.wsf
 run_test types/int/print_test.wsf
 run_test types/map_test.wsf
