@@ -4,53 +4,87 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/int" import
+    "@mem"          import
+    "@types/int"    import
+    "@types/string" import
 
 # read_program parses a comma-separated Intcode program and stores it in
 # the heap.
-# ( -- )
+# ( -- len)
 read_program:
     0
 .read_program_loop:
     ^ ',' 10 call int.read_base_until
     ^2 ^2 store
+    1slide swap 1+ swap
     jz .read_program_ret
-    drop 1+
     jmp .read_program_loop
 .read_program_ret:
-    2drop ret
+    ret
+
+# set_inputs replaces the values at address 1 (noun) and address 2
+# (verb).
+# (offset noun verb -- )
+set_inputs:
+    swap ^2 1+ swap store
+    swap 2+ swap store
+    ret
 
 # interpret evaluates an Intcode program and returns the exit status.
-# ( -- status)
+# (offset -- offset status maxaddr)
 interpret:
-    0
+    0 0
 .interpret_loop:
     call eval_inst
-    ^ neg jn .interpret_loop
+    ^1 neg jn .interpret_loop
+    swap 1+ swap
     ret
 
 # eval_inst evaluates the Intcode instruction at pc and returns the
 # updated pc. A negative pc indicates that the program has halted.
-# (pc -- pc')
+# (offset pc maxaddr -- offset pc' maxaddr')
 eval_inst:
-    ^ retrieve
+    ^2 ^2 + retrieve # opcode
     ^ 1  j= .eval_inst_add
     ^ 2  j= .eval_inst_mul
     ^ 99 j= .eval_inst_halt
-    2drop -2 ret # unknown opcode
+    call .unknown_opcode
+    1slide -2 swap ret
 .eval_inst_add:
-    drop
-    ^  3+ retrieve          # dest
-    ^1 1+ retrieve retrieve # lhs
-    ^2 2+ retrieve retrieve # rhs
-    + store # dest = lhs+rhs
-    4+ ret  # pc += 4
+    drop call .load_binary_op
+    + store ret # dest = lhs + rhs
 .eval_inst_mul:
-    drop
-    ^  3+ retrieve          # dest
-    ^1 1+ retrieve retrieve # lhs
-    ^2 2+ retrieve retrieve # rhs
-    * store # dest = lhs*rhs
-    4+ ret  # pc += 4
+    drop call .load_binary_op
+    * store ret # dest = lhs * rhs
 .eval_inst_halt:
-    2drop -1 ret # halt
+    drop 1slide -1 swap ret
+
+# load_binary_op retrieves the destination and operands for a binary
+# operator, advances pc, and updates maxaddr if dest is larger.
+# (offset pc maxaddr -- offset pc' maxaddr' dest lhs rhs)
+.load_binary_op:
+    swap 4+ swap # pc += 4
+    ^1 1- retrieve # dest
+    ^ ^2 j<= .load_binary_op_addr_less
+    swap drop ^ # maxaddr = dest if dest > maxaddr
+.load_binary_op_addr_less:
+    ^3 +                              # dest
+    ^2 3- ^4 + retrieve ^4 + retrieve # lhs
+    ^3 2- ^5 + retrieve ^5 + retrieve # lhs
+    ret
+
+# reset_program resets the program to before execution.
+# (offset maxaddr -- )
+reset_program:
+    0 ^2 ^ call mem.copy
+    ^ ^2 j< .reset_program_no_clear
+    ^1 - swap ^ + swap call mem.clear
+    ret
+.reset_program_no_clear:
+    2drop ret
+
+# .unknown_opcode prints an error message for an unknown opcode.
+# (opcode -- )
+.unknown_opcode:
+    -1 "Error: unknown opcode: " call string.print_neg_stack
+    printi '\n' printc ret
