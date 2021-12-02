@@ -4,8 +4,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "bool" export
-
     "and     " prints
     0 0 call and printi
     0 1 call and printi

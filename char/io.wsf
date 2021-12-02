@@ -4,8 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    "@types/bool" import
-    "@types/int"  import
+    "@bool" import
+    "@int"  import
 
 # print_quote prints a quoted character with escape sequences for
 # ASCII control characters.

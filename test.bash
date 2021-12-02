@@ -6,10 +6,11 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 run_test() {
-  echo "Testing $1"
-  prog="build/${1%.wsf}"
-  in="${1%.wsf}.in"
-  out="${1%.wsf}.out"
+  local base="${1%.wsf}"
+  echo "Testing $base"
+  prog="build/$base"
+  in="$base.in"
+  out="$base.out"
   if [ -f "$in" ]; then
     wspace "$prog.ws" < "$in" > "$prog.out"
   else
@@ -19,18 +20,8 @@ run_test() {
 }
 
 make -k
+find . -type f -name '*_test.wsf' |
+while read -r test; do
+  run_test "${test#./}"
+done
 run_test crypto/caesar.wsf
-run_test crypto/luhn_test.wsf
-run_test math/collatz_test.wsf
-run_test math/divmod_test.wsf
-run_test math/exp_test.wsf
-run_test types/array/array_test.wsf
-run_test types/array/sort_test.wsf
-run_test types/bool_test.wsf
-run_test types/char/io_test.wsf
-run_test types/int/bits_test.wsf
-run_test types/int/print_test.wsf
-run_test types/map_test.wsf
-run_test types/matrix_test.wsf
-run_test types/string/compare_test.wsf
-run_test types/string/print_test.wsf

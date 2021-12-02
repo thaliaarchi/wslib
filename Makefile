@@ -8,12 +8,8 @@ BUILD = build
 SED = gsed
 ASSEMBLE = wsc
 
-WSF = crypto/caesar.wsf crypto/luhn_test.wsf  math/collatz_test.wsf \
-	math/divmod_test.wsf math/exp_test.wsf types/array/array_test.wsf \
-	types/array/sort_test.wsf types/bool_test.wsf \
-	types/char/io_test.wsf types/int/bits_test.wsf \
-	types/int/print_test.wsf types/map_test.wsf types/matrix_test.wsf \
-	types/string/compare_test.wsf types/string/print_test.wsf
+TESTS = $(patsubst ./%,%,$(shell find . -type f -name '*_test.wsf'))
+WSF = $(TESTS) crypto/caesar.wsf
 WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
 
 .PHONY: all
@@ -28,19 +24,37 @@ $(BUILD)/%.wsa: %.wsf wsf.sed wsf-assemble
 	./wsf-assemble $< $@
 
 # Manually-enumerated dependencies
-CRYPTO = crypto/module.wsf crypto/caesar.wsf crypto/luhn.wsf
+ARRAY = array/module.wsf array/array.wsf array/sort.wsf
+BOOL = bool/module.wsf bool/bool.wsf
+CHAR = char/module.wsf char/io.wsf char/unicode.wsf
+CRYPTO = crypto/module.wsf crypto/caesar.wsf
+HASH = hash/module.wsf hash/luhn.wsf
+INT = int/module.wsf int/bits.wsf int/int.wsf int/print.wsf int/read.wsf
+MAP = map/module.wsf map/map.wsf
 MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/exp.wsf math/gcd.wsf math/math.wsf
+MATRIX = matrix/module.wsf matrix/matrix.wsf
 MEM = mem/module.wsf mem/mem.wsf
-ARRAY = types/array/module.wsf types/array/array.wsf types/array/sort.wsf
-BOOL = types/bool.wsf
-CHAR = types/char/module.wsf types/char/io.wsf types/char/unicode.wsf
-INT = types/int/module.wsf types/int/bits.wsf types/int/int.wsf types/int/print.wsf types/int/read.wsf
-MAP = types/map.wsf
-MATRIX = types/matrix.wsf
-STRING = types/string/module.wsf types/string/compare.wsf types/string/print.wsf types/string/read.wsf types/string/store.wsf
+STRING = string/module.wsf string/compare.wsf string/print.wsf string/read.wsf string/store.wsf
+$(BUILD)/array/array.wsa: $(ARRAY) $(BOOL)
+$(BUILD)/array/array_test.wsa: $(ARRAY)
+$(BUILD)/array/sort.wsa: $(ARRAY)
+$(BUILD)/array/sort_test.wsa: $(ARRAY)
+$(BUILD)/bool/bool.wsa: $(BOOL)
+$(BUILD)/bool/bool_test.wsa: $(BOOL)
+$(BUILD)/char/io.wsa: $(CHAR) $(BOOL)
+$(BUILD)/char/io_test.wsa: $(CHAR)
+$(BUILD)/char/unicode.wsa: $(CHAR)
 $(BUILD)/crypto/caesar.wsa: $(CRYPTO) $(STRING)
-$(BUILD)/crypto/luhn.wsa: $(CRYPTO)
-$(BUILD)/crypto/luhn_test.wsa: $(CRYPTO)
+$(BUILD)/hash/luhn.wsa: $(HASH)
+$(BUILD)/hash/luhn_test.wsa: $(HASH)
+$(BUILD)/int/bits.wsa: $(INT) $(MATH)
+$(BUILD)/int/bits_test.wsa: $(INT)
+$(BUILD)/int/int.wsa: $(INT)
+$(BUILD)/int/print.wsa: $(INT) $(MATH)
+$(BUILD)/int/print_test.wsa: $(INT)
+$(BUILD)/int/read.wsa: $(INT)
+$(BUILD)/map/map.wsa: $(MAP) $(BOOL)
+$(BUILD)/map/map_test.wsa: $(MAP)
 $(BUILD)/math/collatz.wsa: $(MATH)
 $(BUILD)/math/collatz_test.wsa: $(MATH)
 $(BUILD)/math/divmod.wsa: $(MATH)
@@ -49,32 +63,15 @@ $(BUILD)/math/exp.wsa: $(MATH)
 $(BUILD)/math/exp_test.wsa: $(MATH) $(STRING)
 $(BUILD)/math/gcd.wsa: $(MATH)
 $(BUILD)/math/math.wsa: $(MATH)
+$(BUILD)/matrix/matrix.wsa: $(MATRIX) $(ARRAY) $(STRING)
+$(BUILD)/matrix/matrix_test.wsa: $(MATRIX) $(ARRAY)
 $(BUILD)/mem/mem.wsa: $(MEM)
-$(BUILD)/types/array/array.wsa: $(ARRAY) $(BOOL)
-$(BUILD)/types/array/array_test.wsa: $(ARRAY)
-$(BUILD)/types/array/sort.wsa: $(ARRAY)
-$(BUILD)/types/array/sort_test.wsa: $(ARRAY)
-$(BUILD)/types/bool.wsa: $(BOOL)
-$(BUILD)/types/bool_test.wsa: $(BOOL)
-$(BUILD)/types/char/io.wsa: $(CHAR) $(BOOL)
-$(BUILD)/types/char/io_test.wsa: $(CHAR)
-$(BUILD)/types/char/unicode.wsa: $(CHAR)
-$(BUILD)/types/int/bits.wsa: $(INT) $(MATH)
-$(BUILD)/types/int/bits_test.wsa: $(INT)
-$(BUILD)/types/int/int.wsa: $(INT)
-$(BUILD)/types/int/print.wsa: $(INT) $(MATH)
-$(BUILD)/types/int/print_test.wsa: $(INT)
-$(BUILD)/types/int/read.wsa: $(INT)
-$(BUILD)/types/map.wsa: $(MAP) $(BOOL)
-$(BUILD)/types/map_test.wsa: $(MAP)
-$(BUILD)/types/matrix.wsa: $(MATRIX) $(ARRAY) $(STRING)
-$(BUILD)/types/matrix_test.wsa: $(MATRIX) $(ARRAY)
-$(BUILD)/types/string/compare.wsa: $(STRING) $(BOOL)
-$(BUILD)/types/string/compare_test.wsa: $(STRING) $(MATH)
-$(BUILD)/types/string/print.wsa: $(STRING) $(CHAR) $(INT)
-$(BUILD)/types/string/print_test.wsa: $(STRING)
-$(BUILD)/types/string/read.wsa: $(STRING)
-$(BUILD)/types/string/store.wsa: $(STRING)
+$(BUILD)/string/compare.wsa: $(STRING) $(BOOL)
+$(BUILD)/string/compare_test.wsa: $(STRING) $(MATH)
+$(BUILD)/string/print.wsa: $(STRING) $(CHAR) $(INT)
+$(BUILD)/string/print_test.wsa: $(STRING)
+$(BUILD)/string/read.wsa: $(STRING)
+$(BUILD)/string/store.wsa: $(STRING)
 $(BUILD)/vm/intcode.wsa: $(MEM) $(INT) $(STRING)
 
 .PHONY: clean

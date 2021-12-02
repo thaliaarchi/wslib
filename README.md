@@ -5,19 +5,18 @@ become the standard library for an upcoming compiler.
 
 ## Modules
 
-- `crypto`: non-cryptographic ciphers
-- `math`: arbitrary-precision integer math functions
-- `mem`: heap memory management
-- `types`: higher-level types
-  - `array`
-  - `bool`
-  - `char`
-  - `int`
-  - `map`
-  - `matrix`
-  - `string`
-- `vm`: language interpreters
-  - `intcode`
+- `array`
+- `bool`
+- `char`
+- `crypto`
+- `hash`
+- `int`
+- `map`
+- `math`
+- `matrix`
+- `mem`
+- `string`
+- `vm/intcode`
 
 ## Style
 
