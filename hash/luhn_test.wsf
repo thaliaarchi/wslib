@@ -4,16 +4,29 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-    79927398713 call test_luhn
     49927398716 call test_luhn
     49927398717 call test_luhn
-    1234567812345678 call test_luhn
     1234567812345670 call test_luhn
+    1234567812345678 call test_luhn
+    79927398710 call test_luhn
+    79927398711 call test_luhn
+    79927398712 call test_luhn
+    79927398713 call test_luhn
+    79927398714 call test_luhn
+    79927398715 call test_luhn
+    79927398716 call test_luhn
+    79927398717 call test_luhn
+    79927398718 call test_luhn
+    79927398719 call test_luhn
+    374652346956782346957823694857692364857368475368 call test_luhn
+    374652346956782346957823694857692364857387456834 call test_luhn
+    8 call test_luhn
+    0 call test_luhn
     end
 
 # (n -- )
 test_luhn:
-    ^ call luhn_valid printi
-    10/ call luhn_checksum printi
-    '\n' printc
+    ^ call luhn_valid printi ' ' printc
+    ^ 10/ call luhn_checksum printi ' ' printc
+    printi '\n' printc
     ret

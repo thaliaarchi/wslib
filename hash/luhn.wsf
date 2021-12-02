@@ -6,15 +6,31 @@
 
 # https://en.wikipedia.org/wiki/Luhn_algorithm
 # https://rosettacode.org/wiki/Luhn_test_of_credit_card_numbers
-# https://codegolf.stackexchange.com/questions/22/the-luhn-algorithm-for-verifying-credit-card-numbers-etc
 
 # luhn_valid validates an identification number, such as a credit card
-# or NPI number, using the Luhn algorithm. It returns 0 when n is valid.
-# (n -- valid)
+# or NPI number, using the Luhn algorithm.
+# (n -- valid?)
 luhn_valid:
+    call .luhn_valid_checksum
+    jz .luhn_valid_true
+    0 ret
+.luhn_valid_true:
+    1 ret
+
+# luhn_checksum computes the checksum digit for an identification
+# number, using the Luhn algorithm.
+# (n -- checksum)
+luhn_checksum:
+    10* call .luhn_valid_checksum
+    9* 10% ret
+
+# .luhn_valid_checksum computes the additive inverse (mod 10) of the
+# checksum digit for a number. Returns 0 when n is valid.
+# (n -- checksum)
+.luhn_valid_checksum:
     0 # checksum
-.luhn_valid_loop:
-    ^1 jz .luhn_ret
+.luhn_valid_checksum_loop:
+    ^1 jz .luhn_valid_checksum_ret
     # Add odd-positioned digits as-is
     ^1 10%
     +
@@ -23,13 +39,6 @@ luhn_valid:
     2* ^ 10/ swap 10% + # double, then sum the digits
     +
     swap 100/ swap
-    jmp .luhn_valid_loop
-.luhn_ret:
+    jmp .luhn_valid_checksum_loop
+.luhn_valid_checksum_ret:
     1slide 10% ret
-
-# luhn_checksum computes the checksum digit for an identification
-# number, using the Luhn algorithm.
-# (n -- checksum)
-luhn_checksum:
-    10* call luhn_valid
-    9* 10% ret
