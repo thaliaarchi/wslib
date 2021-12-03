@@ -33,6 +33,21 @@ transpose_square:
 .transpose_square_ret:
     4drop ret
 
+# sum_col computes the sum of a column.
+# (addr m n col -- sum)
+sum_col:
+    ^2 ^2 * ^1 + 1- # max
+    swap ^4 + # i
+    0 # sum
+.sum_col_loop:
+    ^2 ^2 j< .sum_col_ret # i > max
+    # addr m n max i sum
+    ^1 retrieve +
+    swap ^3 + swap
+    jmp .sum_col_loop
+.sum_col_ret:
+    5slide ret
+
 # print prints a row-major matrix with size m*n (m rows, n columns)
 # delimited by spaces.
 # (addr m n -- )
