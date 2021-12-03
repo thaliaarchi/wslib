@@ -39,7 +39,7 @@ print_base_pad_0:
     swap
     call .print_sign
     swap
-    ^2 swap call math.exp
+    ^2 swap **
     ^2 ^2 call .next_pow
     call math.max
     jmp .printu_base_pad_0

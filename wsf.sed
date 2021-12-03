@@ -422,6 +422,7 @@ s/(^| )\^( |$)/\1call int.xor\2/g
 s/(^| )&~( |$)/\1call int.andnot\2/g
 s/(^| )<<( |$)/\1call int.shl\2/g
 s/(^| )>>( |$)/\1call int.shr\2/g
+s/(^| )\*\*( |$)/\1call math.exp\2/g
 s/(^| )~( |$)/\1push 1 + neg\2/g
 s/\bneg\b/push -1 */g
 

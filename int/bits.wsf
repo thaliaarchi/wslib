@@ -219,22 +219,12 @@ uandnot:
 # shl returns x shifted left by y bits.
 # (x y -- x<<y)
 shl:
-    1-
-    ^ jn .shl_ret
-    swap 2* swap
-    jmp shl
-.shl_ret:
-    drop ret
+    2 swap ** * ret
 
 # shr returns x shifted right by y bits.
 # (x y -- x>>y)
 shr:
-    1-
-    ^ jn .shr_ret
-    swap 2/ swap
-    jmp shr
-.shr_ret:
-    drop ret
+    2 swap ** / ret
 
 # not returns the bitwise complement of x.
 # (x -- ^x)
