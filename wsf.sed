@@ -410,6 +410,8 @@ s/(^| )<( |$)/\1call bool.is_lt\2/g
 s/(^| )>( |$)/\1call bool.is_gt\2/g
 s/(^| )<=( |$)/\1call bool.is_le\2/g
 s/(^| )>=( |$)/\1call bool.is_ge\2/g
+s/(^| )pos\? !( |$)/\1call bool.is_non_pos\2/g
+s/(^| )neg\? !( |$)/\1call bool.is_non_neg\2/g
 s/(^| )pos\?( |$)/\1call bool.is_pos\2/g
 s/(^| )neg\?( |$)/\1call bool.is_neg\2/g
 
