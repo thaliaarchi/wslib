@@ -33,6 +33,17 @@ transpose_square:
 .transpose_square_ret:
     4drop ret
 
+# sum computes the sum of the matrix elements.
+# (addr m n -- sum)
+sum:
+    * jmp array.sum
+
+# sum_row computes the sum of a row.
+# (addr m n row -- sum)
+sum_row:
+    ^3 ^2 ^2 * + ^2 call array.sum
+    4slide ret
+
 # sum_col computes the sum of a column.
 # (addr m n col -- sum)
 sum_col:
@@ -46,6 +57,32 @@ sum_col:
     swap ^3 + swap
     jmp .sum_col_loop
 .sum_col_ret:
+    5slide ret
+
+# prod computes the product of the matrix elements.
+# (addr m n -- prod)
+prod:
+    * jmp array.prod
+
+# prod_row computes the product of a row.
+# (addr m n row -- prod)
+prod_row:
+    ^3 ^2 ^2 * + ^2 call array.prod
+    4slide ret
+
+# prod_col computes the product of a column.
+# (addr m n col -- prod)
+prod_col:
+    ^2 ^2 * ^1 + 1- # max
+    swap ^4 + # i
+    1 # prod
+.prod_col_loop:
+    ^2 ^2 j< .prod_col_ret # i > max
+    # addr m n max i prod
+    ^1 retrieve +
+    swap ^3 + swap
+    jmp .prod_col_loop
+.prod_col_ret:
     5slide ret
 
 # print prints a row-major matrix with size m*n (m rows, n columns)

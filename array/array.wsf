@@ -40,6 +40,32 @@ index_of:
 .index_of_found:
     3slide ret
 
+# sum returns the sum of the array elements.
+# (addr len -- sum)
+sum:
+    ^1 + 1- swap
+    0 # sum
+.sum_loop:
+    ^2 ^2 j< .sum_ret
+    ^1 retrieve +
+    swap 1+ swap
+    jmp .sum_loop
+.sum_ret:
+    2slide ret
+
+# prod returns the product of the array elements.
+# (addr len -- prod)
+prod:
+    ^1 + 1- swap
+    1 # prod
+.prod_loop:
+    ^2 ^2 j< .prod_ret
+    ^1 retrieve *
+    swap 1+ swap
+    jmp .prod_loop
+.prod_ret:
+    2slide ret
+
 # print prints an array, delimited by spaces.
 # (addr len -- )
 print:
