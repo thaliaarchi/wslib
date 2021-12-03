@@ -28,7 +28,7 @@ ARRAY = array/module.wsf array/array.wsf array/sort.wsf
 BOOL = bool/module.wsf bool/bool.wsf
 CHAR = char/module.wsf char/io.wsf char/unicode.wsf
 CRYPTO = crypto/module.wsf crypto/caesar.wsf
-HASH = hash/module.wsf hash/luhn.wsf
+HASH = hash/module.wsf hash/cusip.wsf hash/luhn.wsf
 INT = int/module.wsf int/bits.wsf int/int.wsf int/print.wsf int/read.wsf
 MAP = map/module.wsf map/map.wsf
 MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/exp.wsf math/gcd.wsf math/math.wsf
@@ -45,6 +45,8 @@ $(BUILD)/char/io.wsa: $(CHAR) $(BOOL)
 $(BUILD)/char/io_test.wsa: $(CHAR)
 $(BUILD)/char/unicode.wsa: $(CHAR)
 $(BUILD)/crypto/caesar.wsa: $(CRYPTO) $(STRING)
+$(BUILD)/hash/cusip.wsa: $(HASH) $(BOOL)
+$(BUILD)/hash/cusip_test.wsa: $(HASH) $(STRING)
 $(BUILD)/hash/luhn.wsa: $(HASH)
 $(BUILD)/hash/luhn_test.wsa: $(HASH)
 $(BUILD)/int/bits.wsa: $(INT) $(MATH)

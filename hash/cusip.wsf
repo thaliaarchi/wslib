@@ -1,0 +1,55 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@bool" import
+
+# cusip_valid validates a CUSIP financial security number.
+# (addr len -- valid?)
+cusip_valid:
+    1-
+    2dup call cusip_checksum
+    ^ jn .cusip_valid_invalid
+    ^2 ^2 + retrieve '0' - =
+    2slide ret
+.cusip_valid_invalid:
+    0 3slide ret
+
+# cusip_checksum computes the checksum digit for a CUSIP financial
+# security number. Returns -1 when the string contains an invalid
+# character.
+# (addr len -- checksum)
+cusip_checksum:
+    1-
+    0 0 # i checksum
+.cusip_checksum_loop:
+    ^2 ^2 j< .cusip_checksum_ret
+    ^3 ^2 + retrieve
+    ^ '*' j= .cusip_checksum_asterisk
+    ^ '@' j= .cusip_checksum_at
+    ^ '#' j= .cusip_checksum_pound
+    ^ '0' j< .cusip_checksum_invalid
+    ^ ':' j< .cusip_checksum_number
+    ^ 'A' j< .cusip_checksum_invalid
+    ^ '[' j< .cusip_checksum_letter
+.cusip_checksum_invalid:
+    -1 4slide ret
+.cusip_checksum_next:
+    ^ ^3 2% * + # v *= 2 if i is odd
+    ^ 10/ swap 10% + + # checksum += v/10 + v%10
+    swap 1+ swap # i++
+    jmp .cusip_checksum_loop
+.cusip_checksum_number:
+    '0' - jmp .cusip_checksum_next
+.cusip_checksum_letter:
+    55- jmp .cusip_checksum_next # 'A' - 10
+.cusip_checksum_asterisk:
+    drop 36 jmp .cusip_checksum_next
+.cusip_checksum_at:
+    drop 37 jmp .cusip_checksum_next
+.cusip_checksum_pound:
+    drop 38 jmp .cusip_checksum_next
+.cusip_checksum_ret:
+    10 swap - 10% 3slide ret

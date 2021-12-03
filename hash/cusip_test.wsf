@@ -1,0 +1,18 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@string" import
+
+    0 ^ readi retrieve
+.loop:
+    1- ^ jn .loop_break
+    0 call string.read_line
+    0 ^1 call cusip_valid printi ' ' printc
+    0 ^1 1- call cusip_checksum printi ' ' printc
+    0 swap call string.println
+    jmp .loop
+.loop_break:
+    drop end
