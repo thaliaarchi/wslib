@@ -12,15 +12,7 @@
 # the heap.
 # ( -- len)
 read_program:
-    0
-.read_program_loop:
-    ^ ',' 10 call int.read_base_until
-    ^2 ^2 store
-    1slide swap 1+ swap
-    jz .read_program_ret
-    jmp .read_program_loop
-.read_program_ret:
-    ret
+    0 ',' 10 jmp int.read_line_delim_base
 
 # init_program initializes the program before the first execution.
 # (offset -- )
