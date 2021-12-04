@@ -47,7 +47,7 @@ sum_row:
 # sum_col computes the sum of a column.
 # (addr m n col -- sum)
 sum_col:
-    ^2 ^2 * ^1 + 1- # max
+    ^3 ^3 ^3 * + 1- # max
     swap ^4 + # i
     0 # sum
 .sum_col_loop:
@@ -73,7 +73,7 @@ prod_row:
 # prod_col computes the product of a column.
 # (addr m n col -- prod)
 prod_col:
-    ^2 ^2 * ^1 + 1- # max
+    ^3 ^3 ^3 * + 1- # max
     swap ^4 + # i
     1 # prod
 .prod_col_loop:
@@ -84,6 +84,33 @@ prod_col:
     jmp .prod_col_loop
 .prod_col_ret:
     5slide ret
+
+# count returns the number of occurrences of x in the matrix.
+# (addr m n x -- count)
+count:
+    ^3 ^3 ^3 * ^2 call array.count
+    5slide ret
+
+# count_row returns the number of occurrences of x in the row.
+# (addr m n row x -- count)
+count_row:
+    ^4 ^3 ^3 * + ^3 ^2 call array.count
+    5slide ret
+
+# count_col returns the number of occurrences of x in the column.
+# (addr m n col x -- count)
+count_col:
+    ^4 ^4 ^4 * + 1- # max
+    ^2 ^6 + # i
+    0 # count
+.count_loop:
+    ^2 ^2 j< .count_ret
+    # addr m n col x max i count
+    ^1 retrieve ^4 = +
+    swap ^6 + swap
+    jmp .count_loop
+.count_ret:
+    7slide ret
 
 # print prints a row-major matrix with size m*n (m rows, n columns)
 # delimited by spaces.

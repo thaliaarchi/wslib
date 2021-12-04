@@ -9,10 +9,11 @@
 # count returns the number of occurrences of x in the array.
 # (addr len x -- count)
 count:
-    swap 1- 0 ^
+    swap ^2 + 1-
+    ^2 0 # i count
 .count_loop:
     ^2 ^2 j< .count_ret
-    ^1 ^5 + retrieve ^4 = +
+    ^1 retrieve ^4 = +
     swap 1+ swap
     jmp .count_loop
 .count_ret:
