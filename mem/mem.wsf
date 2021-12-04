@@ -21,6 +21,26 @@ set_all:
 .set_all_ret:
     4drop ret
 
+# replace_all replaces all instances of x in the array to y.
+# (addr len x y -- count)
+replace_all:
+    ^3 ^3 + 1-
+    0 # count
+    ^5
+.replace_all_loop:
+    ^2 ^1 j< .replace_all_ret
+    # addr len x y max count addr
+    ^ retrieve ^5 j= .replace_all_store
+.replace_all_next:
+    1+
+    jmp .replace_all_loop
+.replace_all_ret:
+    swap 6slide ret
+.replace_all_store:
+    ^ ^4 store
+    swap 1+ swap
+    jmp .replace_all_next
+
 # copy copies len values from the array at addr1 to the array at addr2.
 # (addr1 addr2 len -- )
 copy:
