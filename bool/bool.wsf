@@ -9,8 +9,10 @@
 # and returns the logical AND of x and y.
 # (x y -- x&&y)
 and:
-    jz .zero
+    jz .and_zero
     jmp cast
+.and_zero:
+    drop jmp .zero
 
 # or returns the logical OR of x and y.
 # (x y -- x||y)
@@ -33,8 +35,10 @@ andnot:
 # nand returns the logical NAND of x and y.
 # (x y -- !(x&&y))
 nand:
-    jz .one
+    jz .nand_one
     jmp not
+.nand_one:
+    drop jmp .one
 
 # nor returns the logical NOR of x and y.
 # (x y -- ^(x||y))
