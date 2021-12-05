@@ -35,7 +35,7 @@ MATRIX = matrix/module.wsf matrix/matrix.wsf
 MEM = mem/module.wsf mem/mem.wsf
 STRING = string/module.wsf string/compare.wsf string/print.wsf string/read.wsf string/store.wsf
 $(BUILD)/array/module.wsa: $(ARRAY)
-$(BUILD)/array/array.wsa: $(ARRAY) $(BOOL)
+$(BUILD)/array/array.wsa: $(ARRAY) $(BOOL) $(MATH)
 $(BUILD)/array/array_test.wsa: $(ARRAY)
 $(BUILD)/array/sort.wsa: $(ARRAY)
 $(BUILD)/array/sort_test.wsa: $(ARRAY)
