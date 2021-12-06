@@ -12,7 +12,7 @@
 # the heap.
 # ( -- len)
 read_program:
-    0 ',' 10 jmp int.read_line_delim_base
+    0 10 ',' jmp int.read_list_base_delim
 
 # init_program initializes the program before the first execution.
 # (offset -- )

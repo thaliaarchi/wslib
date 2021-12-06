@@ -15,171 +15,212 @@ read:
 # Clobbers the given address.
 # (addr ch -- n ok?)
 read_until:
-    ^1 ^ readc retrieve
-    ^ '-' j= .read_until_neg
-.read_until_pos:
-    ^ '0' j= .read_until_0_prefix
-    jmp .read_until_no_prefix
-.read_until_neg:
-    ^1 ^ readc retrieve
-    call .read_until_pos
+    swap call .read_delim
+    # ch addr base n delim
+    ^4 j= .read_until_ok
+    3slide 0 ret
+.read_until_ok:
+    3slide 1 ret
+
+# read_delim reads a number in decimal, binary (0b prefix), octal (0b
+# prefix), or hexadecimal (0x prefix), stopping at the first non-numeric
+# character and returns that character. Clobbers the given address.
+# (addr -- n delim)
+read_delim:
+    call .read_delim
+    drop swap retrieve ret
+
+# read_delim reads a number in a detected base, stopping at the first
+# non-numeric character and returns that character. Clobbers the given
+# address.
+# (addr -- addr base n delim)
+.read_delim:
+    ^ ^ readc retrieve
+    ^ '-' j= .read_delim_neg
+    ^ '+' j= .read_delim_pos
+.read_delim_nat:
+    ^ '0' j= .read_delim_0_prefix
+    jmp .read_delim_no_prefix
+.read_delim_neg:
+    drop
+    ^ ^ readc retrieve
+    call .read_delim_nat
     swap neg swap ret
-.read_until_0_prefix:
-    ^1 ^ readc retrieve
-    ^ 'b' j= .read_until_0b_prefix
-    ^ 'o' j= .read_until_0o_prefix
-    ^ 'x' j= .read_until_0x_prefix
-.read_until_no_prefix:
-    10 swap 0 swap jmp .read_base10_until_check
-.read_until_0b_prefix:
-    2 swap jmp .read_base10_until
-.read_until_0o_prefix:
-    8 swap jmp .read_base10_until
-.read_until_0x_prefix:
-    16 swap jmp .read_base36_until
+.read_delim_pos:
+    drop
+    ^ ^ readc retrieve
+    jmp .read_delim_nat
+.read_delim_0_prefix:
+    drop
+    ^ ^ readc retrieve
+    ^ 'b' j= .read_delim_0b_prefix
+    ^ 'o' j= .read_delim_0o_prefix
+    ^ 'x' j= .read_delim_0x_prefix
+.read_delim_no_prefix:
+    10 swap 0 swap jmp .read_base10_delim_check
+.read_delim_0b_prefix:
+    drop 2 jmp .read_base10_delim
+.read_delim_0o_prefix:
+    drop 8 jmp .read_base10_delim
+.read_delim_0x_prefix:
+    drop 16 jmp .read_base36_delim
 
 # read_base reads a number in the given base. The alphabet is [0-9a-z]
 # for bases 2..=36 and [0-9A-Za-z] for bases 37..=62. Clobbers the given
 # address.
 # (addr base -- n ok?)
 read_base:
-    '\n' swap jmp read_base_until
+    '\n' jmp read_base_until
 
 # read_base_until reads a number in the given base, stopping at
 # character ch. The alphabet is [0-9a-z] for bases 2..=36 and
 # [0-9A-Za-z] for bases 37..=62. Clobbers the given address.
-# (addr ch base -- n ok?)
+# (addr base ch -- n ok?)
 read_base_until:
-    ^ 2 j< .read_base_until_invalid_base
-    ^ 11 j< .read_base10_until
-    ^ 37 j< .read_base36_until
-    ^ 63 j< .read_base62_until
+    ^1 2 j< .read_base_until_invalid_base
+    62 ^2 j< .read_base_until_invalid_base
+    ^2 ^2 call .read_base_delim
+    ^4 j= .read_base_until_ok
+    5slide 0 ret
+.read_base_until_ok:
+    5slide 1 ret
 .read_base_until_invalid_base:
     0 3slide ^ ret
 
-# .read_base10_until reads a number in the given base with the alphabet
-# [0-9], stopping at character ch. Clobbers the given address.
+# read_base_delim reads a number in the given base, stopping at the
+# first non-numeric character. The alphabet is [0-9a-z] for bases 2..=36
+# and [0-9A-Za-z] for bases 37..=62. Clobbers the given address.
+# (addr base -- n delim)
+read_base_delim:
+    ^ 2 j< .read_base_delim_invalid_base
+    62 ^1 j< .read_base_delim_invalid_base
+    call .read_base_delim
+    drop swap drop swap retrieve ret
+.read_base_delim_invalid_base:
+    2drop 0 ^ ret
+
+# .read_base_delim reads a number in the given base, stopping at the
+# first non-numeric character and returns that character. Base should
+# already be validated.
+# Requires 2<=base<=62
+# (addr base -- addr base n delim)
+.read_base_delim:
+    ^ 11 j< .read_base10_delim
+    ^ 37 j< .read_base36_delim
+    jmp .read_base62_delim
+
+# .read_base10_delim reads a number in the given base with the alphabet
+# [0-9], stopping at the first non-numeric character and returns that
+# character. Clobbers the given address.
 # Requires 2<=base<=10
-# (addr ch base -- n ok?)
-.read_base10_until:
+# (addr base -- addr base n delim)
+.read_base10_delim:
     0
-.read_base10_until_loop:
-    ^3 ^ readc retrieve
-.read_base10_until_check:
-    ^ ^4 j= .read_base10_until_ok
-    ^ '0' j< .read_base10_until_invalid
-    ^ ^3 '0' + j< .read_base10_until_digit
-.read_base10_until_invalid:
-    drop 3slide 0 ret
-.read_base10_until_ok:
-    drop 3slide 1 ret
-.read_base10_until_digit:
+.read_base10_delim_loop:
+    ^2 ^ readc retrieve
+.read_base10_delim_check:
+    ^ '0' j< .read_base10_delim_ret
+    ^ ^3 '0' + j< .read_base10_delim_digit
+.read_base10_delim_ret:
+    ret
+.read_base10_delim_digit:
     '0' - swap ^2 * +
-    jmp .read_base10_until_loop
+    jmp .read_base10_delim_loop
 
-# .read_base36_until reads a number in the given base with the alphabet
-# [0-9a-z] (case-insensitive), stopping at character ch. Clobbers the
-# given address.
+# .read_base36_delim reads a number in the given base with the alphabet
+# [0-9a-z] (case-insensitive), stopping at the first non-numeric
+# character and returns that character. Clobbers the given address.
 # Requires 10<base<=36
-# (addr ch base -- n ok?)
-.read_base36_until:
+# (addr base -- addr base n delim)
+.read_base36_delim:
     0
-.read_base36_until_loop:
-    ^3 ^ readc retrieve
-    ^ ^4 j= .read_base36_until_ok
-    ^ '0' j< .read_base36_until_invalid
-    ^ ':' j< .read_base36_until_digit
-    ^ 'A' j< .read_base36_until_invalid
-    ^ ^3 55 + j< .read_base36_until_upper # 'A' + base - 10
-    ^ 'a' j< .read_base36_until_invalid
-    ^ ^3 87 + j< .read_base36_until_lower # 'a' + base - 10
-.read_base36_until_invalid:
-    drop 3slide 0 ret
-.read_base36_until_ok:
-    drop 3slide 1 ret
-.read_base36_until_digit:
-    '0' jmp .read_base36_until_next
-.read_base36_until_upper:
-    55 jmp .read_base36_until_next # 'A' - 10
-.read_base36_until_lower:
+.read_base36_delim_loop:
+    ^2 ^ readc retrieve
+    ^ '0' j< .read_base36_delim_ret
+    ^ ':' j< .read_base36_delim_digit
+    ^ 'A' j< .read_base36_delim_ret
+    ^ ^3 55 + j< .read_base36_delim_upper # 'A' + base - 10
+    ^ 'a' j< .read_base36_delim_ret
+    ^ ^3 87 + j< .read_base36_delim_lower # 'a' + base - 10
+.read_base36_delim_ret:
+    ret
+.read_base36_delim_digit:
+    '0' jmp .read_base36_delim_next
+.read_base36_delim_upper:
+    55 jmp .read_base36_delim_next # 'A' - 10
+.read_base36_delim_lower:
     87 # 'a' - 10
-.read_base36_until_next:
+.read_base36_delim_next:
     - swap ^2 * +
-    jmp .read_base36_until_loop
+    jmp .read_base36_delim_loop
 
-# .read_base62_until reads a number in the given base with the alphabet
-# [0-9A-Za-z] (case-sensitive), stopping at character ch. Clobbers the
-# given address.
+# .read_base62_delim reads a number in the given base with the alphabet
+# [0-9A-Za-z] (case-sensitive), stopping at the first non-numeric
+# character and returns that character. Clobbers the given address.
 # Requires 36<base<=62
-# (addr ch base -- n ok?)
-.read_base62_until:
+# (addr base -- addr base n delim)
+.read_base62_delim:
     0
-.read_base62_until_loop:
-    ^3 ^ readc retrieve
-    ^ ^4 j= .read_base62_until_ok
-    ^ '0' j< .read_base62_until_invalid
-    ^ ':' j< .read_base62_until_digit
-    ^ 'A' j< .read_base62_until_invalid
-    ^ '[' j< .read_base62_until_upper
-    ^ 'a' j< .read_base62_until_invalid
-    ^ ^3 61 + j< .read_base62_until_lower # 'a' + base - 36
-.read_base62_until_invalid:
-    drop 3slide 0 ret
-.read_base62_until_ok:
-    drop 3slide 1 ret
-.read_base62_until_digit:
-    '0' jmp .read_base62_until_next
-.read_base62_until_upper:
-    55 jmp .read_base62_until_next # 'A' - 10
-.read_base62_until_lower:
+.read_base62_delim_loop:
+    ^2 ^ readc retrieve
+    ^ '0' j< .read_base62_delim_ret
+    ^ ':' j< .read_base62_delim_digit
+    ^ 'A' j< .read_base62_delim_ret
+    ^ '[' j< .read_base62_delim_upper
+    ^ 'a' j< .read_base62_delim_ret
+    ^ ^3 61 + j< .read_base62_delim_lower # 'a' + base - 36
+.read_base62_delim_ret:
+    ret
+.read_base62_delim_digit:
+    '0' jmp .read_base62_delim_next
+.read_base62_delim_upper:
+    55 jmp .read_base62_delim_next # 'A' - 10
+.read_base62_delim_lower:
     61 # 'a' - 36
-.read_base62_until_next:
+.read_base62_delim_next:
     - swap ^2 * +
-    jmp .read_base62_until_loop
+    jmp .read_base62_delim_loop
 
 # read_base26 reads a number in base 26 with the alphabet [A-Z]
 # (case-insensitive). Clobbers the given address.
 # (addr -- n ok?)
 read_base26:
-    '\n' jmp read_base26_until
+    '\n' jmp read_base26_delim
 
-# read_base26_until reads a number in base 26 with the alphabet [A-Z]
-# (case-insensitive), stopping at character ch. Clobbers the given
-# address.
-# (addr ch -- n ok?)
-read_base26_until:
+# read_base26_delim reads a number in base 26 with the alphabet [A-Z]
+# (case-insensitive), stopping at the first non-alphabetic character and
+# returns that character. Clobbers the given address.
+# (addr -- n delim)
+read_base26_delim:
     0
-.read_base26_until_loop:
-    ^2 ^ readc retrieve
-    ^ ^3 j= .read_base26_until_ok
-    ^ 'A' j< .read_base26_until_invalid
-    ^ '[' j< .read_base26_until_upper
-    ^ 'a' j< .read_base26_until_invalid
-    ^ '{' j< .read_base26_until_lower
-.read_base26_until_invalid:
-    drop 2slide 0 ret
-.read_base26_until_ok:
-    drop 2slide 1 ret
-.read_base26_until_upper:
-    'A' jmp .read_base26_until_next
-.read_base26_until_lower:
+.read_base26_delim_loop:
+    ^1 ^ readc retrieve
+    ^ 'A' j< .read_base26_delim_ret
+    ^ '[' j< .read_base26_delim_upper
+    ^ 'a' j< .read_base26_delim_ret
+    ^ '{' j< .read_base26_delim_lower
+.read_base26_delim_ret:
+    ret
+.read_base26_delim_upper:
+    'A' jmp .read_base26_delim_next
+.read_base26_delim_lower:
     'a'
-.read_base26_until_next:
+.read_base26_delim_next:
     - swap 26* +
-    jmp .read_base26_until_loop
+    jmp .read_base26_delim_loop
 
-# read_line_delim_base reads a list of integers in the given base on one
-# line.
-# (addr delim base -- len)
-read_line_delim_base:
+# read_list_base_delim reads a list of integers in the given base on one
+# line, delimited by the given character.
+# (addr base delim -- len)
+read_list_base_delim:
     ^2
-.read_line_delim_base_loop:
+.read_list_base_delim_loop:
     ^
     swap 1+ swap
     ^ ^4 ^4 call read_base_until
-    jz .read_line_delim_base_ret
+    jz .read_list_base_delim_ret
     store
-    jmp .read_line_delim_base_loop
-.read_line_delim_base_ret:
+    jmp .read_list_base_delim_loop
+.read_list_base_delim_ret:
     store
-    3slide ret
+    2slide - ret
