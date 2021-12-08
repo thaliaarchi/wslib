@@ -1,0 +1,54 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    -9223372036854775808 call test_unary
+    -9223372036854775807 call test_unary
+    -2147483648 call test_unary
+    -2147483647 call test_unary
+    -32768 call test_unary
+    -32767 call test_unary
+    -128 call test_unary
+    -127 call test_unary
+    -2 call test_unary
+    -1 call test_unary
+    0 call test_unary
+    1 call test_unary # 1<<1 - 1
+    2 call test_unary # 1<<1
+    127 call test_unary # 1<<7 - 1
+    128 call test_unary # 1<<7
+    255 call test_unary # 1<<8
+    256 call test_unary # 1<<8
+    32767 call test_unary # 1<<15 - 1
+    32768 call test_unary # 1<<15
+    65535 call test_unary # 1<<16 - 1
+    65536 call test_unary # 1<<16
+    2147483647 call test_unary # 1<<31 - 1
+    2147483648 call test_unary # 1<<31
+    4294967295 call test_unary # 1<<32 - 1
+    4294967296 call test_unary # 1<<32
+    9223372036854775807 call test_unary # 1<<63 - 1
+    9223372036854775808 call test_unary # 1<<63
+    18446744073709551615 call test_unary # 1<<64 - 1
+    18446744073709551616 call test_unary # 1<<64
+    end
+
+# (x -- )
+test_unary:
+    ^ 16 call print_base
+    " -> i8:" prints ^ call cast_i8 16 call print_base
+    " i16:" prints ^ call cast_i16 16 call print_base
+    " i32:" prints ^ call cast_i32 16 call print_base
+    " i64:" prints ^ call cast_i64 16 call print_base
+    " u1:" prints ^ call cast_u1 16 call print_base
+    " u8:" prints ^ call cast_u8 16 call print_base
+    " u16:" prints ^ call cast_u16 16 call print_base
+    " u32:" prints ^ call cast_u32 16 call print_base
+    " u64:" prints ^ call cast_u64 16 call print_base
+    " pop8:" prints ^ call pop_count_u8 printi
+    " pop16:" prints ^ call pop_count_u16 printi
+    " pop32:" prints ^ call pop_count_u32 printi
+    " pop64:" prints call pop_count_u64 printi '\n' printc
+    ret
