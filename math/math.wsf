@@ -39,6 +39,15 @@ max:
 .max_x_lt_y:
     1slide ret
 
+# sort2 returns the lesser value of x and y, followed by the greater
+# value.
+# (x y -- min max)
+sort2:
+    2dup j< .sort2_x_lt_y
+    swap
+.sort2_x_lt_y:
+    ret
+
 # in_range returns 1 if x is between min and max (inclusive) and 0
 # otherwise.
 # (min max x -- ?)
