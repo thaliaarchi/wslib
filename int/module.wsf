@@ -5,6 +5,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
     "bits"  export
+    "fixed" export
     "int"   export
     "print" export
     "read"  export
