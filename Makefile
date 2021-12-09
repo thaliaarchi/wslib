@@ -23,7 +23,7 @@ $(BUILD)/%.wsa: %.wsf wsf.sed wsf-assemble
 	./wsf-assemble $< $@
 
 # Manually-enumerated dependencies
-ARRAY = array/module.wsf array/array.wsf array/sort.wsf
+ARRAY = array/module.wsf array/array.wsf array/io.wsf array/sort.wsf
 BOOL = bool/module.wsf bool/bool.wsf
 CHAR = char/module.wsf char/io.wsf char/unicode.wsf
 CRYPTO = crypto/module.wsf crypto/caesar.wsf
@@ -37,6 +37,7 @@ STRING = string/module.wsf string/compare.wsf string/print.wsf string/read.wsf s
 $(BUILD)/array/module.wsa: $(ARRAY)
 $(BUILD)/array/array.wsa: $(ARRAY) $(BOOL) $(MATH)
 $(BUILD)/array/array_test.wsa: $(ARRAY)
+$(BUILD)/array/io.wsa: $(ARRAY) $(INT)
 $(BUILD)/array/sort.wsa: $(ARRAY)
 $(BUILD)/array/sort_test.wsa: $(ARRAY)
 $(BUILD)/bool/module.wsa: $(BOOL)
@@ -87,7 +88,7 @@ $(BUILD)/string/print.wsa: $(STRING) $(CHAR) $(INT)
 $(BUILD)/string/print_test.wsa: $(STRING)
 $(BUILD)/string/read.wsa: $(STRING)
 $(BUILD)/string/store.wsa: $(STRING)
-$(BUILD)/vm/intcode.wsa: $(MEM) $(INT) $(STRING)
+$(BUILD)/vm/intcode.wsa: $(ARRAY) $(MEM) $(STRING)
 
 .PHONY: clean
 clean:

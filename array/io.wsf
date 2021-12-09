@@ -1,0 +1,90 @@
+# Copyright (c) 2021 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+    "@int" import
+
+# print prints an array, delimited by spaces.
+# (addr len -- )
+print:
+    ' ' jmp print_delim
+
+# print_delim prints an array, delimited by the given char.
+# (addr len delim -- )
+print_delim:
+    swap 1- 0
+    ^1 jn .print_ret
+.print_loop:
+    ^ ^4 + retrieve printi
+    1+
+    2dup j< .print_ret
+    ^2 printc
+    jmp .print_loop
+.print_ret:
+    4drop ret
+
+# read reads len integers, one per line, and stores them on the heap
+# starting at addr.
+# (addr len -- )
+read:
+    ^1 1- + swap
+.read_loop:
+    2dup j< .read_ret
+    ^ readi
+    1+
+    jmp .read_loop
+.read_ret:
+    2drop ret
+
+# read_until reads integers, one per line, until the terminator (or
+# EOF), stores them on the heap starting at addr terminated with -1, and
+# returns the length (not including the terminator).
+# (addr term -- len)
+read_until:
+    ^1
+.read_until_loop:
+    ^ ^ readi retrieve
+    ^ ^3 j= .read_until_ret
+    ^ jeof .read_until_ret
+    drop 1+
+    jmp .read_until_loop
+.read_until_ret:
+    drop swap drop
+    ^ -1 store # overwrite delim with -1
+    swap - ret
+
+# read_eof reads integers, one per line, until EOF, stores them on the
+# heap starting at addr terminated with -1, and returns the length.
+# (addr -- len)
+read_eof:
+    ^
+.read_eof_loop:
+    ^ ^ readi retrieve
+    jeof .read_eof_ret
+    1+
+    jmp .read_eof_loop
+.read_eof_ret:
+    ^ -1 store # overwrite 0 with -1
+    swap - ret
+
+# read_base_delim reads an array of integers in the given base, on one
+# line, delimited by the given character.
+# (addr base delim -- len ok?)
+read_base_delim:
+    ^2
+.read_base_delim_loop:
+    # addr base delim i i base
+    ^ ^3 call int.read_base_delim
+    # addr base delim i n delim
+    # addr base delim i delim
+    swap ^2 swap store
+    swap 1+ swap
+    # addr base delim i+1 delim
+    ^ '\n' j= .read_base_delim_ret
+    ^2 j= .read_base_delim_loop
+    2slide swap - 0 ret
+    # addr base delim i+1
+.read_base_delim_ret:
+    drop 2slide swap - 1 ret
