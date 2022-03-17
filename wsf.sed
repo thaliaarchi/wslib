@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Andrew Archibald
+# Copyright (c) 2021-2022 Andrew Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -458,7 +458,7 @@ s/(^| )<<( |$)/\1call int.shl\2/g
 s/(^| )>>( |$)/\1call int.shr\2/g
 s/(^| )\*\*( |$)/\1call math.exp\2/g
 s/(^| )~( |$)/\1push 1 + neg\2/g
-s/\bneg\b/push -1 */g
+s/(^| )neg( |$)/\1push -1 *\2/g
 
 # Macro for jeof, depending on desired EOF behavior (0, -1, either)
 s/\bjeof\b/push 1 - jn/g
