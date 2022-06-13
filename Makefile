@@ -1,11 +1,10 @@
-# Copyright (c) 2021 Andrew Archibald
+# Copyright (c) 2021-2022 Andrew Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 BUILD = build
-SED = gsed
 ASSEMBLE = wsc
 
 WSF = $(patsubst ./%,%,$(shell find . -name module.wsf -o -name '*_test.wsf')) crypto/caesar.wsf

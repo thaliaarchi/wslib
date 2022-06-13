@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# Copyright (c) 2021 Andrew Archibald
+# Copyright (c) 2021-2022 Andrew Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,6 +10,9 @@ prog="$1"
 out="$2"
 
 WSLIB="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
+
+SED=sed
+which gsed > /dev/null && SED=gsed
 
 imports=()
 in_imports() {
@@ -89,7 +92,7 @@ get_imports() {
     if ! in_imports "$import_module:$import_file"; then
       get_imports "$import_file" "$import_module"
     fi
-  done < <(gsed -En '
+  done < <($SED -En '
     s/^\s*"([^"]+)"\s+import( |$)/import:\1/p
     s/^\s*"([^"]+)"\s+export( |$)/export:\1/p
   ' "$file")
@@ -98,7 +101,7 @@ get_imports() {
 get_imports "$prog" ''
 
 if [ "${prog#*/}" != module.wsf ]; then
-  gsed -Ef "$WSLIB"/wsf.sed "$prog" > "$out"
+  $SED -Ef "$WSLIB"/wsf.sed "$prog" > "$out"
   final_inst=$(awk '/./{line=$0} END{print line}' "$out")
   if ! grep -Eq '^(jmp|j[zn]) |^(ret|exit)$' <<< "$final_inst"; then
     echo "$out: Program does not end with a control flow instruction: $final_inst" >&2
@@ -111,13 +114,13 @@ fi
 for import in "${imports[@]:1}"; do
   module="${import%%:*}"
   import_file="${import#*:}"
-  gsed -Ef "$WSLIB"/wsf.sed "$import_file" |
+  $SED -Ef "$WSLIB"/wsf.sed "$import_file" |
   if [ "$module" = '' ]; then cat
   else
-    gsed -E "
+    $SED -E "
       s/\b(call|jmp|jz|jn) (\.?)([A-za-z0-9_-]+)( |$)/\1 \2$module.\3\4/g
       s/(^| )(\.?)([A-Za-z0-9_-]+:)/\1\2$module.\3/g"
   fi
 done >> "$out"
 
-gsed -E -i'' 's/(^| )\./\1_/g; s/\./__/g' "$out"
+$SED -E -i'' 's/(^| )\./\1_/g; s/\./__/g' "$out"
