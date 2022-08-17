@@ -13,6 +13,7 @@ deadfish:
     0 retrieve 'd' j= .deadfish_d
     0 retrieve 's' j= .deadfish_s
     0 retrieve 'o' j= .deadfish_o
+.deadfish_blank:
     '\n' printc
     jmp .deadfish_loop
 .deadfish_i:
@@ -22,7 +23,8 @@ deadfish:
 .deadfish_s:
     ^ * 4294967296 % jmp .deadfish_loop
 .deadfish_o:
-    ^ printi jmp .deadfish_loop
+    ^ 2147483648 + 4294967296 % 2147483648 - printi
+    jmp .deadfish_blank
 
 normalize:
     ^ -1 j= .normalize_0
