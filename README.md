@@ -16,6 +16,7 @@ become the standard library for an upcoming compiler.
 - `matrix`
 - `mem`
 - `string`
+- `vm/deadfish`
 - `vm/intcode`
 
 ## Style
@@ -141,4 +142,4 @@ to implement!
 ## License
 
 This project is made available under the
-[Mozilla Public License 2.0](https://mozilla.org/MPL/2.0/).
+[Mozilla Public License, v. 2.0](https://mozilla.org/MPL/2.0/).

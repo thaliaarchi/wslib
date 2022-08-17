@@ -1,0 +1,33 @@
+# Copyright (c) 2022 Andrew Archibald
+#
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+
+deadfish:
+    0 # acc
+.deadfish_loop:
+    ">> " prints
+    0 readc
+    0 retrieve 'i' j= .deadfish_i
+    0 retrieve 'd' j= .deadfish_d
+    0 retrieve 's' j= .deadfish_s
+    0 retrieve 'o' j= .deadfish_o
+    '\n' printc
+    jmp .deadfish_loop
+.deadfish_i:
+    1 + call normalize jmp .deadfish_loop
+.deadfish_d:
+    1 - call normalize jmp .deadfish_loop
+.deadfish_s:
+    ^ * 4294967296 % jmp .deadfish_loop
+.deadfish_o:
+    ^ printi jmp .deadfish_loop
+
+normalize:
+    ^ -1 j= .normalize_0
+    ^ 256 j= .normalize_0
+    ^ 4294967295 j= .normalize_0
+    ret
+.normalize_0:
+    drop 0 ret

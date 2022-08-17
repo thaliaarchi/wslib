@@ -7,7 +7,7 @@
 BUILD = build
 ASSEMBLE = wsc
 
-WSF = $(patsubst ./%,%,$(shell find . -name module.wsf -o -name '*_test.wsf')) crypto/caesar.wsf
+WSF = $(patsubst ./%,%,$(shell find . -name module.wsf -o -name '*_test.wsf')) crypto/caesar.wsf vm/deadfish.wsf vm/intcode.wsf
 WS = $(patsubst %.wsf,$(BUILD)/%.ws,$(WSF))
 
 .PHONY: all
@@ -88,6 +88,7 @@ $(BUILD)/string/print_test.wsa: $(STRING)
 $(BUILD)/string/read.wsa: $(STRING)
 $(BUILD)/string/store.wsa: $(STRING)
 $(BUILD)/vm/intcode.wsa: $(ARRAY) $(MEM) $(STRING)
+$(BUILD)/vm/deadfish.wsa:
 
 .PHONY: clean
 clean:
