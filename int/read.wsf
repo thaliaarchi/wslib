@@ -4,6 +4,8 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+# BUG: Reading empty digits does not error
+
 # read reads a number in decimal, binary (0b prefix), octal (0b prefix),
 # or hexadecimal (0x prefix). Clobbers the given address.
 # (addr -- n ok?)
@@ -119,12 +121,13 @@ read_base_delim:
 .read_base10_delim_loop:
     ^2 ^ readc retrieve
 .read_base10_delim_check:
-    ^ '0' j< .read_base10_delim_ret
-    ^ ^3 '0' + j< .read_base10_delim_digit
+    '0' -
+    ^ jn .read_base10_delim_ret
+    ^ ^3 j< .read_base10_delim_digit
 .read_base10_delim_ret:
-    ret
+    '0' + ret
 .read_base10_delim_digit:
-    '0' - swap ^2 * +
+    swap ^2 * +
     jmp .read_base10_delim_loop
 
 # .read_base36_delim reads a number in the given base with the alphabet
