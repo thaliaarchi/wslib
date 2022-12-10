@@ -55,3 +55,34 @@ compare:
 # (addr1 len1 addr2 len2 -- ?)
 less:
     call compare neg? ret
+
+# has_prefix returns whether the string starts with the prefix.
+# (addr len prefixaddr prefixlen -- ?)
+has_prefix:
+    -1 # i
+    ^3 ^2 j< .has_prefix_false
+.has_prefix_loop:
+    1+
+    2dup j<= .has_prefix_true # i >= prefixlen
+    ^4 ^1 + retrieve ^3 ^2 + retrieve
+    j= .has_prefix_loop
+.has_prefix_false:
+    0 5slide ret
+.has_prefix_true:
+    1 5slide ret
+
+# has_suffix returns whether the string ends with the suffix.
+# (addr len suffixaddr suffixlen -- ?)
+has_suffix:
+    ^3 ^3 + ^2 ^2 + # addr+len suffixaddr+suffixlen
+    0 # i
+    ^5 ^4 j< .has_suffix_false
+.has_suffix_loop:
+    2dup j<= .has_suffix_true # i >= suffixlen
+    1+
+    ^2 ^1 - retrieve ^2 ^2 - retrieve
+    j= .has_suffix_loop
+.has_suffix_false:
+    0 7slide ret
+.has_suffix_true:
+    1 7slide ret
