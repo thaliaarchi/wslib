@@ -9,10 +9,12 @@
 prog="$1"
 out="$2"
 
-WSLIB="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
-
 SED=sed
 which gsed > /dev/null && SED=gsed
+REALPATH=realpath
+which grealpath > /dev/null && REALPATH=grealpath
+
+WSLIB="$(dirname "$($REALPATH "${BASH_SOURCE[0]}")")"
 
 imports=()
 in_imports() {
@@ -53,7 +55,7 @@ resolve_import() {
 get_imports() {
   local file="$1"
   local module="$2"
-  file="$(realpath -s "$file")"
+  file="$($REALPATH -s "$file")"
   imports=("${imports[@]}" "$module:$file")
 
   local module_file="${file%/*}/module.wsf"
