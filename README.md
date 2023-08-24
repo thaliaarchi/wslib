@@ -37,7 +37,7 @@ faster than heap operations.
 
 ## Syntax
 
-wslib uses [Whitelips](https://vii5ard.github.io/whitespace/)/[Nebula](https://github.com/andrewarchi/nebula)
+wslib uses [Whitelips](https://vii5ard.github.io/whitespace/)/[Nebula](https://github.com/thaliaarchi/nebula)
 instruction names, with extended arguments and shorthands. `assemble.sh`
 converts the wslib dialect to a format recognizable by
 [whitespace-rs](https://github.com/CensoredUsername/whitespace-rs).
