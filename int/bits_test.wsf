@@ -5,7 +5,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
     # Bitwise tests borrowed from Go
-    # https://go.dev/src/math/big/int_test.go#L1193
+    # https://go.dev/src/math/big/int_test.go#L1230
 
     0      0      call test_bitwise
     0      1      call test_bitwise

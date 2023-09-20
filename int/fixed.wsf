@@ -4,6 +4,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
+# These binary operations all evaluate the RHS first, then the LHS, when
+# run with the reference interpreter, to match add, sub, div, and mod.
+# mul has LHS-first evaluation, so special care is taken to swap its
+# operands, to keep RHS-first evaluation for the full operation.
+
 # and_u1 returns the bitwise AND of x and y (1-bit unsigned).
 # (x y -- x&y)
 and_u1:
@@ -114,7 +119,8 @@ pop_count_u8:
     1slide ret
 
 # exp2_u8 returns the given power of 2 in 8-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 128 when pow > 7.
+# Saturates to 1 when pow < 0 and to 128 when pow > 7. It eagerly
+# evaluates pow.
 # (pow -- 1<<pow)
 exp2_u8:
     ^ 4 j< .pow_u8_0123
@@ -226,7 +232,8 @@ pop_count_u16:
     ^ call pop_count_u8 swap 256/ call pop_count_u8 + ret
 
 # exp2_u16 returns the given power of 2 in 16-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 32768 when pow > 15.
+# Saturates to 1 when pow < 0 and to 32768 when pow > 15. It eagerly
+# evaluates pow.
 # (pow -- 1<<pow)
 exp2_u16:
     ^ 8 j< exp2_u8
@@ -273,7 +280,8 @@ pop_count_u32:
     ^ call pop_count_u16 swap 65536/ call pop_count_u16 + ret
 
 # exp2_u32 returns the given power of 2 in 32-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 2147483648 when pow > 31.
+# Saturates to 1 when pow < 0 and to 2147483648 when pow > 31. It
+# eagerly evaluates pow.
 # (pow -- 1<<pow)
 exp2_u32:
     ^ 16 j< exp2_u16
@@ -320,19 +328,21 @@ pop_count_u64:
     ^ call pop_count_u32 swap 4294967296/ call pop_count_u32 + ret
 
 # exp2_u64 returns the given power of 2 in 64-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 2147483648 when pow > 31.
+# Saturates to 1 when pow < 0 and to 2147483648 when pow > 31. It
+# eagerly evaluates pow.
 # (pow -- 1<<pow)
 exp2_u64:
     ^ 32 j< exp2_u32
     32- call exp2_u32 4294967296* ret
 
-# test_bit_u8 returns the given bit of x (8-bit unsigned).
+# test_bit_u8 returns the given bit of x (8-bit unsigned). It eagerly
+# evaluates bit.
 # (x bit -- (x>>bit)&1)
 test_bit_u8:
     call exp2_u8 / 2% ret
 
 # set_bit_u8 sets the given bit of x (8-bit unsigned) to y (1-bit
-# unsigned).
+# unsigned). It eagerly evaluates bit.
 # (x y bit -- x')
 set_bit_u8:
     # (x &^ (1<<bit)) | (y<<bit)
@@ -340,7 +350,8 @@ set_bit_u8:
     # == x - ((x/pow)%2 + y)*pow
     call exp2_u8 ^2 ^ ^2 / 2% ^3 + ^2 * - 3slide ret
 
-# clear_bit_u8 clears the given bit of x (8-bit unsigned).
+# clear_bit_u8 clears the given bit of x (8-bit unsigned). It eagerly
+# evaluates bit.
 # (x bit -- x')
 clear_bit_u8:
     # x &^ (1<<bit)
@@ -348,35 +359,42 @@ clear_bit_u8:
     call exp2_u8 ^1 swap / 2% - ret
 
 # not_bit_u8 sets the given bit of x (8-bit unsigned) to the complement.
+# It eagerly evaluates bit.
 # (x bit -- x')
 not_bit_u8:
     # x ^ (1<<bit)
+    jmp todo
 
 # and_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise AND
-# with y (1-bit unsigned).
+# with y (1-bit unsigned). It eagerly evaluates bit.
 # (x y bit -- x')
 and_bit_u8:
     # x &^ ((^y)&1 << bit)
     # == x - ((x>>bit)&1 &^ y)<<bit
     # == x - ((x/pow)%2 * (1 - y))*pow
+    jmp todo
 
 # or_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise OR
-# with y (1-bit unsigned).
+# with y (1-bit unsigned). It eagerly evaluates bit.
 # (x y bit -- x')
 or_bit_u8:
     # x | (y<<bit)
     # == x + ((^x>>bit)&1 & y)<<bit
     # == x + ((1 - (x/pow)%2) * y)*pow
+    jmp todo
 
 # xor_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise XOR
-# with y (1-bit unsigned).
+# with y (1-bit unsigned). It eagerly evaluates bit.
 # (x y bit -- x')
 xor_bit_u8:
     # x ^ (y<<bit)
     # == x + ((^x>>bit)&1 & y)<<bit - ((x>>bit)&1 & y)<<bit
     # == x + ((1 - (x/pow)%2) * y)*pow - ((x/pow)%2 * y)*pow
     # == x + ((1 - ((x/pow)%2)*2) * y)*pow
+    jmp todo
 
+# xor_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise AND
+# with NOT y (1-bit unsigned). It eagerly evaluates bit.
 # (x y bit -- x')
 andnot_bit_u8:
     # x &^ (y<<bit)
@@ -384,6 +402,7 @@ andnot_bit_u8:
     # == x - ((x/pow)%2 * y)*pow
     call exp2_u8 ^2 ^ ^2 / 2% ^3 * ^3 * - 3slide ret
 
+# swap_bits_u8 swaps the given bits. It eagerly evaluates bit1 and bit2.
 # (x bit1 bit2 -- x')
 swap_bits_u8:
     # (x &^ (1<<bit1 | 1<<bit2)) | (x>>bit1)&1<<bit2 | (x>>bit2)&1<<bit1
@@ -396,6 +415,7 @@ swap_bits_u8:
 
 # (x -- x')
 reverse_u8:
+    jmp todo
 
 #            x  0  0  1  1
 #            y  0  1  0  1
@@ -417,3 +437,7 @@ reverse_u8:
 
 # (x -- log)
 log2_u8:
+    jmp todo
+
+todo:
+    "not yet implemented" prints end
