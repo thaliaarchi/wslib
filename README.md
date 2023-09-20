@@ -29,8 +29,8 @@ Parameters and return values are specified with Forth-style
 `# Requires` comments. These will hopefully become checked by the
 compiler at every call site.
 
-Using the heap for local variables is avoided when possible until
-the compiler has sufficient dataflow analysis that can allocate
+Using the heap for local variables is avoided when possible until the
+compiler has sufficient dataflow analysis that can allocate
 non-conflicting addresses and registerize most heap operations. Until
 then, and on most interpreters, stack operations are significantly
 faster than heap operations.
@@ -39,8 +39,7 @@ faster than heap operations.
 
 wslib uses [Whitelips](https://vii5ard.github.io/whitespace/)/[Nebula](https://github.com/thaliaarchi/nebula)
 instruction names, with extended arguments and shorthands. `assemble.sh`
-converts the wslib dialect to a format recognizable by
-[whitespace-rs](https://github.com/CensoredUsername/whitespace-rs).
+converts the wslib dialect to a format recognizable by [whitespace-rs](https://github.com/CensoredUsername/whitespace-rs).
 
 ### Instruction shorthands
 

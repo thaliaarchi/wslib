@@ -29,8 +29,8 @@ equals:
 
 # compare returns the relation between the two strings. Returns 0 if
 # both strings are equal. Returns negative if the first differing
-# character has a lower value in str1 than in str2. Returns positive
-# if the first differing character has a greater value in str1 than in
+# character has a lower value in str1 than in str2. Returns positive if
+# the first differing character has a greater value in str1 than in
 # str2.
 # (addr1 len1 addr2 len2 -- relation)
 compare:

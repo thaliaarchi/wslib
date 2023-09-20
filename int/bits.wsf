@@ -231,8 +231,8 @@ shr:
 not:
     1+ neg ret
 
-# bit_len returns the length of the absolute value of x in bits.
-# The bit length of 0 is 0.
+# bit_len returns the length of the absolute value of x in bits. The bit
+# length of 0 is 0.
 # (x -- l)
 bit_len:
     call math.abs

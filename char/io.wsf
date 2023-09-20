@@ -7,8 +7,8 @@
     "@bool" import
     "@int"  import
 
-# print_quote prints a quoted character with escape sequences for
-# ASCII control characters.
+# print_quote prints a quoted character with escape sequences for ASCII
+# control characters.
 # (c -- )
 print_quote:
     '\'' printc
