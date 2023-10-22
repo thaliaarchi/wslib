@@ -407,7 +407,7 @@ s/\b9dup\b/^8 ^8 ^8 ^8 ^8 ^8 ^8 ^8 ^8/g
 s/\b10dup\b/^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9 ^9/g
 
 # copy ^ shorthand
-s/(^| )\^([0-9]+)\b/\1copy \2/g
+s/(^| )\^(-?[0-9]+)\b/\1copy \2/g
 s/(^| )\^( |$)/\1dup\2/g
 s/(^| )\^( |$)/\1dup\2/g
 s/(^| )\^( |$)/\1dup\2/g
@@ -424,7 +424,7 @@ s/\b9drop\b/8slide drop/g
 s/\b10drop\b/9slide drop/g
 
 # slide
-s/\b([0-9]+)slide\b/slide \1/g
+s/\b(-?[0-9]+)slide\b/slide \1/g
 
 # Comparison jump macros
 s/\bj=( |$)/- jz\1/g
