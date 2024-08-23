@@ -120,7 +120,7 @@ for import in "${imports[@]:1}"; do
   if [ "$module" = '' ]; then cat
   else
     $SED -E "
-      s/\b(call|jmp|jz|jn) (\.?)([A-za-z0-9_-]+)( |$)/\1 \2$module.\3\4/g
+      s/\b(call|jmp|jz|jn) (\.?)([A-Za-z0-9_-]+)( |$)/\1 \2$module.\3\4/g
       s/(^| )(\.?)([A-Za-z0-9_-]+:)/\1\2$module.\3/g"
   fi
 done >> "$out"

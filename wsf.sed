@@ -5,7 +5,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 # Comments and spaces
-s/(^|[^\\'])#.*//g
+s/(^|[^\\'])#.*/\1/g
 s/\s/ /g
 s/^ +| +$//g
 
