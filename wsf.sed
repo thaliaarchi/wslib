@@ -424,7 +424,7 @@ s/\b9drop\b/8slide drop/g
 s/\b10drop\b/9slide drop/g
 
 # slide
-s/\b(-?[0-9]+)slide\b/slide \1/g
+s/(^| )(-?[0-9]+)slide\b/\1slide \2/g
 
 # Comparison jump macros
 s/\bj=( |$)/- jz\1/g
