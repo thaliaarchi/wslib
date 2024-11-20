@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Thalia Archibald
+# Copyright (c) 2021-2024 Thalia Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -47,6 +47,10 @@ test_unary:
     " u16:" prints ^ call cast_u16 16 call print_base
     " u32:" prints ^ call cast_u32 16 call print_base
     " u64:" prints ^ call cast_u64 16 call print_base
+    " rev8:" prints ^ call reverse_u8 16 call print_base
+    " rev16:" prints ^ call reverse_u16 16 call print_base
+    " rev32:" prints ^ call reverse_u32 16 call print_base
+    " rev64:" prints ^ call reverse_u64 16 call print_base
     " pop8:" prints ^ call pop_count_u8 printi
     " pop16:" prints ^ call pop_count_u16 printi
     " pop32:" prints ^ call pop_count_u32 printi

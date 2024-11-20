@@ -1,4 +1,4 @@
-# Copyright (c) 2021-2023 Thalia Archibald
+# Copyright (c) 2021-2024 Thalia Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -104,6 +104,19 @@ notand_u8:
     ^1  64/ 2% 1 ^4  64/ 2% - *  64* +
     ^1 128/ 2% 1 ^4 128/ 2% - * 128* +
     2slide ret
+
+# reverse_u8 reverses the bits of x (8-bit unsigned).
+# (x -- x')
+reverse_u8:
+    ^       2% 128*
+    ^1   2/ 2%  64* +
+    ^1   4/ 2%  32* +
+    ^1   8/ 2%  16* +
+    ^1  16/ 2%   8* +
+    ^1  32/ 2%   4* +
+    ^1  64/ 2%   2* +
+    ^1 128/ 2%      +
+    1slide ret
 
 # pop_count_u8 returns the population count of x (8-bit unsigned).
 # (x -- n)
@@ -226,6 +239,13 @@ notand_u16:
     ^2 256/ ^2 256/ call notand_u8 256* +
     2slide ret
 
+# reverse_u16 reverses the bits of x (16-bit unsigned).
+# (x -- x')
+reverse_u16:
+    ^       call reverse_u8 256*
+    ^1 256/ call reverse_u8 +
+    1slide ret
+
 # pop_count_u16 returns the population count of x (16-bit unsigned).
 # (x -- n)
 pop_count_u16:
@@ -274,6 +294,13 @@ notand_u32:
     ^2 65536/ ^2 65536/ call notand_u16 65536* +
     2slide ret
 
+# reverse_u32 reverses the bits of x (32-bit unsigned).
+# (x -- x')
+reverse_u32:
+    ^         call reverse_u16 65536*
+    ^1 65536/ call reverse_u16 +
+    1slide ret
+
 # pop_count_u32 returns the population count of x (32-bit unsigned).
 # (x -- n)
 pop_count_u32:
@@ -321,6 +348,13 @@ notand_u64:
     ^1             ^1             call notand_u16
     ^2 4294967296/ ^2 4294967296/ call notand_u16 4294967296* +
     2slide ret
+
+# reverse_u64 reverses the bits of x (64-bit unsigned).
+# (x -- x')
+reverse_u64:
+    ^              call reverse_u32 4294967296*
+    ^1 4294967296/ call reverse_u32 +
+    1slide ret
 
 # pop_count_u64 returns the population count of x (64-bit unsigned).
 # (x -- n)
@@ -412,10 +446,6 @@ swap_bits_u8:
     # == x + (((x/pow1)%2) - ((x/pow2)%2))*(pow2-pow1)
     swap call exp2_u8 swap call exp2_u8
     ^2 ^ ^3 / 2% ^1 ^3 / 2% - ^3 ^5 - * + 3slide ret
-
-# (x -- x')
-reverse_u8:
-    jmp todo
 
 #            x  0  0  1  1
 #            y  0  1  0  1
