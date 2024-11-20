@@ -153,10 +153,37 @@ pow2_u8:
 .pow2_u8_2:
     4 ret
 .pow2_u8_01:
-    1 j= .pow2_u8_1
-    1 ret
-.pow2_u8_1:
+    1 j< .pow2_u8_0
     2 ret
+.pow2_u8_0:
+    1 ret
+
+# log2_u8 returns the base 2 logarithm of x, rounded down. Saturates to
+# 0 when x <= 0 and to 7 when x > 255. Eagerly evaluates x.
+# (x:u8 -- y:u8)
+log2_u8:
+    ^ 16 j< .log2_u8_0123
+    ^ 64 j< .log2_u8_45
+    128 j< .log2_u8_6
+    7 ret
+.log2_u8_6:
+    6 ret
+.log2_u8_45:
+    32 j< .log2_u8_4
+    5 ret
+.log2_u8_4:
+    4 ret
+.log2_u8_0123:
+    ^ 4 j< .log2_u8_01
+    8 j< .log2_u8_2
+    3 ret
+.log2_u8_2:
+    2 ret
+.log2_u8_01:
+    2 j< .log2_u8_0
+    1 ret
+.log2_u8_0:
+    0 ret
 
 # cast_i8 casts x to 8-bit signed range.
 # (x:int -- y:i8)
@@ -257,6 +284,13 @@ pow2_u16:
     ^ 8 j< pow2_u8
     8- call pow2_u8 256* ret
 
+# log2_u16 returns the base 2 logarithm of x, rounded down. Saturates to
+# 0 when x <= 0 and to 15 when x > 65535. Eagerly evaluates x.
+# (x:u16 -- y:u16)
+log2_u16:
+    ^ 8 j< log2_u8
+    256/ call log2_u8 8* ret
+
 # and_u32 returns the bitwise AND of x and y.
 # (x:u32 y:u32 -- z:u32)
 and_u32:
@@ -311,6 +345,13 @@ pow2_u32:
     ^ 16 j< pow2_u16
     16- call pow2_u16 65536* ret
 
+# log2_u32 returns the base 2 logarithm of x, rounded down. Saturates to
+# 0 when x <= 0 and to 15 when x > 4294967295. Eagerly evaluates x.
+# (x:u32 -- y:u32)
+log2_u32:
+    ^ 16 j< log2_u16
+    65536/ call log2_u16 16* ret
+
 # and_u64 returns the bitwise AND of x and y (64-bit unsigned).
 # (x:u64 y:u64 -- z:u64)
 and_u64:
@@ -364,6 +405,14 @@ pop_count_u64:
 pow2_u64:
     ^ 32 j< pow2_u32
     32- call pow2_u32 4294967296* ret
+
+# log2_u64 returns the base 2 logarithm of x, rounded down. Saturates to
+# 0 when x <= 0 and to 15 when x > 18446744073709551615. Eagerly
+# evaluates x.
+# (x:u64 -- y:u64)
+log2_u64:
+    ^ 32 j< log2_u32
+    4294967296/ call log2_u32 32* ret
 
 # test_bit_u8 returns the given bit of x. Eagerly
 # evaluates bit.
@@ -459,10 +508,6 @@ swap_bits_u8:
 # 1100     not  1  1 -1 -1
 # 1101 nandnot  1  1 -1  0
 # 1110    nand  1  1  0 -1
-
-# (x:u8 -- y:u8)
-log2_u8:
-    jmp todo
 
 todo:
     "not yet implemented" prints end
