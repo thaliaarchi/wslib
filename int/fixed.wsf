@@ -185,6 +185,12 @@ log2_u8:
 .log2_u8_0:
     0 ret
 
+# leading_zeros_u8 returns the number of leading zeros. Eagerly
+# evaluates x.
+# (x:u8 -- y:u8)
+leading_zeros_u8:
+    call log2_u8 swap 7 - ret
+
 # cast_i8 casts x to 8-bit signed range.
 # (x:int -- y:i8)
 cast_i8:
@@ -291,6 +297,12 @@ log2_u16:
     ^ 8 j< log2_u8
     256/ call log2_u8 8* ret
 
+# leading_zeros_u16 returns the number of leading zeros. Eagerly
+# evaluates x.
+# (x:u16 -- y:u16)
+leading_zeros_u16:
+    call log2_u16 swap 15 - ret
+
 # and_u32 returns the bitwise AND of x and y.
 # (x:u32 y:u32 -- z:u32)
 and_u32:
@@ -351,6 +363,12 @@ pow2_u32:
 log2_u32:
     ^ 16 j< log2_u16
     65536/ call log2_u16 16* ret
+
+# leading_zeros_u32 returns the number of leading zeros. Eagerly
+# evaluates x.
+# (x:u32 -- y:u32)
+leading_zeros_u32:
+    call log2_u32 swap 31 - ret
 
 # and_u64 returns the bitwise AND of x and y (64-bit unsigned).
 # (x:u64 y:u64 -- z:u64)
@@ -413,6 +431,12 @@ pow2_u64:
 log2_u64:
     ^ 32 j< log2_u32
     4294967296/ call log2_u32 32* ret
+
+# leading_zeros_u64 returns the number of leading zeros. Eagerly
+# evaluates x.
+# (x:u64 -- y:u64)
+leading_zeros_u64:
+    call log2_u64 swap 63 - ret
 
 # test_bit_u8 returns the given bit of x. Eagerly
 # evaluates bit.
