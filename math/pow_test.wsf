@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Thalia Archibald
+# Copyright (c) 2021-2024 Thalia Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -9,10 +9,10 @@
     # Exp tests borrowed from Go
     # https://go.dev/src/math/big/int_test.go#L527
 
-    0    0          call test_exp
-    1    0          call test_exp
-    -10  0          call test_exp
-    1234 -1         call test_exp
+    0    0          call test_pow
+    1    0          call test_pow
+    -10  0          call test_pow
+    1234 -1         call test_pow
     1234 -1    0    call test_modexp
     17   -100  1234 call test_modexp
     2    -100  1234 call test_modexp
@@ -21,18 +21,18 @@
     -10  0     1    call test_modexp
     1234 -1    1    call test_modexp
     5    1     3    call test_modexp
-    5    -7         call test_exp
-    -5   -7         call test_exp
-    5    0          call test_exp
-    -5   0          call test_exp
-    5    1          call test_exp
-    -5   1          call test_exp
+    5    -7         call test_pow
+    -5   -7         call test_pow
+    5    0          call test_pow
+    -5   0          call test_pow
+    5    1          call test_pow
+    -5   1          call test_pow
     -5   1     7    call test_modexp
     -2   3     2    call test_modexp
-    5    2          call test_exp
+    5    2          call test_pow
     1    65537 2    call test_modexp
 
-    9223372036854775808 2             call test_exp
+    9223372036854775808 2             call test_pow
     9223372036854775808 2        6719 call test_modexp
     9223372036854775808 3        6719 call test_modexp
     9223372036854775808 1000     6719 call test_modexp
@@ -127,9 +127,9 @@
     end
 
 # (x y -- )
-test_exp:
+test_pow:
     -1 '\n'
-    ^3 ^3 call exp -2
+    ^3 ^3 call pow -2
     " = "
     ^7 -2
     " ** "

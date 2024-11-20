@@ -1,32 +1,32 @@
-# Copyright (c) 2021 Thalia Archibald
+# Copyright (c) 2021-2024 Thalia Archibald
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-# exp returns x raised to the power of y, using exponentiation by
+# pow returns x raised to the power of y, using exponentiation by
 # squaring. If y <= 0, 1 is returned.
 # (x y -- x**y)
-exp:
-    ^ 1  j< .exp_one  # y <= 0
-.exp:
-    ^ 1  j= .exp_x    # y == 1
-    ^ 2% jz .exp_even # y%2 == 0
-# .exp_odd:
-    # exp(x**2, (y-1)/2) * x
+pow:
+    ^ 1  j< .pow_one  # y <= 0
+.pow:
+    ^ 1  j= .pow_x    # y == 1
+    ^ 2% jz .pow_even # y%2 == 0
+# .pow_odd:
+    # pow(x**2, (y-1)/2) * x
     ^1 ^ * swap
     1- 2/
-    call .exp
+    call .pow
     *
     ret
-.exp_even:
-    # exp(x**2, y/2)
+.pow_even:
+    # pow(x**2, y/2)
     swap ^ * swap
     2/
-    jmp .exp
-.exp_one:
+    jmp .pow
+.pow_one:
     2drop 1 ret
-.exp_x:
+.pow_x:
     drop ret
 
 # TODO
@@ -42,7 +42,7 @@ tetrate:
 .tetrate_loop:
     swap 1- swap
     ^1 jn .tetrate_done
-    ^2 swap call exp
+    ^2 swap call pow
     jmp .tetrate_loop
 .tetrate_done:
     2slide ret

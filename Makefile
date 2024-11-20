@@ -29,7 +29,7 @@ CRYPTO = crypto/module.wsf crypto/caesar.wsf
 HASH = hash/module.wsf hash/cusip.wsf hash/luhn.wsf
 INT = int/module.wsf int/bits.wsf int/fixed.wsf int/int.wsf int/print.wsf int/read.wsf
 MAP = map/module.wsf map/map.wsf
-MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/exp.wsf math/gcd.wsf math/math.wsf
+MATH = math/module.wsf math/collatz.wsf math/divmod.wsf math/gcd.wsf math/math.wsf math/pow.wsf
 MATRIX = matrix/module.wsf matrix/matrix.wsf
 MEM = mem/module.wsf mem/mem.wsf
 STRING = string/module.wsf string/compare.wsf string/print.wsf string/read.wsf string/store.wsf
@@ -71,10 +71,10 @@ $(BUILD)/math/collatz.wsa: $(MATH)
 $(BUILD)/math/collatz_test.wsa: $(MATH)
 $(BUILD)/math/divmod.wsa: $(MATH)
 $(BUILD)/math/divmod_test.wsa: $(MATH)
-$(BUILD)/math/exp.wsa: $(MATH)
-$(BUILD)/math/exp_test.wsa: $(MATH) $(STRING)
 $(BUILD)/math/gcd.wsa: $(MATH)
 $(BUILD)/math/math.wsa: $(MATH)
+$(BUILD)/math/pow.wsa: $(MATH)
+$(BUILD)/math/pow_test.wsa: $(MATH) $(STRING)
 $(BUILD)/matrix/module.wsa: $(MATRIX)
 $(BUILD)/matrix/matrix.wsa: $(MATRIX) $(ARRAY) $(STRING)
 $(BUILD)/matrix/matrix_test.wsa: $(MATRIX) $(ARRAY)

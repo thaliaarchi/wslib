@@ -6,6 +6,6 @@
 
     "collatz" export
     "divmod"  export
-    "exp"     export
     "gcd"     export
     "math"    export
+    "pow"     export
