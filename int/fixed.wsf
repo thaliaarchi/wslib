@@ -9,34 +9,34 @@
 # mul has LHS-first evaluation, so special care is taken to swap its
 # operands, to keep RHS-first evaluation for the full operation.
 
-# and_u1 returns the bitwise AND of x and y (1-bit unsigned).
-# (x y -- x&y)
+# and_u1 returns the bitwise AND of x and y.
+# (x:u1 y:u1 -- z:u1)
 and_u1:
     # y%2 * x%2
     # == (y * x) % 2
     swap * 2% ret
 
-# or_u1 returns the bitwise OR of x and y (1-bit unsigned).
-# (x y -- x|y)
+# or_u1 returns the bitwise OR of x and y.
+# (x:u1 y:u1 -- z:u1)
 or_u1:
     # (x%2 + y%2) - (y%2 * x%2)
     # == y%2 + (x%2 - (y%2 * x%2))
     2% swap 2% 2dup * - + ret
 
-# xor_u1 returns the bitwise XOR of x and y (1-bit unsigned).
-# (x y -- x&y)
+# xor_u1 returns the bitwise XOR of x and y.
+# (x:u1 y:u1 -- z:u1)
 xor_u1:
     # (x%2 + y%2) % 2
     swap 2% swap 2% + 2% ret
 
-# andnot_u1 returns the bitwise AND of x and NOT y (1-bit unsigned).
-# (x y -- x&y)
+# andnot_u1 returns the bitwise AND of x and NOT y.
+# (x:u1 y:u1 -- z:u1)
 andnot_u1:
     # (1 - y%2) * x%2
     1 swap 2% - swap 2% * ret
 
-# and_u8 returns the bitwise AND of x and y (8-bit unsigned).
-# (x y -- x&y)
+# and_u8 returns the bitwise AND of x and y.
+# (x:u8 y:u8 -- z:u8)
 and_u8:
     # zi = yi * xi
     ^       ^2      * 2%
@@ -49,8 +49,8 @@ and_u8:
     ^1 128/ ^3 128/ * 2% 128* +
     2slide ret
 
-# or_u8 returns the bitwise OR of x and y (8-bit unsigned).
-# (x y -- x|y)
+# or_u8 returns the bitwise OR of x and y.
+# (x:u8 y:u8 -- z:u8)
 or_u8:
     # zi = xi + yi - (yi * xi)
     ^1      2% ^1      2% ^ ^2 * - +
@@ -63,8 +63,8 @@ or_u8:
     ^2 128/ 2% ^2 128/ 2% ^ ^2 * - + 128* +
     2slide ret
 
-# xor_u8 returns the bitwise XOR of x and y (8-bit unsigned).
-# (x y -- x^y)
+# xor_u8 returns the bitwise XOR of x and y.
+# (x:u8 y:u8 -- z:u8)
 xor_u8:
     # zi = (xi + yi) % 2
     ^1      2% ^1      2% + 2%
@@ -77,8 +77,8 @@ xor_u8:
     ^2 128/ 2% ^2 128/ 2% + 2% 128* +
     2slide ret
 
-# andnot_u8 returns the bitwise AND of x and NOT y (8-bit unsigned).
-# (x y -- x&^y)
+# andnot_u8 returns the bitwise AND of x and NOT y.
+# (x:u8 y:u8 -- z:u8)
 andnot_u8:
     # zi = (1 - yi) * xi
     1 ^1      2% - ^2      2% *
@@ -91,8 +91,8 @@ andnot_u8:
     1 ^2 128/ 2% - ^3 128/ 2% * 128* +
     2slide ret
 
-# notand_u8 returns the bitwise AND of NOT x and y (8-bit unsigned).
-# (x y -- ^x&y)
+# notand_u8 returns the bitwise AND of NOT x and y.
+# (x:u8 y:u8 -- z:u8)
 notand_u8:
     # zi = yi * (1 - xi)
     ^       2% 1 ^3      2% - *
@@ -105,8 +105,8 @@ notand_u8:
     ^1 128/ 2% 1 ^4 128/ 2% - * 128* +
     2slide ret
 
-# reverse_u8 reverses the bits of x (8-bit unsigned).
-# (x -- x')
+# reverse_u8 reverses the bits of x.
+# (x:u8 -- y:u8)
 reverse_u8:
     ^       2% 128*
     ^1   2/ 2%  64* +
@@ -118,8 +118,8 @@ reverse_u8:
     ^1 128/ 2%      +
     1slide ret
 
-# pop_count_u8 returns the population count of x (8-bit unsigned).
-# (x -- n)
+# pop_count_u8 returns the population count of x.
+# (x:u8 -- n:u8)
 pop_count_u8:
     ^       2%
     ^1   2/ 2% +
@@ -131,10 +131,9 @@ pop_count_u8:
     ^1 128/ 2% +
     1slide ret
 
-# pow2_u8 returns the given power of 2 in 8-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 128 when pow > 7. It eagerly
-# evaluates pow.
-# (pow -- 1<<pow)
+# pow2_u8 returns the given power of 2. Saturates to 1 when x < 0 and to
+# 128 when x > 7. Eagerly evaluates x.
+# (x:int -- x:u8)
 pow2_u8:
     ^ 4 j< .pow2_u8_0123
     ^ 6 j< .pow2_u8_45
@@ -159,267 +158,263 @@ pow2_u8:
 .pow2_u8_1:
     2 ret
 
-# cast_i8 casts x (arbitrary-precision) to 8-bit signed range.
-# (x -- i8)
+# cast_i8 casts x to 8-bit signed range.
+# (x:int -- y:i8)
 cast_i8:
     128+ 256% 128- ret
 
-# cast_i8 casts x (arbitrary-precision) to 16-bit signed range.
-# (x -- i16)
+# cast_i8 casts x to 16-bit signed range.
+# (x:int -- y:i16)
 cast_i16:
     32768+ 65536% 32768- ret
 
-# cast_i8 casts x (arbitrary-precision) to 32-bit signed range.
-# (x -- i32)
+# cast_i8 casts x to 32-bit signed range.
+# (x:int -- y:i32)
 cast_i32:
     2147483648+ 4294967296% 2147483648- ret
 
-# cast_i8 casts x (arbitrary-precision) to 64-bit signed range.
-# (x -- i64)
+# cast_i8 casts x to 64-bit signed range.
+# (x:int -- y:i64)
 cast_i64:
     9223372036854775808+ 18446744073709551616% 9223372036854775808- ret
 
-# cast_u1 casts an arbitrary-precision integer to the range of a 1-bit
-# unsigned integer.
+# cast_u1 casts x to 1-bit unsigned range.
+# (x:int -- y:u1)
 cast_u1:
     2% ret
 
-# cast_u8 casts x (arbitrary-precision) to 8-bit unsigned range.
-# (x -- u8)
+# cast_u8 casts x to 8-bit unsigned range.
+# (x:int -- y:u8)
 cast_u8:
     256% ret
 
-# cast_u8 casts x (arbitrary-precision) to 16-bit unsigned range.
-# (x -- u16)
+# cast_u8 casts x to 16-bit unsigned range.
+# (x:int -- y:u16)
 cast_u16:
     65536% ret
 
-# cast_u8 casts x (arbitrary-precision) to 32-bit unsigned range.
-# (x -- u32)
+# cast_u8 casts x to 32-bit unsigned range.
+# (x:int -- y:u32)
 cast_u32:
     4294967296% ret
 
-# cast_u8 casts x (arbitrary-precision) to 64-bit unsigned range.
-# (x -- u64)
+# cast_u8 casts x to 64-bit unsigned range.
+# (x:int -- y:u64)
 cast_u64:
     18446744073709551616% ret
 
-# and_u16 returns the bitwise AND of x and y (16-bit unsigned).
-# (x y -- x&y)
+# and_u16 returns the bitwise AND of x and y.
+# (x:u16 y:u16 -- z:u16)
 and_u16:
     ^1      ^1      call and_u8
     ^2 256/ ^2 256/ call and_u8 256* +
     2slide ret
 
-# or_u16 returns the bitwise OR of x and y (16-bit unsigned).
-# (x y -- x|y)
+# or_u16 returns the bitwise OR of x and y.
+# (x:u16 y:u16 -- z:u16)
 or_u16:
     ^1      ^1      call or_u8
     ^2 256/ ^2 256/ call or_u8 256* +
     2slide ret
 
-# xor_u16 returns the bitwise XOR of x and y (16-bit unsigned).
-# (x y -- x^y)
+# xor_u16 returns the bitwise XOR of x and y.
+# (x:u16 y:u16 -- z:u16)
 xor_u16:
     ^1      ^1      call xor_u8
     ^2 256/ ^2 256/ call xor_u8 256* +
     2slide ret
 
-# andnot_u16 returns the bitwise AND of x and NOT y (16-bit unsigned).
-# (x y -- x&^y)
+# andnot_u16 returns the bitwise AND of x and NOT y.
+# (x:u16 y:u16 -- z:u16)
 andnot_u16:
     ^1      ^1      call andnot_u8
     ^2 256/ ^2 256/ call andnot_u8 256* +
     2slide ret
 
-# notand_u16 returns the bitwise AND of NOT x and y (16-bit unsigned).
-# (x y -- ^x&y)
+# notand_u16 returns the bitwise AND of NOT x and y.
+# (x:u16 y:u16 -- z:u16)
 notand_u16:
     ^1      ^1      call notand_u8
     ^2 256/ ^2 256/ call notand_u8 256* +
     2slide ret
 
-# reverse_u16 reverses the bits of x (16-bit unsigned).
-# (x -- x')
+# reverse_u16 reverses the bits of x.
+# (x:u16 -- y:u16)
 reverse_u16:
     ^       call reverse_u8 256*
     ^1 256/ call reverse_u8 +
     1slide ret
 
-# pop_count_u16 returns the population count of x (16-bit unsigned).
-# (x -- n)
+# pop_count_u16 returns the population count of x.
+# (x:u16 -- n:u16)
 pop_count_u16:
     ^ call pop_count_u8 swap 256/ call pop_count_u8 + ret
 
-# pow2_u16 returns the given power of 2 in 16-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 32768 when pow > 15. It eagerly
-# evaluates pow.
-# (pow -- 1<<pow)
+# pow2_u16 returns the given power of 2. Saturates to 1 when x < 0 and
+# to 32768 when x > 15. Eagerly evaluates x.
+# (x:int -- y:u16)
 pow2_u16:
     ^ 8 j< pow2_u8
     8- call pow2_u8 256* ret
 
-# and_u32 returns the bitwise AND of x and y (32-bit unsigned).
-# (x y -- x&y)
+# and_u32 returns the bitwise AND of x and y.
+# (x:u32 y:u32 -- z:u32)
 and_u32:
     ^1        ^1        call and_u16
     ^2 65536/ ^2 65536/ call and_u16 65536* +
     2slide ret
 
-# or_u32 returns the bitwise OR of x and y (32-bit unsigned).
-# (x y -- x|y)
+# or_u32 returns the bitwise OR of x and y.
+# (x:u32 y:u32 -- z:u32)
 or_u32:
     ^1        ^1        call or_u16
     ^2 65536/ ^2 65536/ call or_u16 65536* +
     2slide ret
 
-# xor_u32 returns the bitwise XOR of x and y (32-bit unsigned).
-# (x y -- x^y)
+# xor_u32 returns the bitwise XOR of x and y.
+# (x:u32 y:u32 -- z:u32)
 xor_u32:
     ^1        ^1        call xor_u16
     ^2 65536/ ^2 65536/ call xor_u16 65536* +
     2slide ret
 
-# andnot_u32 returns the bitwise AND of x and NOT y (32-bit unsigned).
-# (x y -- x&^y)
+# andnot_u32 returns the bitwise AND of x and NOT y.
+# (x:u32 y:u32 -- z:u32)
 andnot_u32:
     ^1        ^1        call andnot_u16
     ^2 65536/ ^2 65536/ call andnot_u16 65536* +
     2slide ret
 
-# notand_u32 returns the bitwise AND of NOT x and y (32-bit unsigned).
-# (x y -- ^x&y)
+# notand_u32 returns the bitwise AND of NOT x and y.
+# (x:u32 y:u32 -- z:u32)
 notand_u32:
     ^1        ^1        call notand_u16
     ^2 65536/ ^2 65536/ call notand_u16 65536* +
     2slide ret
 
-# reverse_u32 reverses the bits of x (32-bit unsigned).
-# (x -- x')
+# reverse_u32 reverses the bits of x.
+# (x:u32 -- y:u32)
 reverse_u32:
     ^         call reverse_u16 65536*
     ^1 65536/ call reverse_u16 +
     1slide ret
 
-# pop_count_u32 returns the population count of x (32-bit unsigned).
-# (x -- n)
+# pop_count_u32 returns the population count of x.
+# (x:u32 -- n:u32)
 pop_count_u32:
     ^ call pop_count_u16 swap 65536/ call pop_count_u16 + ret
 
-# pow2_u32 returns the given power of 2 in 32-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 2147483648 when pow > 31. It
-# eagerly evaluates pow.
-# (pow -- 1<<pow)
+# pow2_u32 returns the given power of 2. Saturates to 1 when x < 0 and
+# to 2147483648 when x > 31. Eagerly evaluates x.
+# (x:int -- y:u32)
 pow2_u32:
     ^ 16 j< pow2_u16
     16- call pow2_u16 65536* ret
 
 # and_u64 returns the bitwise AND of x and y (64-bit unsigned).
-# (x y -- x&y)
+# (x:u64 y:u64 -- z:u64)
 and_u64:
     ^1             ^1             call and_u32
     ^2 4294967296/ ^2 4294967296/ call and_u32 4294967296* +
     2slide ret
 
 # or_u64 returns the bitwise OR of x and y (64-bit unsigned).
-# (x y -- x|y)
+# (x:u64 y:u64 -- z:u64)
 or_u64:
     ^1             ^1             call or_u32
     ^2 4294967296/ ^2 4294967296/ call or_u32 4294967296* +
     2slide ret
 
 # xor_u64 returns the bitwise XOR of x and y (64-bit unsigned).
-# (x y -- x^y)
+# (x:u64 y:u64 -- z:u64)
 xor_u64:
     ^1             ^1             call xor_u32
     ^2 4294967296/ ^2 4294967296/ call xor_u32 4294967296* +
     2slide ret
 
 # andnot_u64 returns the bitwise AND of x and NOT y (64-bit unsigned).
-# (x y -- x&^y)
+# (x:u64 y:u64 -- z:u64)
 andnot_u64:
     ^1             ^1             call andnot_u32
     ^2 4294967296/ ^2 4294967296/ call andnot_u32 4294967296* +
     2slide ret
 
 # notand_u64 returns the bitwise AND of NOT x and y (64-bit unsigned).
-# (x y -- ^x&y)
+# (x:u64 y:u64 -- z:u64)
 notand_u64:
     ^1             ^1             call notand_u16
     ^2 4294967296/ ^2 4294967296/ call notand_u16 4294967296* +
     2slide ret
 
 # reverse_u64 reverses the bits of x (64-bit unsigned).
-# (x -- x')
+# (x:u64 -- y:u64)
 reverse_u64:
     ^              call reverse_u32 4294967296*
     ^1 4294967296/ call reverse_u32 +
     1slide ret
 
 # pop_count_u64 returns the population count of x (64-bit unsigned).
-# (x -- n)
+# (x:u64 -- n:u64)
 pop_count_u64:
     ^ call pop_count_u32 swap 4294967296/ call pop_count_u32 + ret
 
-# pow2_u64 returns the given power of 2 in 64-bit unsigned range.
-# Saturates to 1 when pow < 0 and to 2147483648 when pow > 31. It
-# eagerly evaluates pow.
-# (pow -- 1<<pow)
+# pow2_u64 returns the given power of 2. Saturates to 1 when x < 0 and
+# to 2147483648 when x > 31. Eagerly evaluates x.
+# (x:int -- y:u64)
 pow2_u64:
     ^ 32 j< pow2_u32
     32- call pow2_u32 4294967296* ret
 
-# test_bit_u8 returns the given bit of x (8-bit unsigned). It eagerly
+# test_bit_u8 returns the given bit of x. Eagerly
 # evaluates bit.
-# (x bit -- (x>>bit)&1)
+# (x:u8 bit:u8 -- y)
 test_bit_u8:
+    # (x>>bit)&1
     call pow2_u8 / 2% ret
 
-# set_bit_u8 sets the given bit of x (8-bit unsigned) to y (1-bit
-# unsigned). It eagerly evaluates bit.
-# (x y bit -- x')
+# set_bit_u8 sets the given bit of x to y. Eagerly evaluates bit.
+# (x:u8 y:u1 bit:int -- z:u8)
 set_bit_u8:
     # (x &^ (1<<bit)) | (y<<bit)
     # == x - ((x/pow)%2)*pow + y*pow
     # == x - ((x/pow)%2 + y)*pow
     call pow2_u8 ^2 ^ ^2 / 2% ^3 + ^2 * - 3slide ret
 
-# clear_bit_u8 clears the given bit of x (8-bit unsigned). It eagerly
-# evaluates bit.
-# (x bit -- x')
+# clear_bit_u8 clears the given bit of x. Eagerly evaluates bit.
+# (x:u8 bit:int -- y:u8)
 clear_bit_u8:
     # x &^ (1<<bit)
     # == x - (x/pow)%2
     call pow2_u8 ^1 swap / 2% - ret
 
-# not_bit_u8 sets the given bit of x (8-bit unsigned) to the complement.
-# It eagerly evaluates bit.
-# (x bit -- x')
+# not_bit_u8 sets the given bit of x to the complement.
+# Eagerly evaluates bit.
+# (x:u8 bit:int -- y:u8)
 not_bit_u8:
     # x ^ (1<<bit)
     jmp todo
 
-# and_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise AND
-# with y (1-bit unsigned). It eagerly evaluates bit.
-# (x y bit -- x')
+# and_bit_u8 sets the given bit of x to the bitwise AND with y. Eagerly
+# evaluates bit.
+# (x:u8 y:u1 bit:int -- z:u8)
 and_bit_u8:
     # x &^ ((^y)&1 << bit)
     # == x - ((x>>bit)&1 &^ y)<<bit
     # == x - ((x/pow)%2 * (1 - y))*pow
     jmp todo
 
-# or_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise OR
-# with y (1-bit unsigned). It eagerly evaluates bit.
-# (x y bit -- x')
+# or_bit_u8 sets the given bit of x to the bitwise OR with y. Eagerly
+# evaluates bit.
+# (x:u8 y:u1 bit:int -- z:u8)
 or_bit_u8:
     # x | (y<<bit)
     # == x + ((^x>>bit)&1 & y)<<bit
     # == x + ((1 - (x/pow)%2) * y)*pow
     jmp todo
 
-# xor_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise XOR
-# with y (1-bit unsigned). It eagerly evaluates bit.
-# (x y bit -- x')
+# xor_bit_u8 sets the given bit of x to the bitwise XOR with y. Eagerly
+# evaluates bit.
+# (x:u8 y:u1 bit:u8 -- z:u8)
 xor_bit_u8:
     # x ^ (y<<bit)
     # == x + ((^x>>bit)&1 & y)<<bit - ((x>>bit)&1 & y)<<bit
@@ -427,17 +422,17 @@ xor_bit_u8:
     # == x + ((1 - ((x/pow)%2)*2) * y)*pow
     jmp todo
 
-# xor_bit_u8 sets the given bit of x (8-bit unsigned) to the bitwise AND
-# with NOT y (1-bit unsigned). It eagerly evaluates bit.
-# (x y bit -- x')
+# xor_bit_u8 sets the given bit of x to the bitwise AND with NOT y.
+# Eagerly evaluates bit.
+# (x:u8 y:u1 bit:int -- z:u8)
 andnot_bit_u8:
     # x &^ (y<<bit)
     # == x - ((x>>bit)&1 & y)<<bit
     # == x - ((x/pow)%2 * y)*pow
     call pow2_u8 ^2 ^ ^2 / 2% ^3 * ^3 * - 3slide ret
 
-# swap_bits_u8 swaps the given bits. It eagerly evaluates bit1 and bit2.
-# (x bit1 bit2 -- x')
+# swap_bits_u8 swaps the given bits. Eagerly evaluates bit1 and bit2.
+# (x:u8 bit1:int bit2:int -- y:u8)
 swap_bits_u8:
     # (x &^ (1<<bit1 | 1<<bit2)) | (x>>bit1)&1<<bit2 | (x>>bit2)&1<<bit1
     # == x - (((x/pow1)%2)*pow1 + ((x/pow2)%2)*pow2) +
@@ -465,7 +460,7 @@ swap_bits_u8:
 # 1101 nandnot  1  1 -1  0
 # 1110    nand  1  1  0 -1
 
-# (x -- log)
+# (x:u8 -- y:u8)
 log2_u8:
     jmp todo
 
